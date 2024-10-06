@@ -1,0 +1,360 @@
+{
+  "HeaderLinks": {
+    "aboutus": "About Us",
+    "investment-plans": "Investment plans",
+    "portfolio": "Portfolio",
+    "contents": "Contents"
+  },
+  "HeaderRight": {
+    "invite-and-earn": "Invite and earn",
+    "getstarted": "Get started"
+  },
+  "AboutMerit": {
+    "portfoliostocks": "Stocks in the portfolio",
+    "venture-deals": "Venture deals",
+    "trade-turnover": "Trade turnover",
+    "more-about-us": "More about us"
+  },
+  "Offer": {
+    "what-we-offer": "What We Offer",
+    "unique-set": "A unique set of",
+    "investment-solutions": "investment solutions",
+    "personalized-approach": "With a personalized approach."
+  },
+  "TrackerBlock": {
+    "monitor-assets": "Monitor All Assets with",
+    "investment-tracker": "the Investment Tracker",
+    "revolutionize": "Revolutionize your investment management with our innovative"
+  },
+  "IndexGreyBlock": {
+    "invest-in": "Invest in",
+    "ready-made": "ready-made",
+    "indexes": "indexes",
+    "designed-indices": "Invest, in intelligently designed indices and",
+    "market-conditions": "make, money in any market conditions",
+    "learn-more": "Learn more"
+  },
+  "PlannedGreyBlock": {
+    "all-plans": "All of our plans",
+    "with-fixed": "with fixed",
+    "income": "income",
+    "for": "for",
+    "projected-profitability": "projected profitability",
+    "plan-predict": "Plan and predict earnings all",
+    "income-fixed": "income is fixed"
+  },
+  "InviteBlock": {
+    "earn-by": "Earn money by inviting",
+    "real-investors": "real investors",
+    "affiliate-system": "The company has three levels of affiliate system",
+    "existing-partners": "for higher income of existing partners.",
+    "invite-earn": "Invite and earn"
+  },
+  "IpoInfoblock": {
+    "earnings-ipo": "Earnings on IPOs",
+    "available": "are available to everyone",
+    "prof-investor": "You don't need to be a professional investor",
+    "make-money": "to make money on the public market",
+    "learn-more": "Learn more"
+  },
+  "Tarrifs": {
+    "account-plans": "Account Plans",
+    "choose-path": "Choose your path"
+  },
+  "SharesTariffs": {
+    "stocks-etf": "Stocks and ETF",
+    "from": "from $100 to $3000",
+    "yield": "Yield:",
+    "%": "0.9% -1.7%",
+    "working-period": "Working period:",
+    "days": "30 days",
+    "profit": "Profit Withdrawal:",
+    "daily": "Daily",
+    "purchase": "Purchase of indices created by",
+    "team": "by our team of professionals"
+  },
+  "PrivateTarrifs": {
+    "private-markets": "Private markets",
+    "from": "from $3000 to $50000",
+    "yield": "Yield:",
+    "%": "2% -3.1%",
+    "working-period": "Working period:",
+    "days": "15 days",
+    "profit": "Profit Withdrawal:",
+    "daily": "At the end of the work term",
+    "invest-in": "Invest in startups at all stages",
+    "stage": "of development from early stage",
+    "late-stage": "to late stage"
+  },
+  "IPOTarrifs": {
+    "ipo": "IPO",
+    "from": "from $15000 to $150000",
+    "individual-participation": "Individual participation:",
+    "yield": "Yield:",
+    "%": "46% - 70%",
+    "working-period": "Working period:",
+    "days": "5 days",
+    "profit": "Profit Withdrawal:",
+    "daily": "At the end of the work term",
+    "partner-participation": "Partner Participation:",
+    "contact-support": "You need to contact support"
+  },
+  "Footer": {
+    "waiting": "What are you waiting for?",
+    "wealth": "Together we will increase your wealth",
+    "started": "Get started"
+  },
+  "AboutFirst": {
+    "indexes": "Indexed",
+    "reliable-source": "A reliable source",
+    "income": "income",
+    "yield": "Index investing has a predetermined return yield",
+    "tenure": "and investment tenure.",
+    "login": "Log in"
+  },
+  "IndexblockAbout": {
+    "indexes": "What is an index",
+    "text": "An index is a combination of stocks of leading global companies that our company has ‘packaged’ for the convenience of the investor.\n                    Indices usually have a basket of underlying assets and do not change. Indices compiled by our company are constantly changing, rebalancing is done to maximise profits."
+  },
+  "ProssesAbout": {
+    "what": "What do you get",
+    "title1": "Flexibility",
+    "text1": "Our team is constantly changing the set of stocks in the index, unlike other companies. If a stock has a prospective loss, we immediately remove it from the index and replace it with a more promising stock more promising.",
+    "title2": "Simplicity",
+    "text2": "Buying an index, you do not need to follow the quotes and make any actions. Our specialists do everything to make sure that every day you have a guaranteed profit.",
+    "title3": "Personalised approach",
+    "text3": "Indexpod individually collected index return, which is specified in your personal account. You always earn according to the purchased index."
+  },
+  "PrivateMarketsAbout": {
+    "private": "Private markets",
+    "invest": "Invest",
+    "in-private": "In private companies",
+    "startups": "(start-ups)",
+    "all-stages": "at all stages",
+    "text": "Invest in private companies that are inaccessible to a wide range",
+    "of-investors": "of investors. Earn money with our multi-stage",
+    "venture-fund": "venture fund",
+    "login": "Log in"
+  },
+  "WhyInvestAbout": {
+    "title1": "Why invest in private",
+    "title2": "companies",
+    "text": "You invest in world-changing technologies and get higher returns. According to historical data, over the long term, venture capital investments show the highest returns compared to real estate, stocks and other types of assets."
+  },
+  "SelectoppAbout": {
+    "title1": "How do we select the",
+    "title2": "opportunities",
+    "text1": "Our expert analysts carefully select companies at different stages and in different industries. We invest in more mature startups with stable value, working technologies, proven business models and support from leading venture capital firms.",
+    "text2": "Main focus is on fintech, cybersecurity, artificial intelligence, space technologies, and web3."
+  },
+  "GetAheadAbout": {
+    "title1": "Get ahead of the curve",
+    "text1": "Invest in the private companies that are shaping our future before they go public and become publicly traded. Get ahead of the curve and earn multiples more.",
+    "btn": "Log in"
+  },
+  "SecondaryMarket": {
+    "title1": "Secondary market",
+    "text1": "Our team is constantly balancing the portfolio, buying stakes in private companies (startups) and reselling them"
+  },
+  "Nocimmissions": {
+    "title1": "No commissions deposit and withdrawal fees",
+    "text1": "When withdrawing funds you do not pay any commissions, they are included in the investment plans. When depositing funds, you pay the commission of the selected payment system"
+  },
+  "InvestIPOAbout": {
+    "title1": "Simple project",
+    "title2": "to invest in an IPO",
+    "text1": "Earn IPOs like a pro ",
+    "btn": "Log in"
+  },
+  "WhyProfitable": {
+    "title1": "Why IPO is so lucrative",
+    "text1": "Companies remain private for quite a long time. When they become available to a wide range of investors, the demand for shares becomes colossal. Since our company has a significant stake in the stakes, when the company goes public, we sell all or part of this stake. High demand generates high value. Often, a company earns hundreds or tens of hundreds of per cent on a given event. Public stocks have a high potential for returns over a medium to long horizon. As for IROs, you get returns a short time after you invest."
+  },
+  "CapitalGainsAbout": {
+    "title1": "Capital gains",
+    "text1": "Investing in ІPO, you earn much more than investing in venture capital, as well as in indices."
+  },
+  "ShortOperationTime": {
+    "title1": "Short operating time",
+    "text1": "Public stocks have a great potential for returns over a medium to long horizon. As for IPOs, you get profit after a short period of time, after investment."
+  },
+  "InvestmentManagement": {
+    "investment-management": "Investment management",
+    "title": "Unlock",
+    "title2": "the full potential",
+    "title3": "of your assets",
+    "text": "Our experience and technology can help you earn money on the plan",
+    "text2": "that's right for you.",
+    "btn": "Log in"
+  },
+  "StocksEtf": {
+    "title1": "Stocks and ETF",
+    "text1": "Investing through the purchase of an equity index is one of the key plans provided by our company for long-term growth of your capital and diversification of your investment portfolio. This plan involves purchasing an index rather than buying shares directly. Our experts create an index to maximise returns by referencing news, patterns, using historical data as well as bespoke algorithms created for our company. Buying an index allows you to invest in a wide range of companies, in the case of a fall in the value of one of the stocks, the growth of another will cover this fall. In this regard, the investor always receives a guaranteed profit. Investing by buying an index is an effective tool for achieving your financial goals. This strategy provides diversification, stable capital growth and ease of investment."
+  },
+  "VentureInvest": {
+    "title1": "Private Markets (Venture)",
+    "text1": "Venture capital investment is the investor's key to achieving high levels of profitability and supporting innovation. This investment plan provides for the buyout and sale of stakes in promising start-ups at various stages of their development. We actively participate in the equity of start-up companies, providing them with funding in exchange for a stake in the business. What is venture capital investment? Venture capital investment is the process of financing young and promising companies (start-ups) that have high growth potential. Such investments are usually made in exchange for an equity stake in the company. Our company plays an active role in the development of start-ups, providing not only financial resources, but also expert support, strategic guidance and a network of contacts. High return potential: Successful start-ups provide multiple returns on the money invested. Our investments generate significant returns, exceeding the initial investment by tens or even hundreds of times. Venture investing allows us to diversify our investment portfolio by allocating capital across different sectors and companies. This helps us to significantly increase our returns."
+  },
+  "PublicIPOMarketInvest": {
+    "title1": "Public IPO market",
+    "text1": "The main way to generate income from venture capital investments is to successfully exit the investment (exit). This can be the sale of our stake to other investors, strategic partners, or a company going public. In such cases, the value of our stakes increases significantly When a startup in which we hold a significant stake goes public, we sell part or all of our stake on the public market. The share price at the IPO stage is usually significantly higher than the initial value of our investment, allowing us to realise a significant profit. We carefully assess potential and market conditions to choose the optimal time to sell our stakes, thereby maximising the return on our investment. We are actively involved in buying shares in companies at their IPO stage. Investing in shares at the stage of their initial public offering is often accompanied by a significant increase in their value in the short term, which allows us to receive high returns. By participating in IROs of various companies from different industries, we ensure diversification of our portfolio, which helps us to earn money at all times. We thoroughly analyse companies before their IPOs, assessing their business models, financial performance and growth prospects in order to make an informed choice."
+  },
+  "StartNowInvest": {
+    "title1": "Start now",
+    "text1": "No paperwork to deal with. Just log in, open an account, and youll be up and running in minutes."
+  },
+  "ContentAbout": {
+    "about": "About Us",
+    "finance": "Changing the world of finance",
+    "text1": "The Alliance provides a wide range of financial",
+    "text2": "products for investors of different levels",
+    "btn": "Log in"
+  },
+  "ConsultantsGroup": {
+    "title": "Advisory Group",
+    "nameJassem": "Jassem Hassan Ali Zainal",
+    "specJassem": "Chairperson",
+    "textJassem": "Mr Jasem is Chairman and CEO of Alliance Financial Group. He has over 30 years of experience in various industries.",
+    "nameHashim": "Hashim Gillani",
+    "spec": "Advisory Member",
+    "textHashim": "Mr Hashim is Senior Vice President of Corporate Development and Communications at Alghanim Industries, one of the largest privately owned businesses in the Middle East.",
+    "nameMuhannad": "Muhannad Abulhassan",
+    "textMuhannad": "Mr Muhannad is the Chief Executive Officer of Arzan Wealth (DIFC) Ltd. He has over 20 years of experience in various industries",
+    "nameMohamad": "Mohamad Charafeddine",
+    "textMohamad": "Mr Mohamad is vice president of products at Careem. He previously worked at Facebook (Core ML) and Samsung (Dir R&D Al Lab)."
+  },
+  "ContentInfo": {
+    "text": "This information is of a general nature, contains investment recommendations and is subject to change at the discretion of the rights holder. This information reflects the views of Alliance VC on a binding basis and can be guaranteed to be complete and accurate. An investment in Alliance VC should be considered as a tool to diversify your current investment portfolio and should only be made after consultation with an independent qualified investment and tax advisor. If you are unsure of the meaning of the information provided, please seek advice from a qualified adviser. Investments in Alliance VC are speculative and high yielding, and the risk of losing all or part of your funds exists only in the event of user inattention and malfunctioning payment systems. Renaissance Investments can give assurances that investment objectives will be achieved and results will not fluctuate during the period of investment, past results are a guarantee of future results. Investors are strongly advised to consider investing in a single product as a complete investment programme. Diversify your portfolio by selecting multiple company products."
+  },
+  "Partners": {
+    "partners": "Partners",
+    "invite": "Invite your friends and acquaintances",
+    "text": "Our company has a three-level affiliate programme. Invite your friends and acquaintances and earn a percentage of their deposits"
+  },
+  "Whatdoyouget": {
+    "title": "What do I get out of this?",
+    "text": "For every new client you bring to us through your efforts, you will receive money. The more clients who sign up through your referral link, the more money you will earn."
+  },
+  "ProgrammInfo": {
+    "title": "How the program works",
+    "textmain": "You receive a lump sum payment for each invited referral. The affiliate system includes three levels and is 8,6,3%.",
+    "title-first": "Share invite code",
+    "text-first": "Send the code or link by selecting contacts from your phone, or share it how you like.",
+    "title-sec": "They join us",
+    "text-sec": "Your referral registers an account and starts trading*",
+    "title-third": "You get a reward",
+    "text-third": "Once your referral completes all the steps, the rewards will appear in your account."
+  },
+  "TopUpPersonal": {
+    "balance": "Available balance",
+    "choosesystem": "Select a system for top-up",
+    "address-send": "Address to send to",
+    "send-balance": "Send exactly $1000! Otherwise the funds may be lost!",
+    "paid": "Paid",
+    "cancel-deposit": "Cancel deposit"
+  },
+  "WithdrawPersonal": {
+    "balance": "Available balance",
+    "choosesystem": "Select a system for top-up",
+    "enter-address": "Enter the address",
+    "enter-withdraw": "Enter the amount to withdraw",
+    "typing": "Start typing...",
+    "whole-balance": "Whole balance",
+    "request-withdrawal": "Request Withdrawal"
+  },
+  "AccountPersonal": {
+    "balance": "Available balance",
+    "choosesystem": "Select a system for top-up",
+    "deposit": "Deposit",
+    "withdraw": "Withdrawal",
+    "create-deposit": "Create new deposit",
+    "statistics": "Statistics",
+    "earned": "Earned with the help of partners:",
+    "active-deposits": "Active Deposits:",
+    "deposited": "Deposited:",
+    "withdrawn": "Withdrawn:",
+    "open-deposits": "Your open deposits",
+    "deposit-amount": "Deposit amount",
+    "interest-rate": "Interest rate",
+    "end-date": "End date",
+    "status": "Status",
+    "exit-amount": "Exit amount",
+    "inwork": "In progress",
+    "finished": "Finished"
+  },
+  "CreateDeposit": {
+    "balance": "Available balance",
+    "deposit-amount": "Enter the deposit amount",
+    "typing": "Start typing...",
+    "whole-balance": "Whole balance",
+    "tariff-plan": "Choose a tariff plan",
+    "text": "Stocks and ETFs - term of work 30 days, profit is accrued daily, investment amount comes on the last day of deposit."
+  },
+  "NavbarLK":{
+    "account": "Account",
+    "top-up": "Top-Up balance",
+    "create-deposit": "Create deposit",
+    "withdraw": "Funds Withdrawal",
+    "transactions": "Transactions history ",
+    "settings": "Settings",
+    "affiliate": "Affiliate Programme",
+    "exit": "Exit"
+  },
+  "Settings":{
+    "settings": "Settings",
+    "account": "Mail",
+    "name": "Name",
+    "surname": "Surname",
+    "phone": "Phone Number",
+    "region": "Region",
+    "telegram": "Telegram",
+    "сhange-password": "Change password",
+    "old-password": "Old password",
+    "new-password": "New password",
+    "confirm-password": "Confirm password"
+  },
+  "Refferal":{
+    "programme": "Referral programme",
+    "invite": "Invite your partners and get money for their actions!",
+    "every": "Every Alliance investor can use their referral link to invite partners.",
+    "company": "The company has a total of 3 levels of affiliate programme:",
+    "remuneration": "Affiliate Remuneration:",
+    "8": "8% for the first line",
+    "6": "6% for the second line",
+    "3": "3% for the third line",
+    "example": "Example:",
+    "person": "The person you invite will deposit $100,000, then you will receive $8,000 and so on at a rate of",
+    "personal-reference:": "Your personal reference:"
+  },
+  "History":{
+    "amount": "Amount of payments for the whole time",
+    "all": "All",
+    "deposits": "Deposits",
+    "withdrawal": "Withdrawal",
+    "transaction-history": "Transaction History",
+    "deposit-creation": "Deposit creation",
+    "open-deposit": "Open deposit"
+  },
+  "Registration":{
+    "registration-website": "Registration on the website",
+    "e-mail": "Enter E-mail",
+    "desired-login": "Enter the desired login...",
+    "desired-password": "Enter the desired password...",
+    "repeat-password": "Repeat password",
+    "first-name": "First Name...",
+    "last-name": "Last name...",
+    "phone-number": "Phone number",
+    "region": "Region (in numbers)...",
+    "telegram": "@username of your Telegram account",
+    "registration": "Registration",
+    "have-account": "I already have an account",
+    "forgot-password?": "Forgot your password?",
+    "login": "Login",
+    "dont-account?": "Don't have an account yet?",
+    "login-password": "Enter password"
+  }
+}
+
+
+
+

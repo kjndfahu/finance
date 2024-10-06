@@ -1,5 +1,5 @@
-import {IndexGreyblock} from "@/components/index-greyblock";
-import {PlannedGreyblock} from "@/components/planned-greyblock";
+import {IndexGreyblock} from "./index-greyblock";
+import {PlannedGreyblock} from "./planned-greyblock";
 
 interface Props{
     className?:string,
