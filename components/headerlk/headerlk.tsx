@@ -3,6 +3,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {ChevronDown} from "lucide-react";
 import {LangModal} from "../lang-modal";
 import {useState} from "react";
+import Link from "next/link";
 
 interface Props {
     className?: string;
@@ -10,28 +11,27 @@ interface Props {
 }
 
 export const Headerlk: React.FC<Props> = ({locale}) => {
-    console.log(locale)
     const pathname = usePathname()
     const isAuthPage = pathname === `/${locale}/registration` || pathname === `/${locale}/login`;
     const [isClicked, setClicked] = useState(false)
     const [isLang, setLang] = useState(false)
     return (
         <div
-            className="flex flex-row items-center bg-[#f5f5f5] text-black text-[23px] justify-between w-full px-[150px] pt-[25px]">
-            <div className="flex flex-row gap-5 items-center">
-                <div className=" bg-blue-600 w-[55px] h-[55px] rounded-[10px]"></div>
+            className="flex flex-row items-center bg-[#f5f5f5] text-black mdbvp:text-[23px] text-[17px] justify-between w-full lg:px-[150px] px-[10px] pt-[25px]">
+            <div className="flex flex-row mdbvp:gap-5 gap-2 items-center">
+                <div className=" bg-blue-600 mdbvp:w-[55px] mdbvp:h-[55px] w-[35px] h-[35px] rounded-[5px]"></div>
                 <h1>Alliance</h1>
             </div>
-            <div className="flex flex-row gap-5">
+            <div className="flex flex-row mdbvp:gap-5 gap-2">
                 <div onClick={() => {
                     setClicked(!isClicked);
                     setLang(!isLang)
                 }} className="flex flex-row items-center gap-2 cursor-pointer">
                     {locale==='en' ? (
                         <>
-                            <img className="w-[25px] h-[25px]" src="https://cdn.weglot.com/flags/circle/gb.svg" alt="/"/>
+                            <img className="mdbvp:w-[25px] mdbvp:h-[25px] w-[18px] h-[18px]" src="https://cdn.weglot.com/flags/circle/gb.svg" alt="/"/>
                             <div className="flex items-center flex-row gap-1">
-                                <h2 className="text-black">English</h2>
+                                <h2 className="md:flex hidden text-black">English</h2>
                                 <ChevronDown
                                     className={`transform transition-transform duration-300 ${isClicked ? `rotate-180` : ''}`}
                                     width={15} color="#000000"/>
@@ -41,7 +41,7 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
                         <>
                             <img className="w-[25px] h-[25px]" src="https://cdn.weglot.com/flags/circle/ru.svg" alt="/"/>
                             <div className="flex items-center flex-row gap-1">
-                                <h2 className="text-black">Russian</h2>
+                                <h2 className="md:flex hidden text-black">Russian</h2>
                                 <ChevronDown
                                     className={`transform transition-transform duration-300 ${isClicked ? `rotate-180` : ''}`}
                                     width={15} color="#000000"/>
@@ -54,14 +54,20 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
                 </div>
                 {isAuthPage ? (
                     <>
-                        <div className="flex flex-row gap-3">
-                            <div className="bg-blue-600 text-[17px] px-5 py-2 rounded-[10px] cursor-pointer text-white">Регистрация
+                        <Link href={`/${locale}/registration`}>
+                            <div className="flex flex-row gap-3">
+                                <div
+                                    className="bg-blue-600 mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-white">Регистрация
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-row gap-3">
-                            <div className="text-[17px] px-5 py-2 rounded-[10px] cursor-pointer text-black">Вход
+                        </Link>
+
+                        <Link href={`/${locale}/login`}>
+                            <div className="flex flex-row gap-3">
+                                <div className="mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-black">Вход
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     </>
                 ) : (
                     <h4>Выйти</h4>

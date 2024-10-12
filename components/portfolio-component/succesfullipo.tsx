@@ -52,7 +52,7 @@ export const SuccesfullIPO: React.FC = () => {
         },
     ];
     return (
-        <div className="px-[100px] bg-white w-full ">
+        <div className="mdbvp:px-[100px] px-[30px] bg-white w-full ">
             <h2 className="text-2xl text-black font-bold mb-8">Примеры успешных IPO</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {companies.map((company, index) => (

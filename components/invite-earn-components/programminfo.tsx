@@ -18,16 +18,16 @@ export const ProgrammInfo:React.FC = () => {
     ]
 
     return (
-        <div className="flex flex-col items-center bg-[#F5F5F5] mt-10 rounded-[40px] justify-center py-[100px]">
+        <div className="flex flex-col items-center bg-[#F5F5F5] mt-10 rounded-[40px] justify-center mdbvp:py-[100px] py-[50px]">
             <div className="flex flex-col gap-2 items-center text-black ">
-                <h1 className="text-[52px] font-semibold ">{t('title')}</h1>
-                <p>{t('textmain')}</p>
+                <h1 className="mdbvp:text-[52px] mdbvp:leading-[52px] text-[35px] leading-[35px] font-semibold text-center">{t('title')}</h1>
+                <p className="text-center">{t('textmain')}</p>
             </div>
-            <div className="flex flex-row justify-evenly gap-7 mt-10 w-full px-[120px]">
+            <div className="flex md:flex-row flex-col justify-evenly mdbvp:gap-7 gap-4 mt-10 w-full mdbvp:px-[120px] px-[30px]">
                 {data.map((item) => (
-                    <div key={item.title} className="flex w-[33%] flex-col gap-5 bg-[#FFFFFF] rounded-[20px] px-7 py-7 text-black">
-                        <h2 className="text-[38px] font-semibold">{item.title}</h2>
-                        <p className="text-[20px]">{item.text}</p>
+                    <div key={item.title} className="flex md:w-[33%] w-full flex-col gap-5 bg-[#FFFFFF] rounded-[20px] px-7 py-7 text-black">
+                        <h2 className="mdbvp:text-[38px] text-[25px] font-semibold">{item.title}</h2>
+                        <p className="mdbvp:text-[20px] text-[16px]">{item.text}</p>
                     </div>
                 ))}
             </div>

@@ -14,10 +14,10 @@ export const Statistics:React.FC<Props> = ({ className }) => {
         <div className="flex flex-col gap-2 text-black bg-white border-[1px] border-[#f5f5f5] p-4 rounded-[10px]">
             <div className="flex justify-between">
                 <h3>{t('statistics')}</h3>
-                <ChevronDown color="#000000"/>
+                {/*<ChevronDown color="#000000"/>*/}
             </div>
-            <Graphics/>
-            <Transactions/>
+            {/*<Graphics/>*/}
+            {/*<Transactions/>*/}
             <HistoryOfDeposits/>
         </div>
     )

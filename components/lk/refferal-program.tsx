@@ -3,9 +3,10 @@ import {useTranslations} from "next-intl";
 
 interface Props{
     className?:string;
+    session:any;
 }
 
-export const ReferralProgram:React.FC<Props> = ({className})=>{
+export const ReferralProgram:React.FC<Props> = ({session, className})=>{
     const t = useTranslations('Refferal')
     return (
         <div className="flex flex-col gap-2 text-black bg-white border-[1px] border-[#f5f5f5] p-4 rounded-[10px]">
@@ -27,7 +28,7 @@ export const ReferralProgram:React.FC<Props> = ({className})=>{
                 </div>
             </div>
 
-            <ReferralLink/>
+            <ReferralLink session={session}/>
         </div>
     )
 }

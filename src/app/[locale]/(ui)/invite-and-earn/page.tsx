@@ -6,7 +6,7 @@ import {MainFooter} from "../../../../../components/home/main-footer";
 
 export default function InviteAndEarn() {
     return (
-        <div className="flex flex-col bg-[#FFFFFF] px-[100px] py-[120px]">
+        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] px-[30px] py-[120px]">
             <ForPartners/>
             <Whatdoyouget/>
             <ProgrammInfo/>

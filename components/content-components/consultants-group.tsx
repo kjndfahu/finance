@@ -37,13 +37,13 @@ export const ConsultantsGroup:React.FC = () => {
     return (
         <div className="flex items-center flex-col mt-16">
             <h1 className="text-[#ccbb88] text-[40px] font-semibold">Консультативная группа</h1>
-            <div className="flex w-full flex-row mt-20 gap-10">
+            <div className="flex w-full items-center justify-center mdbvp:flex-auto flex-wrap flex-row mt-20 gap-10">
                 {data.map((item) => (
-                    <div key={item.name} className="flex flex-col items-center w-[25%] gap-2">
+                    <div key={item.name} className="flex flex-col text-center items-center w-[25%] gap-2">
                         <Image src={item.img} alt="ee"/>
-                        <h1 className="text-blue-700 mt-5 font-semibold text-[20px] leading-[22px]">{item.name}</h1>
-                        <h3 className="text-[#ccbb88] text-[19px] leading-[19px] font-medium">{item.speciality}</h3>
-                        <p className="text-[19px] text-center text-black leading-[21px]">{item.info}</p>
+                        <h1 className="text-blue-700 mt-5 font-semibold lg:text-[20px] text-[17px] leading-[22px]">{item.name}</h1>
+                        <h3 className="text-[#ccbb88] lg:text-[19px] text-[16px] lg:leading-[19px] leading-[16px] font-medium">{item.speciality}</h3>
+                        <p className="lg:text-[19px] text-[16px] leading-[16px] text-center text-black lg:leading-[21px]">{item.info}</p>
                     </div>
                 ))}
             </div>

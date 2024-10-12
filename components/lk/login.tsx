@@ -1,17 +1,51 @@
 'use client'
 
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import {useTranslations} from "next-intl";
+import {formLoginSchema, TFormLoginData} from "./schema";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {signIn} from "next-auth/react";
+import Link from "next/link";
 interface Props{
     className?:string;
 }
 
-export const Login:React.FC<Props> = ({className}) => {
+export const Login:React.FC<Props> = ({ className}) => {
+    const pathame= usePathname()
+    const locale = pathame.slice(0,3)
+    const form = useForm<TFormLoginData>({
+        resolver: zodResolver(formLoginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
+
+    const onSubmit = async(data: TFormLoginData) => {
+        try{
+            const resp = await signIn('credentials', {
+                ...data,
+                redirect: false
+            })
+
+            console.log('Форма отправлена:', resp);
+            router.push(`${locale}/account`)
+
+            if(!resp?.ok){
+                console.log('Неверный пароль!')
+            }
+        } catch (error){
+            console.log('ERROR [LOGIN]', error)
+        }
+    }
+
     const router = useRouter()
     const t = useTranslations('Registration')
     const onClick = () => {
         router.back()
     }
+    
     return (
         <div className="flex justify-center items-center mt-20 bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -19,47 +53,56 @@ export const Login:React.FC<Props> = ({className}) => {
                     <span onClick={onClick}>&larr;</span>
                     <span>{t('login')}</span>
                 </button>
-
-                <form className="mt-4 space-y-4">
-                    <div>
-                        <label htmlFor="email" className="sr-only">E-mail</label>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder={t('e-mail')}
-                            className="w-full bg-white text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-
-                    <div>
-                        <label htmlFor="password" className="sr-only">Пароль</label>
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder={t('login-password')}
-                            className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <p className="text-gray-400 w-full hover:text-black cursor-pointer mt-2">{t('forgot-password?')}</p>
-                    </div>
-
-                    <div className="flex w-full gap-2 items-center">
-                        <div className="flex w-[50%] items-center justify-between">
-                            <button
-                                type="submit"
-                                className="w-full text-black py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-                            >
-                                {t('login')}
-                            </button>
+                    <form className="mt-4 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+                        <div>
+                            <label htmlFor="email" className="sr-only">E-mail</label>
+                            <input
+                                {...form.register('email')}
+                                name="email"
+                                type="email"
+                                id="email"
+                                placeholder={t('e-mail')}
+                                className="w-full bg-white text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            {form.formState.errors.email && (
+                                <span className="text-red-500">{form.formState.errors.email.message}</span>
+                            )}
                         </div>
 
-                        <div className="w-[50%] text-center">
-                            <a href="#" className="text-[16px] text-black hover:underline">
-                                {t('dont-account?')}
-                            </a>
+
+                        <div>
+                            <label htmlFor="password" className="sr-only">Пароль</label>
+                            <input
+                                {...form.register('password')}
+                                name="password"
+                                type="password"
+                                id="password"
+                                placeholder={t('login-password')}
+                                className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            {form.formState.errors.password && (
+                                <span className="text-red-500">{form.formState.errors.password.message}</span>
+                            )}
+                            <p className="text-gray-400 w-full hover:text-black cursor-pointer mt-2">{t('forgot-password?')}</p>
                         </div>
-                    </div>
-                </form>
+
+                        <div className="flex w-full gap-5 items-center">
+                            <div className="flex w-[50%] items-center justify-between">
+                                <button
+                                    type="submit"
+                                    className="w-full text-black py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                                >
+                                    {t('login')}
+                                </button>
+                            </div>
+
+                            <Link href={`${locale}/registration`}>
+                                <div className="flex items-center justify-center w-full text-[16px] text-black hover:underline">
+                                        {t('dont-account?')}
+                                </div>
+                            </Link>
+                        </div>
+                    </form>
             </div>
         </div>
     );

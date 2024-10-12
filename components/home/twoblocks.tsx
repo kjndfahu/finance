@@ -7,7 +7,7 @@ interface Props{
 
 export const TwoBlocks:React.FC<Props> = ({className})=>{
     return (
-        <div className="flex mt-[24px] flex-row gap-6 w-full">
+        <div className="flex mt-[24px] mdbvp:flex-row flex-col gap-6 w-full">
             <IndexGreyblock/>
             <PlannedGreyblock/>
         </div>

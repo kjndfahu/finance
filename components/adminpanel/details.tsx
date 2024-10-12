@@ -1,14 +1,49 @@
-interface Props{
-    className?:string;
+'use client'
+import { useEffect, useState } from "react";
+import { BankingDetails } from "@prisma/client"; // Assuming you're using Prisma
+import { bankDetails } from "../../services/users";
+import { Modal } from "../modal";
+
+interface Props {
+    className?: string;
 }
 
-export const Details:React.FC<Props> = ({className}) => {
-    const data = [
-        { name: 'BUSDT', address: 'DSJiomO-9e23,JLKAF90-243jt204JIOE92jkl33' },
-        { name: 'USDT trc20', address: 'DSJiomO-9e23,JLKAF90-243jt204JIOE92jkl33' },
-        { name: 'USDT bep20', address: 'DSJiomO-9e23,JLKAF90-243jt204JIOE92jkl33' },
-        { name: 'TRX Tron', address: 'DSJiomO-9e23,JLKAF90-243jt204JIOE92jkl33' },
-    ];
+export const Details: React.FC<Props> = ({ className }) => {
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [details, setDetails] = useState<BankingDetails[]>([]);
+    const [selectedDetail, setSelectedDetail] = useState<BankingDetails | null>(null);
+
+    useEffect(() => {
+        const fetchDetails = async () => {
+            try {
+                const data = await bankDetails();
+                setDetails(data);
+            } catch (err) {
+                console.error("Ошибка загрузки данных", err);
+            }
+        };
+
+        fetchDetails();
+    }, []);
+
+    const openModal = (detail: BankingDetails) => {
+        setSelectedDetail(detail);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setSelectedDetail(null);
+    };
+
+    const handleUpdate = (updatedDetail: BankingDetails) => {
+        setDetails((prevDetails) =>
+            prevDetails.map((detail) =>
+                detail.id === updatedDetail.id ? updatedDetail : detail
+            )
+        );
+        closeModal();
+    };
 
     return (
         <div className="flex justify-center w-full bg-[#f5f5f5] pt-[50px] max-w-[100%]">
@@ -23,16 +58,30 @@ export const Details:React.FC<Props> = ({className}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {data.map((item, index) => (
-                        <tr key={index} className="border-t">
+                    {details.map((item) => (
+                        <tr key={item.id} className="border-t">
                             <td className="px-4 py-3 text-gray-700">{item.name}</td>
-                            <td className="px-4 py-3 text-gray-700">{item.address}</td>
-                            <td className="px-4 py-3 text-blue-600 cursor-pointer">Изменить</td>
+                            <td className="px-4 py-3 text-gray-700">{item.details}</td>
+                            <td
+                                onClick={() => openModal(item)}
+                                className="px-4 py-3 text-blue-600 cursor-pointer hover:text-blue-800"
+                            >
+                                Изменить
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
             </div>
+
+            {isModalOpen && selectedDetail && (
+                <Modal
+                    isModalOpen={isModalOpen}
+                    setModalOpen={setModalOpen}
+                    detail={selectedDetail}
+                    handleUpdate={handleUpdate}
+                />
+            )}
         </div>
     );
-}
+};

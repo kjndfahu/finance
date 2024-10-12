@@ -2,9 +2,11 @@ import {useTranslations} from "next-intl";
 
 interface Props{
     className?:string;
+    activeTab:number;
+    setTab:any;
 }
 
-export const AmountOfPayments:React.FC<Props> = ({className})=>{
+export const AmountOfPayments:React.FC<Props> = ({activeTab, setTab, className})=>{
     const t = useTranslations('History')
     return (
         <div
@@ -33,10 +35,10 @@ export const AmountOfPayments:React.FC<Props> = ({className})=>{
                            className="w-[88%] bg-white border-transparent focus:outline-0" type="text"/>
                 </div>
             </div>
-            <div className="flex flex-row p-4 gap-5 bg-[#f5f5f5] rounded-[7px]">
-                <h3>{t('all')}</h3>
-                <h3>{t('deposits')}</h3>
-                <h3>{t('withdrawal')}</h3>
+            <div className="flex w-full justify-between flex-row p-4 gap-5 bg-[#f5f5f5] rounded-[7px]">
+                <h3 onClick={() => setTab(1)} className={`${activeTab === 1 ? 'text-black' : 'text-[#777777]'} cursor-pointer`}>{t('all')}</h3>
+                <h3 onClick={() => setTab(2)}  className={`${activeTab === 2 ? 'text-black' : 'text-[#777777]'} cursor-pointer`}>{t('deposits')}</h3>
+                <h3 onClick={() => setTab(3)}  className={`${activeTab === 3 ? 'text-black' : 'text-[#777777]'} cursor-pointer`}>{t('withdrawal')}</h3>
             </div>
         </div>
     )

@@ -3,22 +3,151 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
   id Int @id @default(autoincrement())
 
-  login       String
+  login       String @unique
   name        String
   surname     String
-  email       String
-  telegramId  String
-  phoneNumber Int
+  email       String @unique
+  telegramId  String @unique
+  phoneNumber String @unique
   region      Int
   password    String
 
+  role         Role   @default(USER)
+  referralCode String @unique
+  balance      Int    @default(0)
+
+  referral           Referrals?
+  operations         OperationsHistory?
+  topupoperations    TopUpOperations[]
+  requesttopup       TopUpRequest[]
+  deposits           Deposits[]
+  withdrawrequest    WithdrawRequest[]
+  withdrawoperations WithdrawOperations[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([login, balance])
+}
+
+model Referrals {
+  id Int @id @default(autoincrement())
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  totalAmount    Int @default(0)
+  totalReferrals Int @default(0)
+  totalProfit    Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OperationsHistory {
+  id Int @id @default(autoincrement())
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  withdraws WithdrawOperations[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TopUpOperations {
+  id Int @id @default(autoincrement())
+
+  sum Int
+
+  userId Int
+  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WithdrawOperations {
+  id Int @id @default(autoincrement())
+
+  sum Int
+
+  userId Int?
+  user   User? @relation(fields: [userId], references: [id])
+
+  operationhistoryId Int
+  operations         OperationsHistory @relation(fields: [operationhistoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BankingDetails {
+  id      Int    @id @default(autoincrement())
+  name    String
+  details String
+}
+
+model TopUpRequest {
+  id Int @id @default(autoincrement())
+
+  email String
+  user  User?  @relation(fields: [email], references: [email], onDelete: Cascade)
+  type  String
+  sum   Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Deposits {
+  id Int @id @default(autoincrement())
+
+  login       String
+  balance     Int
+  depositSum  String
+  earning     Float
+  percent     String
+  withdrawSum Float
+  endDate     DateTime
+  status      DepositStatus @default(INWORK)
+
+  user User @relation(fields: [login, balance], references: [login, balance], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([login, balance])
+}
+
+model WithdrawRequest {
+  id             Int    @id @default(autoincrement())
+  login          String
+  method         String
+  amount         Int
+  paymentDetails String
+
+  user User? @relation(fields: [login], references: [login], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum DepositStatus {
+  INWORK
+  FINISHED
+}
+
+enum Role {
+  USER
+  ADMIN
 }

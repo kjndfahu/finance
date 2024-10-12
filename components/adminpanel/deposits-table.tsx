@@ -1,8 +1,30 @@
+'use client'
+import {useEffect, useState} from "react";
+import {Deposits, User} from "@prisma/client";
+import {depositstable, list} from "../../services/users";
+import {format} from "date-fns";
+
 interface Props{
     className?:string;
 }
 
 export const DepositsTable:React.FC<Props> = ({className})=>{
+    const [clients, setClients] = useState<Deposits[]>([]);
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+                console.log(depositstable())
+                const data = await depositstable();
+                setClients(data);
+            } catch (err) {
+                console.log("Ошибка загрузки данных", err);
+            }
+        };
+
+
+        fetchClients();
+    }, []);
+
     return (
         <div className="mt-[50px] min-h-screen bg-[#f5f5f5] text-black flex ">
             <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
@@ -20,15 +42,15 @@ export const DepositsTable:React.FC<Props> = ({className})=>{
                     </tr>
                     </thead>
                     <tbody>
-                    {[...Array(6)].map((_, idx) => (
-                        <tr key={idx} className="border-b">
-                            <td className="px-4 py-2">Nickname</td>
-                            <td className="px-4 py-2">$200</td>
-                            <td className="px-4 py-2">$200</td>
-                            <td className="px-4 py-2">10%</td>
-                            <td className="px-4 py-2">$200</td>
-                            <td className="px-4 py-2">24.12.2202</td>
-                            <td className="px-4 py-2 text-green-500">В работе</td>
+                    {clients.map((client) => (
+                        <tr key={client.id} className="border-b">
+                            <td className="px-4 py-2">{client.login}</td>
+                            <td className="px-4 py-2">${client.balance}</td>
+                            <td className="px-4 py-2">${client.depositSum}</td>
+                            <td className="px-4 py-2">{client.percent}%</td>
+                            <td className="px-4 py-2">${client.withdrawSum}</td>
+                            <td className="px-4 py-2">{format(new Date(client.endDate), 'yyyy-MM-dd HH:mm:ss')}</td>
+                            <td className="px-4 py-2 text-green-500">{client.status}</td>
                         </tr>
                     ))}
                     </tbody>

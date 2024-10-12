@@ -4,6 +4,7 @@ import {getMessages} from "next-intl/server";
 import {Headerlk} from "../../../../components/headerlk/headerlk";
 import '../globals.css';
 import {LkNavbar} from "../../../../components/lk/lk-navbar";
+import {Toaster} from "react-hot-toast";
 
 
 const myFont = localFont({
@@ -36,9 +37,10 @@ export default async function PersonalAccountLayout({
     return (
             <html lang={locale}>
             <body className={myFont.className}>
-            <NextIntlClientProvider messages={messages}>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+                <Toaster/>
                 <Headerlk locale={locale}/>
-                <div className="flex flex-row px-[120px] pt-[25px] w-full gap-10 bg-[#f5f5f5]">
+                <div className="flex flex-row lg:px-[120px] px-[30px] pt-[25px] w-full gap-10 bg-[#f5f5f5]">
                     <LkNavbar locale={locale}/>
                     {children}
                 </div>

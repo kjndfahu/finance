@@ -1,10 +1,32 @@
+'use client'
 import {Copy} from "lucide-react";
+import {useEffect, useState} from "react";
+import {User} from "@prisma/client";
+import {list, withdrawtable} from "../../services/users";
+import { format } from "date-fns";
 
 interface Props{
     className?:string;
 }
 
 export const WithdrawTable:React.FC<Props> = ({className})=>{
+    const [requests, setRequest] = useState<WithdrawRequest[]>([]);
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+
+                const data = await withdrawtable();
+                setRequest(data);
+                console.log(data, '111')
+            } catch (err) {
+                console.log("Ошибка загрузки данных", err);
+            }
+        };
+
+
+        fetchClients();
+    }, []);
+
     return (
         <div className="mt-[50px] bg-[#f5f5f5] text-black flex ">
             <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
@@ -21,15 +43,15 @@ export const WithdrawTable:React.FC<Props> = ({className})=>{
                     </tr>
                     </thead>
                     <tbody>
-                    {[...Array(6)].map((_, idx) => (
-                        <tr key={idx} className="border-b">
-                            <td className="px-4 py-2">Nickname</td>
-                            <td className="px-4 py-2">BUSDT</td>
-                            <td className="px-4 py-2">24.12.2202</td>
-                            <td className="px-4 py-2">$200</td>
+                    {requests.map((request) => (
+                        <tr key={request.login} className="border-b">
+                            <td className="px-4 py-2">{request.login}</td>
+                            <td className="px-4 py-2">{request.method}</td>
+                            <td className="px-4 py-2">{format(new Date(request.createdAt), 'yyyy-MM-dd HH:mm:ss')}</td>
+                            <td className="px-4 py-2">${request.amount}</td>
                             <td className=" px-4 py-2">
                                 <div className="flex items-center gap-2">
-                                    <h3 >Ner23jhlUSO...4hu2</h3>
+                                    <h3 >{request.paymentDetails}</h3>
                                     <Copy width={15} height={15}/>
                                 </div>
                             </td>

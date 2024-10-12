@@ -85,9 +85,9 @@ export const PortfolioIconsBlock:React.FC = () => {
     ];
     return (
         <div className="min-h-screen py-[50px] bg-white flex justify-center items-center">
-            <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 gap-4 ">
+            <div className="grid grid-cols-2 md:grid-cols-3 mdbvp:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 ">
                 {companies.map((company, index) => (
-                    <div className="flex flex-row items-center text-black gap-3" key={index}>
+                    <div className="flex flex-row items-center text-black gap-2 md:gap-3" key={index}>
                         <img key={index} className="rounded-full w-[50px] h-[50px]" src={company.logo} alt="logo"/>
                         <div className="bg-[#f5f5f5] text-[18px] font-semibold px-7 py-1 rounded-[5px]">
                             <h3>{company.name}</h3>

@@ -3,6 +3,7 @@ import {getMessages} from 'next-intl/server';
 import localFont from "next/font/local";
 import '../globals.css';
 import {Header} from "../../../../components/header/header";
+import {SessionProvider, useSession} from "next-auth/react";
 const myFont = localFont({
     src: [
         {
@@ -31,14 +32,13 @@ export default async function LocaleLayout({
     params: {locale: string};
 }) {
     const messages = await getMessages();
-    console.log(locale)
     return (
         <html lang={locale}>
         <body className={myFont.className}>
-        <NextIntlClientProvider messages={messages}>
-            <Header locale={locale}/>
-            {children}
-        </NextIntlClientProvider>
+            <NextIntlClientProvider messages={messages}>
+                <Header locale={locale}/>
+                {children}
+            </NextIntlClientProvider>
         </body>
         </html>
     );

@@ -6,7 +6,6 @@ import {InviteBlock} from "../../../../components/home/inviteblock";
 import {IpoInfoblock} from "../../../../components/home/ipo-infoblock";
 import {Tarrifs} from "../../../../components/home/tarrifs/tarrifs";
 import {MainFooter} from "../../../../components/home/main-footer";
-
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
 }
@@ -14,7 +13,7 @@ export function generateStaticParams() {
 
 export default function HomePage() {
     return (
-        <div className="flex flex-col bg-[#FFFFFF] px-[100px] py-[100px]">
+        <div className="flex flex-col bg-[#FFFFFF] xl:px-[100px] px-[25px] py-[100px] ">
             <AboutUs/>
             <Offer/>
             <TwoBlocks/>

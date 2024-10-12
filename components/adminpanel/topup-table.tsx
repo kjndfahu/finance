@@ -1,8 +1,68 @@
-interface Props{
-    className?:string;
+'use client';
+import { useEffect, useState } from "react";
+import { topuptable } from "../../services/users";
+import { TopUpRequest } from "@prisma/client";
+import { format } from "date-fns";
+
+interface Props {
+    className?: string;
 }
 
-export const TopUpTable:React.FC<Props> = ({className})=>{
+export const TopUpTable: React.FC<Props> = ({ className }) => {
+    const [requests, setRequest] = useState<TopUpRequest[]>([]);
+
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+                const data = await topuptable();
+                setRequest(data);
+            } catch (err) {
+                console.log("Ошибка загрузки данных", err);
+            }
+        };
+        fetchClients();
+    }, []);
+
+    const handleApprove = async (requestId: number, userId: number, sum: number) => {
+        try {
+            const response = await fetch('/api/topuprequest/approve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ sum, userId }),
+            });
+
+            if (response.ok) {
+                setRequest(prev => prev.filter(request => request.id !== requestId));
+            } else {
+                console.error('Ошибка одобрения заявки');
+            }
+        } catch (error) {
+            console.error('Ошибка одобрения заявки:', error);
+        }
+    };
+
+    const handleReject = async (requestId: number) => {
+        try {
+            const response = await fetch(`/api/topuprequest/decline`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ requestId }),
+            });
+
+            if (response.ok) {
+                setRequest(prev => prev.filter(request => request.id !== requestId));
+            } else {
+                console.error('Ошибка отклонения заявки');
+            }
+        } catch (error) {
+            console.error('Ошибка отклонения заявки:', error);
+        }
+    };
+
     return (
         <div className="mt-[50px] bg-[#f5f5f5] text-black flex ">
             <div className="bg-white shadow-lg rounded-lg p-6 w-full ">
@@ -18,15 +78,19 @@ export const TopUpTable:React.FC<Props> = ({className})=>{
                     </tr>
                     </thead>
                     <tbody>
-                    {[...Array(6)].map((_, idx) => (
-                        <tr key={idx} className="border-b">
-                            <td className="px-4 py-2">Nickname</td>
-                            <td className="px-4 py-2">BUSDT</td>
-                            <td className="px-4 py-2">24.12.2202</td>
-                            <td className="px-4 py-2">$200</td>
+                    {requests.map((request) => (
+                        <tr key={request.id} className="border-b">
+                            <td className="px-4 py-2">{request.email}</td>
+                            <td className="px-4 py-2">{request.type}</td>
+                            <td className="px-4 py-2">{format(new Date(request.createdAt), 'yyyy-MM-dd HH:mm:ss')}</td>
+                            <td className="px-4 py-2">${request.sum}</td>
                             <td className="px-4 py-2 flex flex-col items-start">
-                                <h2 className="text-green-500 py-1 rounded">Одобрить</h2>
-                                <h2 className=" text-red-500 py-1 rounded">Отклонить</h2>
+                                <h2 onClick={() => handleApprove(request.id, request.id, request.sum)} className="text-green-500 py-1 rounded">
+                                    Одобрить
+                                </h2>
+                                <h2 onClick={() => handleReject(request.id)} className="text-red-500 py-1 rounded">
+                                    Отклонить
+                                </h2>
                             </td>
                         </tr>
                     ))}
@@ -35,4 +99,4 @@ export const TopUpTable:React.FC<Props> = ({className})=>{
             </div>
         </div>
     );
-}
+};
