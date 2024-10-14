@@ -40,7 +40,7 @@ export default async function PersonalAccountLayout({
             <NextIntlClientProvider locale={locale} messages={messages}>
                 <Toaster/>
                 <Headerlk locale={locale}/>
-                <div className="flex flex-row lg:px-[120px] px-[30px] pt-[25px] w-full gap-10 bg-[#f5f5f5]">
+                <div className="flex md:flex-row flex-col lg:px-[120px] md:px-[30px] pt-[25px] w-full lg:gap-10 md:gap-5 gap-1 bg-[#f5f5f5]">
                     <LkNavbar locale={locale}/>
                     {children}
                 </div>

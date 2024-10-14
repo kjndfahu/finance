@@ -29,7 +29,6 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
         }
 
         try {
-            // PUT запрос на сервер
             const response = await axios.put('/api/change-password', {
                 email: session.user.email,
                 currentPassword: debouncedCurrentPassword,
@@ -49,8 +48,8 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
 
     return (
         <div className="flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] p-4 rounded-[10px]">
-            <h4 className="text-[22px]">{t('сhange-password')}</h4>
-            <div className="flex flex-col gap-3 text-[#777777] text-[19px]">
+            <h4 className="md:text-[22px] text-[17px]">{t('сhange-password')}</h4>
+            <div className="flex flex-col gap-3 text-[#777777] md:text-[19px] text-[15px]">
                 <div className="flex flex-col">
                     <h1>{t('old-password')}</h1>
                     <div className="flex flex-row items-center px-4 py-1 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
@@ -97,7 +96,7 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
                 </div>
             </div>
             <div
-                className="flex items-center cursor-pointer justify-center py-2 text-white bg-blue-600 rounded-[10px] w-[25%] mt-3 hover:bg-blue-700"
+                className="flex items-center cursor-pointer justify-center py-2 md:text-[16px] text-[13px] text-white bg-blue-600 rounded-[10px] w-[25%] mt-3 hover:bg-blue-700"
                 onClick={handlePasswordChange}
             >
                 Save

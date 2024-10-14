@@ -1,45 +1,47 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../../prisma/prisma-client';
 import bcrypt from 'bcrypt';
+import { prisma } from '../../../../prisma/prisma-client';
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse)  {
-    console.log('Request method:', req.method); // Логирование метода запроса
+export const PUT = async (req: Request) => {
+    // Получаем данные из запроса
+    const { email, currentPassword, newPassword } = await req.json();
 
-    if (req.method !== 'PUT') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    const { email, currentPassword, newPassword } = req.body;
-
+    // Проверка, что все данные присутствуют
     if (!email || !currentPassword || !newPassword) {
-        return res.status(400).json({ error: 'All fields are required' });
+        return new Response(JSON.stringify({ error: 'Email, current password, and new password are required' }), {
+            status: 400,
+        });
     }
 
     try {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: { email },
         });
 
         if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+            return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
         }
 
+        if (!user.password) {
+            return new Response(JSON.stringify({ error: 'Password not found in database' }), { status: 500 });
+        }
+
+
         const isMatch = await bcrypt.compare(currentPassword, user.password);
+
         if (!isMatch) {
-            return res.status(400).json({ error: 'Incorrect current password' });
+            return new Response(JSON.stringify({ error: 'Incorrect current password' }), { status: 400 });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        console.log(typeof hashedPassword, '111')
 
         await prisma.user.update({
             where: { email },
             data: { password: hashedPassword },
         });
 
-        return res.status(200).json({ message: 'Password updated successfully' });
+        return new Response(JSON.stringify({ message: 'Password updated successfully' }), { status: 200 });
     } catch (error) {
-        console.error('Error updating password:', error);
-        return res.status(500).json({ error: 'Internal server error' });
+        console.error('Error in password update:', error);
+        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
     }
 };

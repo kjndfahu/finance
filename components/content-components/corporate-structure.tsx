@@ -21,9 +21,9 @@ export const CorporateStructure:React.FC<Props> = ({className}) => {
     return (
         <div className="flex flex-col gap-16 items-center text-black text-center mt-20">
             <div className="flex flex-col gap-4">
-                <h1 className="text-[48px] font-semibold leading-[55px]">Corporate structure<br/> and legal and
+                <h1 className="lg:text-[48px] mdbvp:text-[32px] smbvp:text-[25px] text-[20px] leading-[20px] smbvp:leading-[25px] mdbvp:leading-[32px] font-semibold lg:leading-[55px]">Corporate structure<br/> and legal and
                     regulatory framework</h1>
-                <p className="text-[22px]">We've built a powerful and compliant infrastructure to scale with
+                <p className="lg:text-[22px] mdbvp:text-[19px] text-[16px] leading-[16px] mdbvp:leading-[22px] lg:leading-[22px]">We've built a powerful and compliant infrastructure to scale with
                     confidence.</p>
             </div>
 
@@ -37,11 +37,11 @@ export const CorporateStructure:React.FC<Props> = ({className}) => {
 
             <div className="flex flex-row gap-10 w-full z-10">
                 {data.map((item) => (
-                    <div key={item.city} className="bg-white text-left text-black p-5 border-[1px] border-black w-[50%] rounded-[20px]">
-                        <h2 className="text-[25px]">{item.city}</h2>
-                        <h3 className="text-[19px]">{item.number}</h3>
-                        <h4 className="text-[22px]">{item.mail}</h4>
-                        <p className="text-[16px] text-[#b0b0b0]">{item.address}</p>
+                    <div key={item.city} className="bg-white text-left text-black p-5 border-[1px] border-black w-[50%] mdbvp:rounded-[20px] rounded-[10px]">
+                        <h2 className="lg:text-[25px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">{item.city}</h2>
+                        <h3 className="lg:text-[19px] smbvp:text-[15px] text-[13px]">{item.number}</h3>
+                        <h4 className="lg:text-[22px] smbvp:text-[15px] text-[13px]">{item.mail}</h4>
+                        <p className="lg:text-[16px] smbvp:text-[14px] text-[12px] text-[#b0b0b0]">{item.address}</p>
                     </div>
                 ))}
             </div>

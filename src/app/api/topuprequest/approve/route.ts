@@ -1,30 +1,46 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {prisma} from "../../../../../prisma/prisma-client";
+import { NextResponse } from 'next/server';
+import { prisma } from '../../../../../prisma/prisma-client';
 
+export async function POST(req: Request) {
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method === 'POST') {
-        const { sum, userId } = req.body;
+    const { sum, email, requestId } = await req.json();
+    if (!sum || !email || !requestId) {
+        return NextResponse.json({ error: 'Missing sum, email, or requestId' }, { status: 400 });
+    }
 
-        if (!sum || !userId) {
-            return res.status(400).json({ error: 'Missing sum or userId' });
+    try {
+
+        const user = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        try {
-            const topUpOperation = await prisma.topUpOperations.create({
-                data: {
-                    sum: parseInt(sum),
-                    userId: parseInt(userId),
-                },
-            });
 
-            return res.status(200).json(topUpOperation);
-        } catch (error) {
-            console.error('Error approving top-up request:', error);
-            return res.status(500).json({ error: 'Server error' });
-        }
-    } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+        const topUpOperation = await prisma.topUpOperations.create({
+            data: {
+                sum: parseInt(sum),
+                email: user.email,
+            },
+        });
+
+        const updatedUser = await prisma.user.update({
+            where: { email: user.email },
+            data: {
+                balance: user.balance + parseInt(sum),
+            },
+        });
+
+        await prisma.topUpRequest.delete({
+            where: { id: requestId },
+        });
+
+        // Возврат успешного ответа
+        return NextResponse.json({ message: 'Top-up approved and balance updated successfully', topUpOperation, updatedUser }, { status: 200 });
+    } catch (error) {
+        console.error('Error approving top-up request:', error);
+        return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 }

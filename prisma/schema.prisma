@@ -69,8 +69,8 @@ model TopUpOperations {
 
   sum Int
 
-  userId Int
-  user   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email String
+  user  User?  @relation(fields: [email], references: [email], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -81,14 +81,13 @@ model WithdrawOperations {
 
   sum Int
 
-  userId Int?
-  user   User? @relation(fields: [userId], references: [id])
+  email String
+  user  User?  @relation(fields: [email], references: [email])
 
-  operationhistoryId Int
-  operations         OperationsHistory @relation(fields: [operationhistoryId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  OperationsHistory   OperationsHistory? @relation(fields: [operationsHistoryId], references: [id])
+  operationsHistoryId Int?
 }
 
 model BankingDetails {
@@ -121,22 +120,22 @@ model Deposits {
   endDate     DateTime
   status      DepositStatus @default(INWORK)
 
-  user User @relation(fields: [login, balance], references: [login, balance], onDelete: Cascade)
+  user User @relation(fields: [login], references: [login], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([login, balance])
+  @@index([login])
 }
 
 model WithdrawRequest {
   id             Int    @id @default(autoincrement())
-  login          String
+  email          String
   method         String
   amount         Int
   paymentDetails String
 
-  user User? @relation(fields: [login], references: [login], onDelete: Cascade)
+  user User? @relation(fields: [email], references: [email], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

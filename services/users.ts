@@ -1,5 +1,5 @@
 import {axiosInstance} from "./instance";
-import {BankingDetails, Deposits, TopUpOperations, TopUpRequest, User, WithdrawRequest} from "@prisma/client";
+import {BankingDetails, TopUpRequest, User, WithdrawRequest} from "@prisma/client";
 
 export const list = async() => {
     const {data} = await axiosInstance.get<User[]>('/users');
@@ -21,7 +21,3 @@ export const topuptable = async() => {
     return data;
 }
 
-export const depositstable = async() => {
-    const {data} = await axiosInstance.get<Deposits[]>('/deposits');
-    return data;
-}

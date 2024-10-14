@@ -32,21 +32,21 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
 
     return (
         <div
-            className="flex w-[30%] h-[100%] flex-col bg-white gap-2 border-[#f5f5f5] p-3 text-black shadow-xl text-[15px] rounded-[20px]">
+            className="flex md:w-[30%] w-full h-[100%] md:justify-center justify-between md:flex-col flex-row bg-white md:gap-2 gap-0 border-[#f5f5f5] md:p-3 p-1 text-black shadow-xl lg:text-[15px] md:text-[13px] text-[12px] md:rounded-[10px] rounded-[3px]">
             <Link href={`/${locale}/account`}>
                 <div
                     onClick={() => setTab('account')}
-                    className={`${tab === 'account' ? 'bg-black' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab === 'account' ? 'bg-black' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='account' ? (
-                            <div className="flex gap-3">
-                                <User color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('account')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <User className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('account')}</h2>
                             </div>
                         ) :
                             (
-                        <div className="flex gap-3">
-                            <User color="#000000"/>
-                            <h2>{t('account')}</h2>
+                        <div className="flex md:gap-3 gap-1">
+                            <User className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                            <h2 className="md:flex hidden">{t('account')}</h2>
                         </div>
                     )}
                 </div>
@@ -54,17 +54,17 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/topup`}>
                 <div
                     onClick={() => setTab('topup')}
-                    className={`${tab==='topup' ? 'bg-black' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='topup' ? 'bg-black' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='topup' ? (
-                            <div className="flex gap-3">
-                                <WalletMinimal color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('top-up')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <WalletMinimal className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('top-up')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <WalletMinimal color="#000000"/>
-                                <h2>{t('top-up')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <WalletMinimal className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('top-up')}</h2>
                             </div>
                         )}
                 </div>
@@ -72,17 +72,17 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/create-deposit`}>
                 <div
                     onClick={() => setTab('create-deposit')}
-                    className={`${tab==='create-deposit' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='create-deposit' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='create-deposit' ? (
-                            <div className="flex gap-3">
-                                <ShoppingCart color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('create-deposit')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <ShoppingCart className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('create-deposit')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <ShoppingCart color="#000000"/>
-                                <h2>{t('create-deposit')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <ShoppingCart className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('create-deposit')}</h2>
                             </div>
                         )}
                 </div>
@@ -90,17 +90,17 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/withdraw`}>
                 <div
                     onClick={() => setTab('withdraw')}
-                    className={`${tab==='withdraw' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='withdraw' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='withdraw' ? (
-                            <div className="flex gap-3">
-                                <CircleDollarSign color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('withdraw')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <CircleDollarSign className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('withdraw')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <CircleDollarSign color="#000000"/>
-                                <h2>{t('withdraw')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <CircleDollarSign className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('withdraw')}</h2>
                             </div>
                         )}
                 </div>
@@ -108,17 +108,17 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/operations-history`}>
                 <div
                     onClick={() => setTab('operations-history')}
-                    className={`${tab==='operations-history' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='operations-history' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='operations-history' ? (
-                            <div className="flex gap-3">
-                                <History color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('transactions')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <History className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('transactions')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <History color="#000000"/>
-                                <h2>{t('transactions')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <History className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('transactions')}</h2>
                             </div>
                         )}
                 </div>
@@ -126,17 +126,17 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/settings`}>
                 <div
                     onClick={() => setTab('settings')}
-                    className={`${tab==='settings' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='settings' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='settings' ? (
-                            <div className="flex gap-3">
-                                <Settings color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('settings')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <Settings className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('settings')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <Settings color="#000000"/>
-                                <h2>{t('settings')}</h2>
+                            <div className="flex md:gap-3 gap-1">
+                                <Settings className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('settings')}</h2>
                             </div>
                         )}
 
@@ -145,24 +145,24 @@ export const LkNavbar:React.FC<Props> = ({locale, className}) => {
             <Link href={`/${locale}/affilate-program`}>
                 <div
                     onClick={() => setTab('affilate-program')}
-                    className={`${tab==='affilate-program' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]`}>
+                    className={`${tab==='affilate-program' ? 'bg-[#000000]' : 'bg-white'} flex gap-3 items-center border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]`}>
                     {tab==='affilate-program' ? (
-                            <div className="flex gap-3">
-                                <FileUser color="#ffffff"/>
-                                <h2 className="text-[#ffffff]">{t('affiliate')}</h2>
+                            <div className="flexmd:gap-3 gap-1">
+                                <FileUser className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#ffffff"/>
+                                <h2 className="md:flex hidden text-[#ffffff]">{t('affiliate')}</h2>
                             </div>
                         ) :
                         (
-                            <div className="flex gap-3">
-                                <FileUser color="#000000"/>
-                                <h2>{t('affiliate')}</h2>
+                            <div className="flex gmd:gap-3 gap-1">
+                                <FileUser className="lg:w-[30px] mdbvp:w-[25px] md:w-[20px] w-[18px]" color="#000000"/>
+                                <h2 className="md:flex hidden">{t('affiliate')}</h2>
                             </div>
                         )}
 
                 </div>
             </Link>
-            <div className="flex gap-3 items-center bg-white border-[2px] px-7 py-2 border-[#f5f5f5] rounded-[10px]">
-                <h2>{t('exit')}</h2>
+            <div className="flex gap-3 items-center bg-white border-[2px] md:px-7 px-3 py-2 border-[#f5f5f5] md:rounded-[10px] rounded-[3px]">
+                <h2 className="md:flex hidden">{t('exit')}</h2>
             </div>
         </div>
     )

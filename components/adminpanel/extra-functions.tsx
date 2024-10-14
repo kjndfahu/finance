@@ -42,12 +42,12 @@ export const ExtraFunctions:React.FC<Props> = ({className})=>{
         }
     };
     return (
-        <div className="w-full  bg-gray-100 flex">
-            <div className="bg-white shadow-lg rounded-lg p-6 w-full">
-                <h2 className="text-2xl text-black mb-6">Дополнительно</h2>
+        <div className="w-full bg-gray-100 flex">
+            <div className="bg-white shadow-lg rounded-lg md:p-6 p-2 w-full overflow-x-auto">
+                <h2 className="md:text-2xl text-[17px] text-black mb-6">Дополнительно</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <h3 className="text-lg text-black font-medium mb-2">Начислить баланс</h3>
+                        <h3 className="md:text-lg text-[14px] text-black font-medium mb-2">Начислить баланс</h3>
                         <input
                             type="email"
                             placeholder="E-Mail Клиента"
@@ -65,7 +65,7 @@ export const ExtraFunctions:React.FC<Props> = ({className})=>{
 
 
                     <div>
-                        <h3 className="text-lg text-black font-medium mb-2">Снять баланс</h3>
+                        <h3 className="md:text-lg text-[14px] text-black font-medium mb-2">Снять баланс</h3>
                         <input
                             onChange={(e) => setEmail(e.target.value)}
                             type="email"

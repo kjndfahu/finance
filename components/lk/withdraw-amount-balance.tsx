@@ -22,9 +22,10 @@ export const WithdrawAmountBalance:React.FC<Props> = ({session, isSystem, value,
     const handleChange = (event) => {
         debouncedSetValue(event.target.value);
     };
+
     const handleWithdrawRequest = async () => {
         try {
-            const login = session?.user.name;
+            const email = session?.user.email;
             const method = isSystem;
             const amount = count;
             const paymentDetails = value;
@@ -35,7 +36,7 @@ export const WithdrawAmountBalance:React.FC<Props> = ({session, isSystem, value,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    login,
+                    email,
                     method,
                     amount,
                     paymentDetails
@@ -57,17 +58,17 @@ export const WithdrawAmountBalance:React.FC<Props> = ({session, isSystem, value,
     };
 
     return (
-        <div className="flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px]">
-            <h4 className="text-[16px] text-[#777777]">{t('enter-withdraw')}</h4>
+        <div className="flex flex-col md:gap-5 gap-2 text-black bg-white border-[1px] border-[#f5f5f5] px-4 md:py-4 py-2 rounded-[10px]">
+            <h4 className="md:text-[16px] text-[13px] text-[#777777]">{t('enter-withdraw')}</h4>
             <div
-                className="flex flex-row items-center text-[18px] px-4 py-2 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
+                className="flex flex-row items-center  md:text-[18px] text-[13px] md:px-4 px-2 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
                 <input placeholder="Начните вводить..."
                        onChange={handleChange}
                        className="w-[88%] bg-white border-transparent focus:outline-0" type="number"/>
-                <h2 className="text-[15px] cursor-pointer text-blue-500">{t('whole-balance')}</h2>
+                <h2 className="md:text-[15px] text-[12px] cursor-pointer text-blue-500">{t('whole-balance')}</h2>
             </div>
             <div onClick={handleWithdrawRequest}
-                 className="flex items-center justify-center cursor-pointer bg-blue-600 hover:bg-blue-700 text-white rounded-[7px] py-3">{t('request-withdrawal')}
+                 className="flex items-center justify-center md:text-[16px] text-[14px] cursor-pointer bg-blue-600 hover:bg-blue-700 text-white md:rounded-[7px] rounded-[3px] md:py-3 py-1">{t('request-withdrawal')}
             </div>
         </div>
     )

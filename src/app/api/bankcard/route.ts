@@ -1,33 +1,28 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../../../prisma/prisma-client';
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method === 'GET') {
-        const { name } = req.query;
+export const POST = async (req: Request) => {
+    console.log('Request Method:', req.method); // Логирование метода
+    const body = await req.json(); // Извлекаем тело запроса
+    console.log('Request Body:', body); // Логирование тела запроса
 
-        // Проверка на корректность типа параметра name
-        if (typeof name !== 'string') {
-            return res.status(400).json({ error: 'Invalid name parameter' });
+    const { isSystem } = body;
+
+    if (!isSystem) {
+        return new Response(JSON.stringify({ error: 'isSystem is required' }), { status: 400 });
+    }
+
+    try {
+        const bankingDetail = await prisma.bankingDetails.findFirst({
+            where: { name: isSystem },
+            select: { details: true },
+        });
+
+        if (!bankingDetail) {
+            return new Response(JSON.stringify({ error: 'Banking details not found' }), { status: 404 });
         }
-
-        try {
-            const bankingDetail = await prisma.bankingDetails.findUnique({
-                where: { name },
-                select: { details: true }, 
-            });
-
-            if (!bankingDetail) {
-                return res.status(404).json({ error: 'Banking details not found' });
-            }
-
-            return res.status(200).json(bankingDetail);
-        } catch (error) {
-            console.error('Error fetching banking details:', error);
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-    } else {
-        return res.status(405).json({ error: 'Method not allowed' });
+        return new Response(JSON.stringify({ details: bankingDetail.details }), { status: 200 });
+    } catch (error) {
+        console.error('Error fetching banking details:', error);
+        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
     }
 };
-
-export default handler;

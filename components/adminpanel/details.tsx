@@ -46,25 +46,25 @@ export const Details: React.FC<Props> = ({ className }) => {
     };
 
     return (
-        <div className="flex justify-center w-full bg-[#f5f5f5] pt-[50px] max-w-[100%]">
-            <div className="w-full p-6 bg-white rounded-lg shadow-lg">
-                <h1 className="text-2xl text-black font-semibold mb-6">Реквизиты</h1>
+        <div className="flex justify-center w-full bg-[#f5f5f5] md:pt-[50px] max-w-[100%]">
+            <div className="w-full md:p-6 p-2 bg-white rounded-lg shadow-lg overflow-x-auto">
+                <h1 className="md:text-2xl text-[17px] text-black font-semibold mb-6">Реквизиты</h1>
                 <table className="w-full text-left table-auto">
                     <thead className="bg-gray-100">
                     <tr>
-                        <th className="px-4 py-2 text-sm font-medium text-gray-600">Название</th>
-                        <th className="px-4 py-2 text-sm font-medium text-gray-600">Адрес</th>
-                        <th className="px-4 py-2 text-sm font-medium text-gray-600">Функции</th>
+                        <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-medium text-gray-600">Название</th>
+                        <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-medium text-gray-600">Адрес</th>
+                        <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] text-sm font-medium text-gray-600">Функции</th>
                     </tr>
                     </thead>
                     <tbody>
                     {details.map((item) => (
                         <tr key={item.id} className="border-t">
-                            <td className="px-4 py-3 text-gray-700">{item.name}</td>
-                            <td className="px-4 py-3 text-gray-700">{item.details}</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] text-gray-700">{item.name}</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] text-gray-700">{item.details}</td>
                             <td
                                 onClick={() => openModal(item)}
-                                className="px-4 py-3 text-blue-600 cursor-pointer hover:text-blue-800"
+                                className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] text-blue-600 cursor-pointer hover:text-blue-800"
                             >
                                 Изменить
                             </td>

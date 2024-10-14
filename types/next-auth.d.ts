@@ -5,9 +5,11 @@ declare module "next-auth"{
 
     interface User{
         email:string;
+        userId: number;
     }
     interface Session{
         user: User & {
+            userId: number;
             login: string;
             email: string
             balance: number
@@ -16,6 +18,7 @@ declare module "next-auth"{
             role: Role
         }
         token: {
+            userId: number;
             login: string;
             email: string
             balance: number

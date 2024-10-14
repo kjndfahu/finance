@@ -1,13 +1,13 @@
 import {NextResponse} from "next/server";
-import {prisma} from "../../../../prisma/prisma-client"; // Adjust the path to your Prisma client
+import {prisma} from "../../../../prisma/prisma-client";
 
 export async function POST(req: Request) {
     try {
-        const {login, method, amount, paymentDetails} = await req.json();
+        const {email, method, amount, paymentDetails} = await req.json();
 
         const newWithdrawRequest = await prisma.withdrawRequest.create({
             data: {
-                login,
+                email,
                 method,
                 amount: +(amount),
                 paymentDetails

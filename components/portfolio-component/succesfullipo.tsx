@@ -60,7 +60,7 @@ export const SuccesfullIPO: React.FC = () => {
                          className="border rounded-lg p-6 shadow-md flex flex-col justify-between bg-[#F3F7FA]">
                         <div className="flex w-full items-center justify-between">
                             <p className=" w-[25%] text-sm text-gray-500">{company.type}</p>
-                            <img className=" w-[30%] h-[40px]" src={company.logo} alt="logo"/>
+                            <img className="lg:flex hidden w-[30%] h-[40px]" src={company.logo} alt="logo"/>
                             <div className="flex justify-end text-green-500 w-[30%] font-bold text-lg">{company.performance}</div>
                         </div>
                         <div className="mt-4 text-sm text-[#777777]">

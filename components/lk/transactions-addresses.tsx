@@ -1,4 +1,3 @@
-'use client';
 import { Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -16,18 +15,17 @@ interface Props {
 export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value, setIsClicked, className }) => {
     const t = useTranslations("TopUpPersonal");
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Изменено на строку или null
-    console.log(bankingDetails);
-
+    const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Стейт для хранения данных
+    console.log(bankingDetails, 'banking')
+    console.log(isSystem, 'system')
     const fetchBankingDetails = async () => {
         if (!isSystem) return;
 
         try {
-            const response = await axios.get(`/api/bankcard?name=${isSystem}`);
-            console.log('API Response:', response.data); // Логирование ответа
+            const response = await axios.post(`/api/bankcard`, { isSystem: 'TRC-20' });
+
             if (response.status === 200) {
-                const { details } = response.data;
-                setBankingDetails(details);
+                setBankingDetails(response.data.details);
             } else {
                 throw new Error('Failed to fetch banking details');
             }
@@ -60,7 +58,6 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
 
             if (response.status === 200) {
                 toast.success(t('success-message'));
-                console.log('Top-up request submitted:', response.data);
                 setIsClicked(false);
             } else {
                 throw new Error('Failed to submit top-up request');
@@ -73,14 +70,17 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
         }
     };
 
+    console.log(bankingDetails)
     return (
         <div className="flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px]">
             <h4 className="text-[16px] text-[#777777]">{t('address-send')}</h4>
             <div className="flex cursor-pointer flex-row items-center gap-5">
-                <h2 className="text-[20px] text-black py-1 px-3 rounded-[10px] hover:bg-[#f5f5f5]">{bankingDetails || 'Loading...'}</h2>
+                <h2 className="text-[20px] text-black py-1 px-3 rounded-[10px] hover:bg-[#f5f5f5]">
+                    {bankingDetails || 'Loading...'}  {/* Отображаем данные */}
+                </h2>
                 <Copy color="#777777" />
             </div>
-            <h4 className="text-[16px] text-[#777777]">{t('send-exactly')} ${value}! {t('otherwise')} </h4>
+            <h4 className="text-[16px] text-[#777777]">{t('send-exactly')} ${value}! {t('otherwise')}</h4>
             <div className="flex flex-col gap-4 text-[17px]">
                 <div
                     onClick={handleTopUpRequest}

@@ -69,7 +69,7 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                     email:token.email,
-                    balance:token.balance
+                    balance: token.balance
                 }
             }
             

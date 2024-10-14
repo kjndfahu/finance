@@ -36,8 +36,8 @@ export const ConsultantsGroup:React.FC = () => {
 
     return (
         <div className="flex items-center flex-col mt-16">
-            <h1 className="text-[#ccbb88] text-[40px] font-semibold">Консультативная группа</h1>
-            <div className="flex w-full items-center justify-center mdbvp:flex-auto flex-wrap flex-row mt-20 gap-10">
+            <h1 className="text-[#ccbb88] lg:text-[40px] mdbvp:text-[28px] smbvp:text-[20px] text-[18px] font-semibold">Консультативная группа</h1>
+            <div className="flex w-full items-center justify-center mdbvp:flex-auto flex-wrap flex-row lg:mt-20 mdbvp:mt-10 mt-5 gap-10">
                 {data.map((item) => (
                     <div key={item.name} className="flex flex-col text-center items-center w-[25%] gap-2">
                         <Image src={item.img} alt="ee"/>

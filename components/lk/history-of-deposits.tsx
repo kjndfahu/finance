@@ -1,73 +1,70 @@
-import {useTranslations} from "next-intl";
+'use client'
+import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+
+interface Deposit {
+    id: number; // Добавлено поле id
+    depositSum: string;
+    earning: number;
+    percent: string;
+    withdrawSum: number;
+    endDate: string;
+    status: string;
+}
 
 interface Props {
     className?: string;
+    session: any;
 }
 
-export const HistoryOfDeposits:React.FC<Props> = ({className}) => {
-    const t = useTranslations('AccountPersonal')
-    const deposits = [
-        {
-            amount: "200$",
-            interestRate: "22%",
-            endDate: "23.02.2034",
-            status: t('inwork'),
-            output: "256$",
-            isCompleted: false,
-        },
-        {
-            amount: "200$",
-            interestRate: "22%",
-            endDate: "23.02.2034",
-            status: t('inwork'),
-            output: "256$",
-            isCompleted: false,
-        },
-        {
-            amount: "200$",
-            interestRate: "22%",
-            endDate: "23.02.2034",
-            status: t('inwork'),
-            output: "256$",
-            isCompleted: false,
-        },
-        {
-            amount: "200$",
-            interestRate: "22%",
-            endDate: "23.02.2034",
-            status: t('finished'),
-            output: "256$",
-            isCompleted: true,
-        },
-    ];
+export const HistoryOfDeposits: React.FC<Props> = ({ className, session }) => {
+    const t = useTranslations('AccountPersonal');
+    const [deposits, setDeposits] = useState<Deposit[]>([]);
+    const userLogin = session.user.name
+    useEffect(() => {
+        const fetchDeposits = async () => {
+            try {
+                const response = await fetch(`/api/depositsuser?login=${userLogin}`); // Ваш API-роут для получения депозитов
+                if (!response.ok) {
+                    throw new Error('Ошибка при получении депозитов');
+                }
+                const data = await response.json();
+                setDeposits(data);
+            } catch (error) {
+                console.error('Ошибка загрузки депозитов:', error);
+            }
+        };
+
+        fetchDeposits();
+    }, [userLogin]);
 
     return (
-        <div className="overflow-x-auto bg-white p-4 rounded-lg shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">{t('open-deposits')}</h2>
+        <div className={`overflow-x-auto bg-white md:p-4 p-1 rounded-lg ${className}`}>
+            <h2 className="md:text-lg text-[15px] font-semibold mb-4">{t('open-deposits')}</h2>
             <table className="min-w-full table-auto">
                 <thead>
-                <tr className="text-left  text-[#b0b0b0]">
-                    <th className="p-2 font-medium">{t('deposit-amount')}</th>
-                    <th className="p-2 font-medium">{t('interest-rate')}</th>
-                    <th className="p-2 font-medium">{t('end-date')}</th>
-                    <th className="p-2 font-medium">{t('status')}</th>
-                    <th className="p-2 font-medium">{t('exit-amount')}</th>
+                <tr className="text-left text-[#b0b0b0]">
+                    <th className="md:p-2 p-1 md:text-[16px] text-[12px] font-medium">{t('deposit-amount')}</th>
+                    <th className="md:p-2 p-1 md:text-[16px] text-[12px] font-medium">{t('interest-rate')}</th>
+                    <th className="md:p-2 p-1 md:text-[16px] text-[12px] font-medium">{t('end-date')}</th>
+                    <th className="md:p-2 p-1 md:text-[16px] text-[12px] font-medium">{t('status')}</th>
+                    <th className="md:p-2 p-1 md:text-[16px] text-[12px] font-medium">{t('exit-amount')}</th>
                 </tr>
                 </thead>
                 <tbody>
-                {deposits.map((deposit, index) => (
-                    <tr key={index} className="border-b">
-                        <td className="p-2">{deposit.amount}</td>
-                        <td className="p-2 text-green-500">{deposit.interestRate}</td>
-                        <td className="p-2">{deposit.endDate}</td>
-                        <td className={`p-2 ${deposit.isCompleted ? 'text-red-500' : ''}`}>
+                {deposits.map((deposit) => (
+                    <tr key={deposit.id} className="border-b">
+                        <td className="p-2 md:text-[16px] text-[12px]">{deposit.depositSum}$</td>
+                        <td className="p-2 md:text-[16px] text-[12px] text-green-500">{deposit.percent}%</td>
+                        <td className="p-2 md:text-[16px] text-[12px]">{new Date(deposit.endDate).toLocaleDateString()}</td>
+                        <td className={`p-2 md:text-[16px] text-[12px] ${deposit.status === 'FINISHED' ? 'text-red-500' : ''}`}>
                             {deposit.status}
                         </td>
-                        <td className="p-2 text-green-500">{deposit.output}</td>
+                        <td className="p-2 md:text-[16px] text-[12px] text-green-500">${deposit.withdrawSum}</td>
                     </tr>
                 ))}
                 </tbody>
             </table>
         </div>
-    )
-}
+    );
+};

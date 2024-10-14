@@ -9,8 +9,9 @@ export async function DELETE(req: Request) {
             return NextResponse.json({ message: 'Invalid request ID' }, { status: 400 });
         }
 
+        // Удаляем запись о пополнении по идентификатору requestId
         await prisma.topUpRequest.delete({
-            where: { id: Number(requestId) },
+            where: { id: requestId }, // Используем id для удаления
         });
 
         return NextResponse.json({ message: 'Request deleted successfully' }, { status: 200 });
