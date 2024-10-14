@@ -1,22 +1,21 @@
-import {NextRequest, NextResponse} from "next/server";
-import {hash} from "bcrypt";
-import {z} from "zod";
-import {prisma} from "../../../../prisma/prisma-client";
-import {formLoginSchema, passwordSchema} from "../../../../components/lk/schema";
-import {generateReferralCode} from "../../../../utils/generateReferralCode";
-
+import { NextRequest, NextResponse } from "next/server";
+import { hash } from "bcrypt";
+import { z } from "zod";
+import { prisma } from "../../../../prisma/prisma-client";
+import { formLoginSchema, passwordSchema } from "../../../../components/lk/schema";
+import { generateReferralCode } from "../../../../utils/generateReferralCode";
 
 const formRegisterSchema = formLoginSchema
     .merge(
         z.object({
-            login: z.string().min(2, {message: 'Введите корректно логин'}),
-            name: z.string().min(2, {message: 'Введите корректно имя'}),
-            surname: z.string().min(2, {message: 'Введите корректно фамилию'}),
+            login: z.string().min(2, { message: 'Введите корректно логин' }),
+            name: z.string().min(2, { message: 'Введите корректно имя' }),
+            surname: z.string().min(2, { message: 'Введите корректно фамилию' }),
             confirmPassword: passwordSchema,
-            phoneNumber: z.string().min(10, {message: 'Введите корректно номер телеона'}),
-            region: z.number().min(1, {message: 'Введите корректно номер региона'}),
-            telegramId: z.string().min(3, {message: 'Введите корректно телеграм айди'}),
-
+            phoneNumber: z.string().min(10, { message: 'Введите корректно номер телефона' }),
+            region: z.number().min(1, { message: 'Введите корректно номер региона' }),
+            telegramId: z.string().min(3, { message: 'Введите корректно телеграм айди' }),
+            referralCode: z.string()
         })
     )
     .refine((data) => data.password === data.confirmPassword, {
@@ -24,38 +23,42 @@ const formRegisterSchema = formLoginSchema
         path: ['confirmPassword'],
     });
 
-export async function POST(req:NextRequest){
-    try{
-        const body = await req.json()
-        const {login, name, surname, email, telegramId, phoneNumber, region, password} = formRegisterSchema.parse(body)
+export async function POST(req: NextRequest) {
+    try {
+        const body = await req.json();
+        const { login, name, surname, email, telegramId, phoneNumber, region, password, referralCode } = formRegisterSchema.parse(body);
+
         const existingUserByEmail = await prisma.user.findUnique({
-            where: {email: email}
-        })
-        if(existingUserByEmail){
-            return NextResponse.json({user: null, message: "User ... "}, {status:409})
+            where: { email }
+        });
+        if (existingUserByEmail) {
+            return NextResponse.json({ user: null, message: "Email уже занят" }, { status: 409 });
         }
+
         const existingUserByLogin = await prisma.user.findUnique({
-            where: {login: login}
-        })
-        if(existingUserByLogin){
-            return NextResponse.json({user: null, message: "login ... "}, {status:409})
+            where: { login }
+        });
+        if (existingUserByLogin) {
+            return NextResponse.json({ user: null, message: "Логин уже занят" }, { status: 409 });
         }
-        let referralCode = generateReferralCode();
+
+        let referralCodeToUse = generateReferralCode();
         let isUnique = false;
 
         while (!isUnique) {
             const existingReferral = await prisma.user.findUnique({
-                where: {referralCode}
+                where: { referralCode: referralCodeToUse }
             });
 
             if (!existingReferral) {
                 isUnique = true;
             } else {
-                referralCode = generateReferralCode();
+                referralCodeToUse = generateReferralCode();
             }
         }
-        const hashedPassword = await hash(password, 10)
-        console.log(referralCode)
+
+        const hashedPassword = await hash(password, 10);
+
         const newUser = await prisma.user.create({
             data: {
                 login,
@@ -66,18 +69,31 @@ export async function POST(req:NextRequest){
                 phoneNumber,
                 region,
                 password: hashedPassword,
-                referralCode,
-
+                referralCode: referralCodeToUse,
             }
-        })
+        });
 
-        const {password: newUserPassword, ...rest} = newUser
+        // Логика для создания записи в таблице Referrals
+        if (referralCode) {
+            const referrer = await prisma.user.findUnique({
+                where: { referralCode }
+            });
 
-        console.log(newUser)
+            if (referrer) {
+                // Создание новой записи в таблице Referrals
+                await prisma.referrals.create({
+                    data: {
+                        userId: referrer.id, // Используем ID реферера
+                        totalReferrals: 1, // Начальное значение для количества рефералов
+                    }
+                });
+            }
+        }
 
-        return NextResponse.json({user: rest})
-    } catch(err){
-        return NextResponse.json({err, message: "Error ... "}, {status:409})
+        const { password: newUserPassword, ...rest } = newUser;
+        return NextResponse.json({ user: rest });
+    } catch (err) {
+        return NextResponse.json({ err, message: "Ошибка при регистрации" }, { status: 409 });
     }
 }
 

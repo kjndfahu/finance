@@ -62,7 +62,7 @@ export const WithdrawAmountBalance:React.FC<Props> = ({session, isSystem, value,
             <h4 className="md:text-[16px] text-[13px] text-[#777777]">{t('enter-withdraw')}</h4>
             <div
                 className="flex flex-row items-center  md:text-[18px] text-[13px] md:px-4 px-2 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
-                <input placeholder="Начните вводить..."
+                <input placeholder={`${t('typing')}`}
                        onChange={handleChange}
                        className="w-[88%] bg-white border-transparent focus:outline-0" type="number"/>
                 <h2 className="md:text-[15px] text-[12px] cursor-pointer text-blue-500">{t('whole-balance')}</h2>

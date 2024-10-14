@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import Link from "next/link";
+import {useTranslations} from "next-intl";
 
 interface Props {
     className?: string;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export const ModalDeposit: React.FC<Props> = ({setModalOpen}) => {
+    const t = useTranslations('LK')
     return (
         <div
             onClick={() => setModalOpen(false)}
@@ -24,13 +26,12 @@ export const ModalDeposit: React.FC<Props> = ({setModalOpen}) => {
                     </div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                    <h1 className="text-[24px] text-center leading-6 text-black">В данное время вы не можете участвовать
-                        в IPO, свяжитесь с технической поддержкой для уточнения информации</h1>
+                    <h1 className="text-[24px] text-center leading-6 text-black">{t('modaltext')}</h1>
                 </div>
                 <Link className="w-full" href="https://t.me/technical_support_alliance">
                     <button
                         className="md:mt-6 mt-2 w-full mb-5 md:py-3 py-1 bg-blue-600 md:text-[16px] text-[13px] text-white rounded-lg font-medium hover:bg-blue-700">
-                        Связаться с поддержкой
+                        {t('contact-support')}
                     </button>
                 </Link>
             </div>

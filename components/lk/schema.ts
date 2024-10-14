@@ -14,10 +14,10 @@ export const formRegisterSchema = formLoginSchema
             name: z.string().min(2, {message: 'Введите корректно имя'}),
             surname: z.string().min(2, {message: 'Введите корректно фамилию'}),
             confirmPassword: passwordSchema,
-            phoneNumber: z.string().min(10, {message: 'Введите корректно номер телеона'}),
+            phoneNumber: z.string().min(10, {message: 'Введите корректно номер телефона'}),
             region: z.string().min(1, {message: 'Введите корректно номер региона'}),
             telegramId: z.string().min(3, {message: 'Введите корректно телеграм айди'}),
-
+            referralCode: z.string()
         })
     )
     .refine((data) => data.password === data.confirmPassword, {

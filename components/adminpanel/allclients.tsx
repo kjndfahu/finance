@@ -38,13 +38,12 @@ export const AllClients: React.FC<Props> = ({ className }) => {
     }, []);
 
     useEffect(() => {
-        // Фильтруем клиентов по логину или email
         const filtered = clients.filter(client =>
             client.login.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            client.email.toLowerCase().includes(searchTerm.toLowerCase()) // Добавляем фильтрацию по email
+            client.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setFilteredClients(filtered);
-    }, [searchTerm, clients]); // Зависимости: изменяется `searchTerm` или `clients`
+    }, [searchTerm, clients]);
 
     const handleDeleteUser = async (id: number) => {
         const confirmDelete = confirm("Вы уверены, что хотите удалить этого клиента?");

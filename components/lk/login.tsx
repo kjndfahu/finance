@@ -8,11 +8,13 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {signIn} from "next-auth/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+
 interface Props{
     className?:string;
+    session:any;
 }
 
-export const Login:React.FC<Props> = ({ className}) => {
+export const Login:React.FC<Props> = ({session, className}) => {
     const pathame= usePathname()
     const locale = pathame.slice(0,3)
     const form = useForm<TFormLoginData>({
@@ -22,26 +24,18 @@ export const Login:React.FC<Props> = ({ className}) => {
             password: '',
         },
     });
+    console.log(session?.user?.role)
 
     const onSubmit = async(data: TFormLoginData) => {
-        try{
+        try {
             const resp = await signIn('credentials', {
                 ...data,
-                redirect: false
-            })
-
-
-            if (resp?.ok) {
-
-                router.push(`${locale}/account`);
-            } else {
-                toast.error('Неверный пароль или email');
-            }
-
-        } catch (error){
-            console.log('ERROR [LOGIN]', error)
+                redirect: true
+            });
+        } catch (error) {
+            console.log('ERROR [LOGIN]', error);
         }
-    }
+    };
 
     const router = useRouter()
     const t = useTranslations('Registration')

@@ -250,6 +250,8 @@
     "choosesystem": "Select a system for top-up",
     "address-send": "Address to send to",
     "send-exactly": "Send exactly",
+    "typing": "Start typing...",
+    "whole-balance": "Whole balance",
     "otherwise": "Otherwise the funds may be lost!",
     "paid": "Paid",
     "cancel-deposit": "Cancel deposit"
@@ -354,6 +356,35 @@
     "login": "Login",
     "dont-account?": "Don't have an account yet?",
     "login-password": "Enter password"
+  },
+  "LK": {
+    "type": "Start typing...",
+    "stocksandetfs": "Stocks and ETF's",
+    "venture": "Venture",
+    "ipos": "IPO",
+    "stockstext": "Stocks and ETFs - 30 days term, profits accrue daily, investment amount comes on the last day of deposit.",
+    "days": "days",
+    "stocks": "stocks",
+    "indexfor": "Index for",
+    "daily": "daily",
+    "personalinfodeposit": "Personalised deposit information",
+    "exit-amount": "Exit amount",
+    "accrued-profit": "Accrued profit",
+    "end-date": "End date",
+    "create-deposit": "Create Deposit",
+    "toast-success-balance": "Deposit amount exceeds your balance!",
+    "toast-noselected": "Not selected tariff!",
+    "toast-deposit-success": "Deposit successfully created",
+    "toast-error": "Error during deposit creation",
+    "toast-sendeing-error": "Error when sending a request",
+    "toast-deposit-range": "Deposit amount must be in the range of $",
+    "for": "up to $",
+    "text-ipo": "IPO public market - Term of work is 5 days, profit is accrued at the end of the deposit term together with the investment.",
+    "individual-participation": "Individual participation",
+    "from-to": "from 46% to 70%",
+    "participation-link": "Participation by a link",
+    "contact-support": "Contact support",
+    "modaltext": "You are not able to participate in the IPO at this time, contact technical support for more information"
   }
 }
 

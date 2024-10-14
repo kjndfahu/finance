@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
                 token.login = findUser.login;
                 token.role = findUser.role;
                 token.balance = findUser.balance
+                token.redirectTo = findUser.role === 'ADMIN' ? '/all-clients' : '/account';
             }
 
             return token;
@@ -69,7 +70,8 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                     email:token.email,
-                    balance: token.balance
+                    balance: token.balance,
+                    redirectTo: token.redirectTo,
                 }
             }
             
