@@ -5,17 +5,20 @@ import {useTranslations} from "next-intl";
 import {ChevronDown} from "lucide-react";
 import {useState} from "react";
 import {LangModal} from "../lang-modal";
+import {useSession} from "next-auth/react";
 
 interface Props {
     className?: string;
     locale: string;
+    session:any;
 }
 
-export const HeaderRight: React.FC<Props> = ({locale, className}) => {
+export const HeaderRight: React.FC<Props> = ({session, locale, className}) => {
     const t = useTranslations("HeaderRight")
     const [isModal, setModal] = useState(false)
     const [isClicked, setClicked] = useState(false)
     const [isLang, setLang] = useState(false)
+
     return (
         <div className="flex flex-row w-[33%] items-center text-[19px] gap-3">
             <div onClick={() => {
@@ -48,16 +51,22 @@ export const HeaderRight: React.FC<Props> = ({locale, className}) => {
                     <LangModal locale={locale}/>
                 ) : ('')}
             </div>
-            <Link href={`/${locale}/invite-and-earn`}>
-                <div
-                    className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">{t("invite-and-earn")}</div>
-            </Link>
-            <Link href={`/${locale}/registration`}>
-                <div
-                    onClick={() => setModal(true)}
-                    className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">{t("getstarted")}
-                </div>
-            </Link>
+            {session.user==undefined ? (
+                    <>
+                        <Link href={`/${locale}/invite-and-earn`}>
+                            <div
+                                className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">{t("invite-and-earn")}</div>
+                        </Link>
+                        <Link href={`/${locale}/registration`}>
+                            <div
+                                onClick={() => setModal(true)}
+                                className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">{t("getstarted")}
+                            </div>
+                        </Link>
+                    </>
+            ) : (
+                <div className="bg-blue-700">IGOR</div>
+                )}
         </div>
     )
 }

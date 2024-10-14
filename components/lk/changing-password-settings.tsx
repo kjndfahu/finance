@@ -17,7 +17,8 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    // Добавляем debounce на все инпуты (задержка в 500 мс)
+    console.log(session.user)
+
     const [debouncedCurrentPassword] = useDebounce(currentPassword, 500);
     const [debouncedNewPassword] = useDebounce(newPassword, 500);
     const [debouncedConfirmPassword] = useDebounce(confirmPassword, 500);

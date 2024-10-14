@@ -8,7 +8,7 @@ import {StartNowInvest} from "../../../../../components/investpage/startnow-inve
 
 export default function InvestmentPage() {
     return (
-        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] py-[120px] smbvp:px-[30px] px-[10px]">
+        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] pt-[100px] smbvp:px-[30px] px-[10px]">
             <InvestmentManagement/>
             <Tarrifs/>
             <StocksEtf/>

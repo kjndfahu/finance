@@ -1,29 +1,37 @@
 'use client'
-import {useEffect, useState} from "react";
-import {Deposits, User} from "@prisma/client";
-import {format} from "date-fns";
-import {depositstable} from "../../services/admin";
+import { useEffect, useState } from "react";
+import { Deposits } from "@prisma/client";
+import { format } from "date-fns";
+import { depositstable } from "../../services/admin";
+import axios from "axios"; // Для отправки DELETE-запроса
 
-interface Props{
-    className?:string;
+interface Props {
+    className?: string;
 }
 
-export const DepositsTable:React.FC<Props> = ({className})=>{
+export const DepositsTable: React.FC<Props> = ({ className }) => {
     const [clients, setClients] = useState<Deposits[]>([]);
+
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                console.log(depositstable())
                 const data = await depositstable();
                 setClients(data);
             } catch (err) {
                 console.log("Ошибка загрузки данных", err);
             }
         };
-
-
         fetchClients();
     }, []);
+
+    const handleDelete = async (id: number) => {
+        try {
+            await axios.delete(`/api/deposits/${id}`);
+            setClients(clients.filter(client => client.id !== id));
+        } catch (err) {
+            console.log("Ошибка при удалении депозита", err);
+        }
+    };
 
     return (
         <div className="md:mt-[50px] min-h-screen bg-[#f5f5f5] text-black flex w-full">
@@ -39,6 +47,7 @@ export const DepositsTable:React.FC<Props> = ({className})=>{
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Сумма вывода</th>
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Дата окончания</th>
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Статус депозита</th>
+                        <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Функция</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,6 +60,10 @@ export const DepositsTable:React.FC<Props> = ({className})=>{
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.withdrawSum}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{format(new Date(client.endDate), 'yyyy-MM-dd HH:mm:ss')}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] text-green-500">{client.status}</td>
+                            <td
+                                className="md:px-4 px-2 py-2 md:text-[16px] text-[13px] cursor-pointer text-red-500"
+                                onClick={() => handleDelete(client.id)}>Удалить депозит
+                            </td>
                         </tr>
                     ))}
                     </tbody>
@@ -58,4 +71,4 @@ export const DepositsTable:React.FC<Props> = ({className})=>{
             </div>
         </div>
     );
-}
+};

@@ -7,7 +7,7 @@ import {ContentInfo} from "../../../../../components/content-components/content-
 
 export default function Content() {
     return (
-        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] px-[40px] py-[120px]">
+        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] px-[40px] pt-[100px]">
             <ContentAbout/>
             <ConsultantsGroup/>
             <CorporateStructure/>

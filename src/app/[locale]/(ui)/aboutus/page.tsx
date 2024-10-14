@@ -17,7 +17,7 @@ import {GetAheadAbout} from "../../../../../components/aboutpage/getaheadabout";
 
 export default function AboutUsPage() {
     return (
-        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] py-[120px] smbvp:px-[30px] px-[10px]">
+        <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] pt-[100px] smbvp:px-[30px] px-[10px]">
             <AboutFirst/>
             <IndexblockAbout/>
             <ProssesAbout/>

@@ -1,7 +1,8 @@
 // app/api/deposits/route.ts
 
 import { prisma } from "../../../../prisma/prisma-client";
-import cron from './cronTasks'; // Импортируем объект cron с методом start
+import cron from './cronTasks';
+import {NextResponse} from "next/server"; // Импортируем объект cron с методом start
 
 // Обработчик POST-запроса для создания депозита
 export const POST = async (req: Request) => {
@@ -74,7 +75,6 @@ export const POST = async (req: Request) => {
     }
 };
 
-// Функция для получения диапазона суммы депозита в зависимости от процента
 const getDepositRange = (percent: string) => {
     switch (percent) {
         case '0.9':
@@ -88,5 +88,9 @@ const getDepositRange = (percent: string) => {
     }
 };
 
-// Запуск планировщика
-cron.start(); // Теперь корректно вызываем метод start
+cron.start();
+
+export async function GET(){
+    const deposits = await prisma.deposits.findMany();
+    return NextResponse.json(deposits);
+}

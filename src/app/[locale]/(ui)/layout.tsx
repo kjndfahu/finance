@@ -3,7 +3,9 @@ import {getMessages} from 'next-intl/server';
 import localFont from "next/font/local";
 import '../globals.css';
 import {Header} from "../../../../components/header/header";
-import {SessionProvider, useSession} from "next-auth/react";
+import {SessionProvider} from "next-auth/react";
+import {getServerSession} from "next-auth";
+import {authOptions} from "../../api/auth/[...nextauth]/route";
 const myFont = localFont({
     src: [
         {
@@ -32,11 +34,12 @@ export default async function LocaleLayout({
     params: {locale: string};
 }) {
     const messages = await getMessages();
+    const session = getServerSession(authOptions)
     return (
         <html lang={locale}>
         <body className={myFont.className}>
             <NextIntlClientProvider messages={messages}>
-                <Header locale={locale}/>
+                <Header session={session} locale={locale}/>
                 {children}
             </NextIntlClientProvider>
         </body>

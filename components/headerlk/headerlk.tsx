@@ -4,6 +4,7 @@ import {ChevronDown} from "lucide-react";
 import {LangModal} from "../lang-modal";
 import {useState} from "react";
 import Link from "next/link";
+import {signOut} from "next-auth/react";
 
 interface Props {
     className?: string;
@@ -70,7 +71,11 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
                         </Link>
                     </>
                 ) : (
-                    <h4>Выйти</h4>
+                    <Link href="#" onClick={() => signOut({
+                        callbackUrl: '/'
+                    })}>
+                        <h4>Выйти</h4>
+                    </Link>
                 )}
             </div>
         </div>

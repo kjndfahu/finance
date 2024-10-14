@@ -7,6 +7,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {signIn} from "next-auth/react";
 import Link from "next/link";
+import toast from "react-hot-toast";
 interface Props{
     className?:string;
 }
@@ -29,12 +30,14 @@ export const Login:React.FC<Props> = ({ className}) => {
                 redirect: false
             })
 
-            console.log('Форма отправлена:', resp);
-            router.push(`${locale}/account`)
 
-            if(!resp?.ok){
-                console.log('Неверный пароль!')
+            if (resp?.ok) {
+
+                router.push(`${locale}/account`);
+            } else {
+                toast.error('Неверный пароль или email');
             }
+
         } catch (error){
             console.log('ERROR [LOGIN]', error)
         }

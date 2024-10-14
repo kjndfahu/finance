@@ -1,5 +1,6 @@
 import {useTranslations} from "next-intl";
 import {useState} from "react";
+import Link from "next/link";
 
 interface Props{
     className?:string;
@@ -22,11 +23,13 @@ export const IPOTarffif:React.FC<Props> = ({setHighPercent, className})=>{
                         <li>$15000-150000</li>
                     </ul>
                 </div>
-                <div onClick={() => setType('30')}
-                     className={`${isType === '30' ? 'bg-[#f5f5f5]' : 'bg-white'} flex w-full cursor-pointer flex-col md:text-[16px] text-[12px] border-[1px] rounded-[10px] border-[#b0b0b0] gap-2 font-semibold md:px-3 px-1 md:py-4 py-2`}>
-                    <h2>Участие звеном</h2>
-                    <h2 className="text-blue-500">Связаться с поддержкой</h2>
-                </div>
+                <Link className="w-full h-" href="https://t.me/technical_support_alliance">
+                    <div onClick={() => setType('30')}
+                         className={`${isType === '30' ? 'bg-[#f5f5f5]' : 'bg-white'} flex w-full cursor-pointer flex-col md:text-[16px] text-[12px] border-[1px] rounded-[10px] border-[#b0b0b0] gap-2 font-semibold md:px-3 px-1 md:py-4 py-2`}>
+                        <h2>Участие звеном</h2>
+                        <h2 className="text-blue-500">Связаться с поддержкой</h2>
+                    </div>
+                </Link>
             </div>
         </div>
     )

@@ -1,4 +1,7 @@
+'use client'
 import {addDays, format} from "date-fns";
+import {useState} from "react";
+import {ModalDeposit} from "./modal-deposit";
 
 interface Props{
     className?:string;
@@ -14,7 +17,7 @@ export const IPOInfo:React.FC<Props> = ({value = 0, dataIPO,highPercent, classNa
         return newValue+(newValue/100*newPercent)
     }
     const totalMoney = calculatingAllMoney(value, highPercent)
-
+    const [isModalOpen, setModalOpen] = useState(false);
     const calculatingEarning = (value, totalMoney) => {
         const newValue = +(value);
         return totalMoney - newValue;
@@ -44,9 +47,10 @@ export const IPOInfo:React.FC<Props> = ({value = 0, dataIPO,highPercent, classNa
                 </div>
             </div>
 
-            <button className="md:mt-6 mt-2 w-full md:py-3 py-1 bg-blue-600 md:text-[16px] text-[13px] text-white rounded-lg font-medium hover:bg-blue-700">
+            <button onClick={() => setModalOpen(true)} className="md:mt-6 mt-2 w-full md:py-3 py-1 bg-blue-600 md:text-[16px] text-[13px] text-white rounded-lg font-medium hover:bg-blue-700">
                 Создать депозит
             </button>
+            {isModalOpen && (<ModalDeposit isModalOpen={isModalOpen} setModalOpen={setModalOpen}/> )}
         </div>
     );
 };

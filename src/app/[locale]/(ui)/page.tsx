@@ -6,14 +6,19 @@ import {InviteBlock} from "../../../../components/home/inviteblock";
 import {IpoInfoblock} from "../../../../components/home/ipo-infoblock";
 import {Tarrifs} from "../../../../components/home/tarrifs/tarrifs";
 import {MainFooter} from "../../../../components/home/main-footer";
+import {getServerSession} from "next-auth";
+import {authOptions} from "../../api/auth/[...nextauth]/route";
+
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
 }
 
 
-export default function HomePage() {
+export default async function HomePage() {
+    const session = await getServerSession(authOptions)
+    console.log(session)
     return (
-        <div className="flex flex-col bg-[#FFFFFF] xl:px-[100px] px-[25px] py-[100px] ">
+        <div className="flex flex-col bg-[#FFFFFF] xl:px-[100px] px-[25px] pt-[100px]">
             <AboutUs/>
             <Offer/>
             <TwoBlocks/>
