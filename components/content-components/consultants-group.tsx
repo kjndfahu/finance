@@ -1,4 +1,4 @@
-import jassem from '../../assets/Jassem-H.-Zainal.png'
+import jassem from '../../public/assets/Jassem-H.-Zainal.png'
 import hashim from '../../public/assets/Hashim-Gillani.png'
 import muhannad from '../../public/assets/Muhannad-Abulhasan.png'
 import mohamad from '../../public/assets/Mohamad-Charafeddine.png'

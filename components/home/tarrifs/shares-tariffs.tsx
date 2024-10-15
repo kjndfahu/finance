@@ -1,4 +1,4 @@
-import photo from '../../../assets/launch.svg'
+import photo from '../../../public/assets/launch.svg'
 import Image from 'next/image'
 import {useTranslations} from "next-intl";
 

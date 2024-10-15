@@ -1,4 +1,4 @@
-import photo from '../../../assets/wealth.svg'
+import photo from '../../../public/assets/wealth.svg'
 import Image from 'next/image'
 import {useTranslations} from "next-intl";
 
