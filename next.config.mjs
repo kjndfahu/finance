@@ -6,7 +6,14 @@ const withNextIntl = createNextIntlPlugin()
 const nextConfig = {
     reactStrictMode: true, // Включаем строгий режим React
     swcMinify: true, // Включаем SWC для минимизации
-    // Добавьте другие настройки Next.js по необходимости
+    async rewrites() {
+        return [
+            {
+                source: '/assets/:path*',
+                destination: '/assets/:path*', // Matched parameters can be used in the destination
+            },
+        ];
+    },
 }
 
 export default withNextIntl(nextConfig)

@@ -109,8 +109,7 @@ model TopUpRequest {
 }
 
 model Deposits {
-  id Int @id @default(autoincrement())
-
+  id          Int      @id @default(autoincrement())
   login       String
   balance     Int
   depositSum  String
@@ -118,14 +117,11 @@ model Deposits {
   percent     String
   withdrawSum Float
   endDate     DateTime
-  status      DepositStatus @default(INWORK)
-
-  user User @relation(fields: [login], references: [login], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([login])
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
 }
 
 model WithdrawRequest {

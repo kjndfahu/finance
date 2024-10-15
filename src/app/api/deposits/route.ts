@@ -1,10 +1,7 @@
-// app/api/deposits/route.ts
-
 import { prisma } from "../../../../prisma/prisma-client";
 import cron from './cronTasks';
-import {NextResponse} from "next/server"; // Импортируем объект cron с методом start
+import { NextResponse } from "next/server";
 
-// Обработчик POST-запроса для создания депозита
 export const POST = async (req: Request) => {
     try {
         const {
@@ -31,6 +28,7 @@ export const POST = async (req: Request) => {
 
         const depositAmount = parseFloat(depositSum);
 
+        // Validate deposit amount based on percent
         const [minAmount, maxAmount] = getDepositRange(percent);
         if (depositAmount < minAmount || depositAmount > maxAmount) {
             return new Response(JSON.stringify({ error: `Сумма депозита должна быть от $${minAmount} до $${maxAmount}` }), {
@@ -39,6 +37,7 @@ export const POST = async (req: Request) => {
             });
         }
 
+        // Create new deposit entry
         const newDeposit = await prisma.deposits.create({
             data: {
                 login,
@@ -52,6 +51,7 @@ export const POST = async (req: Request) => {
             },
         });
 
+        // Update the user's balance
         await prisma.user.update({
             where: { login: login },
             data: {
@@ -60,6 +60,31 @@ export const POST = async (req: Request) => {
                 },
             },
         });
+
+        // Check if the user has a referral entry
+        const referral = await prisma.referrals.findFirst({
+            where: { userId: newDeposit.userId },
+        });
+
+        if (referral) {
+            const referrerProfit = parseFloat(earning) * 0.05;
+
+            await prisma.referrals.update({
+                where: { id: referral.id },
+                data: {
+                    totalProfit: {
+                        increment: referrerProfit,
+                    },
+                    totalAmount: {
+                        increment: depositAmount,
+                    },
+                },
+            });
+
+            console.log(`Referrer (ID: ${referral.userId}) received ${referrerProfit} from user ${login}'s deposit.`);
+        } else {
+            console.log(`No referral found for user ${login}.`);
+        }
 
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
             status: 200,
@@ -75,6 +100,7 @@ export const POST = async (req: Request) => {
     }
 };
 
+// Function to get deposit range based on percent
 const getDepositRange = (percent: string) => {
     switch (percent) {
         case '0.9':
@@ -90,7 +116,8 @@ const getDepositRange = (percent: string) => {
 
 cron.start();
 
-export async function GET(){
+
+export async function GET() {
     const deposits = await prisma.deposits.findMany();
     return NextResponse.json(deposits);
 }

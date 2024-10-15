@@ -6,9 +6,9 @@ import {useTranslations} from "next-intl";
 interface Props {
     className?: string;
     dataStocks: number;
-    lowPercent: string; // Убедитесь, что передаете строку
-    value?: string; // Сумма депозита в виде строки
-    session: any; // Проп для передачи сессии пользователя
+    lowPercent: string;
+    value?: string;
+    session: any;
 }
 
 export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, className, session }) => {
@@ -27,31 +27,37 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
                 return { min: 0, max: Infinity };
         }
     };
+
     const selectedRange = getDepositRange(lowPercent);
     const calculatingAllMoney = (value: string, dataStocks: number, lowPercent: string) => {
         const newPercent = parseFloat(lowPercent);
         const newValue = parseFloat(value);
         return newValue + (newValue / 100 * newPercent * dataStocks);
     };
+
     const totalMoney = calculatingAllMoney(value, dataStocks, lowPercent);
     const calculatingEarning = (value: string, totalMoney: number) => {
         const newValue = parseFloat(value);
         return totalMoney - newValue;
     };
+
     const earnings = calculatingEarning(value, totalMoney);
     const currentDatePlus30Days = addDays(new Date(), 30);
     const formattedEndDate = format(currentDatePlus30Days, 'dd.MM.yy HH:mm:ss');
+
     useEffect(() => {
         if (isAfter(new Date(), currentDatePlus30Days)) {
             setStatus('FINISHED');
         }
     }, [session.user.balance, currentDatePlus30Days]);
+
     useEffect(() => {
         if (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max) {
             toast.error(`${t('toast-deposit-range')} ${selectedRange.min} ${t('for')}${selectedRange.max}.`);
             return;
         }
     }, [depositSumAsNumber, lowPercent]);
+
     const handleCreateDeposit = async () => {
         const depositSumAsNumber = parseFloat(value);
         if (depositSumAsNumber > session.user.balance) {
@@ -89,6 +95,7 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
             toast.error(`${t('toast-sendeing-error')}`);
         }
     };
+
     return (
         <div className="w-full mx-auto bg-white rounded-lg md:p-6">
             <h2 className="md:text-lg text-[15px] font-semibold mb-4">{t('personalinfodeposit')}</h2>

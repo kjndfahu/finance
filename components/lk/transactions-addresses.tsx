@@ -18,11 +18,13 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
     const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Стейт для хранения данных
     console.log(bankingDetails, 'banking')
     console.log(isSystem, 'system')
+
     const fetchBankingDetails = async () => {
         if (!isSystem) return;
 
         try {
-            const response = await axios.post(`/api/bankcard`, { isSystem: 'TRC-20' });
+            // Передаем текущее значение isSystem
+            const response = await axios.post(`/api/bankcard`, { isSystem });
 
             if (response.status === 200) {
                 setBankingDetails(response.data.details);
@@ -76,7 +78,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
             <h4 className="text-[16px] text-[#777777]">{t('address-send')}</h4>
             <div className="flex cursor-pointer flex-row items-center gap-5">
                 <h2 className="text-[20px] text-black py-1 px-3 rounded-[10px] hover:bg-[#f5f5f5]">
-                    {bankingDetails || 'Loading...'}  {/* Отображаем данные */}
+                    {bankingDetails || 'Loading...'}
                 </h2>
                 <Copy color="#777777" />
             </div>
