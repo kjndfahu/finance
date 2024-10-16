@@ -4,13 +4,14 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from "../../../../../prisma/prisma-client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-// Определите интерфейс для пользователя, который будет возвращен
+// Определите интерфейс для пользователя
 interface User extends NextAuthUser {
     id: string;
     role: string;
     balance: number; // Добавьте другие свойства, если необходимо
 }
 
+// Определите настройки аутентификации
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     session: {
@@ -54,7 +55,7 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token }) {
-            console.log(token)
+            console.log(token);
             const findUser = await prisma.user.findFirst({
                 where: {
                     email: token.email!,
@@ -66,7 +67,7 @@ export const authOptions: NextAuthOptions = {
                 token.email = findUser.email;
                 token.login = findUser.login;
                 token.role = findUser.role;
-                token.balance = findUser.balance
+                token.balance = findUser.balance;
             }
 
             return token;
@@ -76,16 +77,16 @@ export const authOptions: NextAuthOptions = {
                 ...session,
                 user: {
                     ...session.user,
-                    email:token.email,
+                    email: token.email,
                     balance: token.balance,
-                    role:token.role,
+                    role: token.role,
                 }
-            }
-
+            };
         },
     },
 };
 
+// Экспортируйте обработчик
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

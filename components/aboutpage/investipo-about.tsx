@@ -1,12 +1,10 @@
-import Image from "next/image";
-import phone from "@/assets/investmentTracker.webp";
 import {useTranslations} from "next-intl";
 
 interface Props{
     className?:string;
 }
 
-export const InvestIPOAbout:React.FC<Props> = ({className}) => {
+export const InvestIPOAbout:React.FC<Props> = ({}) => {
     const t = useTranslations('InvestIPOAbout')
     return (
         <div

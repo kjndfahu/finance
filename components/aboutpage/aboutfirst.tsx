@@ -6,7 +6,7 @@ interface Props{
     className?:string;
 }
 
-export const AboutFirst:React.FC<Props> = ({className})=>{
+export const AboutFirst:React.FC<Props> = ({})=>{
     const t = useTranslations('AboutFirst')
     return (
         <div className="flex flex-row items-center justify-between lg:px-[120px] mdbvp:px-[60px] lg:py-[150px] mdbvp:py-[70px] smbvp:px-[30px] px-[10px] py-[20px] bg-[#f3f4eb] mdbvp:rounded-[40px] smbvp:rounded-[10px] rounded-[5px]">

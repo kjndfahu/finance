@@ -14,8 +14,9 @@ export const HeaderRight: React.FC<Props> = ({session, locale, className}) => {
     const t = useTranslations("HeaderRight");
     const [isClicked, setClicked] = useState(false);
     const [isLang, setLang] = useState(false);
+
     return (
-        <div className="flex flex-row w-[33%] items-center text-[19px] gap-3">
+        <div className="flex justify-end flex-row w-[33%] items-center text-[19px] gap-3">
             <div onClick={() => {
                 setClicked(!isClicked);
                 setLang(!isLang);
@@ -46,20 +47,29 @@ export const HeaderRight: React.FC<Props> = ({session, locale, className}) => {
                     <LangModal locale={locale}/>
                 ) : null}
             </div>
-            <Link href={`/${locale}/invite-and-earn`}>
-                <div
-                    className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">
-                    {t("invite-and-earn")}
-                </div>
-            </Link>
-            <Link href={`/${locale}/registration`}>
-                <div
-                    className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">
-                    {t("getstarted")}
-                </div>
-            </Link>
-
-
+            {session.value==="null" ? (
+                   <>
+                       <Link href={`/${locale}/invite-and-earn`}>
+                           <div
+                               className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">
+                               {t("invite-and-earn")}
+                           </div>
+                       </Link>
+                       <Link href={`/${locale}/registration`}>
+                           <div
+                               className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">
+                               {t("getstarted")}
+                           </div>
+                       </Link>
+                   </>
+            ) : (
+                <Link href={`/${locale}/account`}>
+                    <div
+                        className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">
+                        {t("personal-account")}
+                    </div>
+                </Link>
+            )}
         </div>
     );
 };

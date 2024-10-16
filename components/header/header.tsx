@@ -4,6 +4,8 @@ import {HeaderLinks} from "./header-links";
 import {Tally3, X} from "lucide-react";
 import {useState} from "react";
 import {BurgerMenu} from "../burgermenu";
+import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 interface Props{
     className?:string;
@@ -13,6 +15,8 @@ interface Props{
 
 export const Header:React.FC<Props> = ({session ,locale, className}) => {
     const [isBurger, setBurger] = useState(false)
+    const pathname = usePathname()
+    console.log(pathname)
     return (
             <div
                 className="flex flex-col">
@@ -21,14 +25,17 @@ export const Header:React.FC<Props> = ({session ,locale, className}) => {
                     <HeaderRight session={session} locale={locale}/>
                     <div className="mdbvp:hidden flex font-semibold w-[33%] flex items-center justify-center text-black">RAISON</div>
                     <div onClick={() => setBurger(!isBurger)} className="mdbvp:hidden w-[33%] flex items-center justify-end">
-                        {isBurger ? (
-                            <X  color="#000000"/>
+                        {isBurger &&pathname==='/en/menu' ? (
+                            <Link href={`/${locale}`}>
+                                <X  color="#000000"/>
+                            </Link>
                         ) : (
-                            <Tally3 className="rotate-90" color="#000000"/>
+                            <Link href={`/${locale}/menu`}>
+                                <Tally3 className="rotate-90" color="#000000"/>
+                            </Link>
                         )}
                     </div>
                 </div>
-                {isBurger && <BurgerMenu/> }
             </div>
     )
 }

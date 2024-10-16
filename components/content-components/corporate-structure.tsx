@@ -37,96 +37,50 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
                 <div className="flex flex-row gap-3">
                     <div className="flex flex-col text-left bg-white gap-5 pt-5 px-3 w-[50%] rounded-[20px]">
                         <h1 className="text-[30px]">Alliance VC</h1>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/belize-financial-services-commision-1.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">Belize
-                                    Financial Services Commision-1</h2>
+
+                        {/* Блок с иконками */}
+                        {[
+                            { title: 'Belize Financial Services Commision-1', href: '/assets/belize-financial-services-commision-1.pdf' },
+                            { title: 'Certificate of membership', href: '/assets/certificate-of-membership.pdf' },
+                            { title: 'Cyprus Financial Services Commison', href: '/assets/cyprus-financial-services-commison.pdf' },
+                            { title: 'RAK Free Trade Zone', href: '/assets/RAK-free-trade-zone.pdf' },
+                            { title: 'SEC 801-107170', href: '/assets/SEC-801-107170.pdf' },
+                            { title: 'Trademark registration', href: '/assets/trademark-registration.pdf' },
+                        ].map((item, index) => (
+                            <div key={index} className="flex flex-row gap-5 items-center">
+                                <a href={item.href} download>
+                                    <img
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
+                                        alt="PDF Icon"
+                                        className="w-[35px] h-[35px] object-contain" // добавлен класс object-contain для сохранения пропорций
+                                    />
+                                </a>
+                                <div className="flex flex-col text-left">
+                                    <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">
+                                        {item.title}
+                                    </h2>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/certificate-of-membership.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">Certificate
-                                    of membership</h2>
-                            </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/cyprus-financial-services-commison.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">Cyprus
-                                    Financial Services Commison</h2>
-                            </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/RAK-free-trade-zone.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">RAK Free
-                                    Trade Zone</h2>
-                            </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/SEC-801-107170.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">SEC
-                                    801-107170</h2>
-                            </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/trademark-registration.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">Trademark
-                                    registration</h2>
-                            </div>
-                        </div>
-                        <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/UAQ-free-trade-zone.pdf" download>
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
-                            </a>
-                            <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[22px] smbvp:text-[20px] text-[17px]">UAQ Free Trade Zone</h2>
-                            </div>
-                        </div>
+                        ))}
+
                         <div className="flex gap-1 mb-5 flex-col">
                             <img className="smbvp:h-[50px] smbvp:w-[220px] h-[20px] w-[100px]"
                                  src="https://www.bvifsc.vg/sites/default/files/logo_0_0.png" alt=""/>
-                            <a href="https://www.bvifsc.vg/regulated-entities/global-alliance-fund-management-ltd" className="lg:text-[16px] smbvp:text-[14px] text-[8px] text-[#b0b0b0]">
-                                https://www.bvifsc.vg/regulated-entities/global-alliance-fund-management-ltd</a>
+                            <a href="https://www.bvifsc.vg/regulated-entities/global-alliance-fund-management-ltd"
+                               className="lg:text-[16px] smbvp:text-[14px] text-[8px] text-[#b0b0b0]">
+                                https://www.bvifsc.vg/regulated-entities/global-alliance-fund-management-ltd
+                            </a>
                         </div>
                     </div>
                     <div
-                        className="flex flex-col  justify-center text-left h-[200px] bg-white gap-5 pt-5 md:px-10 px-3 w-[50%] rounded-[20px]">
+                        className="flex flex-col justify-center text-left h-[200px] bg-white gap-5 pt-5 md:px-10 px-3 w-[50%] rounded-[20px]">
                         <div className="flex flex-row gap-5 items-center">
                             <a href="/assets/FAQ_.pdf" download>
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
+                                    alt="PDF Icon"
+                                    className="w-[35px] h-[35px] object-contain" // добавлен класс object-contain для сохранения пропорций
+                                />
                             </a>
                             <div className="flex flex-col text-left">
                                 <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">FAQ</h2>
@@ -136,18 +90,21 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
                             <a href="/assets/Клиентское%20соглашение.pdf" download>
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
+                                    alt="PDF Icon"
+                                    className="w-[35px] h-[35px] object-contain" // добавлен класс object-contain для сохранения пропорций
+                                />
                             </a>
                             <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Клиентское
-                                    соглашение</h2>
+                                <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Клиентское соглашение</h2>
                             </div>
                         </div>
                         <div className="flex flex-row gap-5 items-center">
                             <a href="/assets/Политика%20Конфиденциальности.pdf" download>
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
-                                    alt="PDF Icon" className="w-[35px]"/>
+                                    alt="PDF Icon"
+                                    className="w-[35px] h-[35px] object-contain" // добавлен класс object-contain для сохранения пропорций
+                                />
                             </a>
                             <div className="flex flex-col text-left">
                                 <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Политика конфиденциальности</h2>
@@ -170,7 +127,7 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
             </div>
 
             <img className="absolute z-1 w-[80%] h-[80%] mt-[220px]"
-                 src="https://raison.app/_nuxt/img/picture-world-map-1620.d3270ad.webp" alt="we" />
+                 src="https://raison.app/_nuxt/img/picture-world-map-1620.d3270ad.webp" alt="we"/>
         </div>
     );
 };
