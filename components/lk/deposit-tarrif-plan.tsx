@@ -39,7 +39,7 @@ export const DepositTarrifPlan: React.FC<Props> = ({ value, className, session }
             {activeTab === 2 && (
                 <>
                     <VenchurTarrif setMiddlePercent={setMiddlePercent} />
-                    <VenchurInfo value={value} dataVenchur={dataVenchur} middlePercent={middlePercent} />
+                    <VenchurInfo session={session} value={value} dataVenchur={dataVenchur} middlePercent={middlePercent} />
                 </>
             )}
             {activeTab === 3 && (

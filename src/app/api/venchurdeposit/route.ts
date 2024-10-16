@@ -1,5 +1,5 @@
 import { prisma } from "../../../../prisma/prisma-client";
-import cron from './cronTasks';
+import cron from './depositCron';
 import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
@@ -26,6 +26,7 @@ export const POST = async (req: Request) => {
             status
         });
 
+        // Validate deposit amount
         const depositAmount = parseFloat(depositSum);
         const [minAmount, maxAmount] = getDepositRange(percent);
 
@@ -36,6 +37,8 @@ export const POST = async (req: Request) => {
             });
         }
 
+        // Create new deposit entry
+        const finalAmount = parseFloat(withdrawSum); // Сумма, которая будет зачислена в конце
         const newDeposit = await prisma.deposits.create({
             data: {
                 login,
@@ -43,11 +46,12 @@ export const POST = async (req: Request) => {
                 depositSum: depositSum,
                 earning: parseFloat(earning),
                 percent: percent,
-                withdrawSum: parseFloat(withdrawSum),
+                withdrawSum: finalAmount,
                 endDate: new Date(endDate),
                 status,
             },
         });
+
         await prisma.user.update({
             where: { login: login },
             data: {
@@ -56,7 +60,6 @@ export const POST = async (req: Request) => {
                 },
             },
         });
-
 
         console.log(`Deposit created successfully:`, newDeposit);
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
@@ -75,12 +78,12 @@ export const POST = async (req: Request) => {
 
 const getDepositRange = (percent: string) => {
     switch (percent) {
-        case '0.9':
-            return [100, 1000];
-        case '1.3':
-            return [1000, 2000];
-        case '1.7':
-            return [2000, 3000];
+        case '2':
+            return [3000, 5000];
+        case '2.5':
+            return [5000, 10000];
+        case '3':
+            return [10000, 50000];
         default:
             return [0, Infinity];
     }
