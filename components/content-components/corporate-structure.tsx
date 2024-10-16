@@ -10,13 +10,13 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
         {
             city: 'Dubai',
             number: '+971 4 452 07 77',
-            mail: 'нужно создать почту',
+            mail: 'allventcap@gmail.com',
             address: 'Dubai, UAE, Swiss Tower, Office 204, Jumeirah Lake Towers, PO Box: 309073'
         },
         {
             city: 'Hong Kong',
             number: '+852 2528 1238',
-            mail: 'нужно создать почту',
+            mail: 'allventcap@gmail.com',
             address: 'Hong Kong, Off. 1103-05, 11/F, East Town Building, 41 Lockhart Road'
         }
     ];

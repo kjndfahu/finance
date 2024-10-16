@@ -3,9 +3,16 @@ import {ConsultantsGroup} from "../../../../../components/content-components/con
 import {CorporateStructure} from "../../../../../components/content-components/corporate-structure";
 import {MainFooter} from "../../../../../components/home/main-footer";
 import {ContentInfo} from "../../../../../components/content-components/content-info";
+import {routing} from "../../../../i18n/routing";
+import {unstable_setRequestLocale} from "next-intl/server";
+
+export function generateStaticParams() {
+    return routing.locales.map((locale) => ({locale}));
+}
 
 
-export default function Content() {
+export default async function Content({params}) {
+    unstable_setRequestLocale(params.locale);
     return (
         <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] px-[40px] pt-[100px]">
             <ContentAbout/>

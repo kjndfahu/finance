@@ -1,11 +1,11 @@
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import {getMessages, unstable_setRequestLocale} from 'next-intl/server';
 import localFont from "next/font/local";
 import '../globals.css';
 import {Header} from "../../../../components/header/header";
 import {SessionProvider} from "next-auth/react";
 import {getServerSession} from "next-auth";
-import {authOptions} from "../../api/auth/[...nextauth]/route";
+import {authOptions} from "../../../../utils/authOptions";
 const myFont = localFont({
     src: [
         {
@@ -34,6 +34,7 @@ export default async function LocaleLayout({
     params: {locale: string};
 }) {
     const messages = await getMessages();
+    unstable_setRequestLocale(locale);
     const session = getServerSession(authOptions)
     return (
         <html lang={locale}>

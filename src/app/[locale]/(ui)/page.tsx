@@ -7,14 +7,15 @@ import {IpoInfoblock} from "../../../../components/home/ipo-infoblock";
 import {Tarrifs} from "../../../../components/home/tarrifs/tarrifs";
 import {MainFooter} from "../../../../components/home/main-footer";
 import {getServerSession} from "next-auth";
-import {authOptions} from "../../api/auth/[...nextauth]/route";
+import {authOptions} from "../../../../utils/authOptions";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
 }
 
-
-export default async function HomePage() {
+export default async function HomePage({params}) {
+    unstable_setRequestLocale(params.locale);
     const session = await getServerSession(authOptions)
     console.log(session)
     return (

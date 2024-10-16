@@ -1,7 +1,6 @@
 'use client'
 
 import {usePathname, useRouter} from "next/navigation";
-import {useState} from "react";
 
 interface Props{
     className?:string;

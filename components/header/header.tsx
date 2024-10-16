@@ -3,7 +3,6 @@ import {HeaderRight} from "./header-right";
 import {HeaderLinks} from "./header-links";
 import {Tally3, X} from "lucide-react";
 import {useState} from "react";
-import {BurgerMenu} from "../burgermenu";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 

@@ -13,9 +13,16 @@ import {SelectoppAbout} from "../../../../../components/aboutpage/selectopp-abou
 import {PrivateMarketsAbout} from "../../../../../components/aboutpage/privatemarkets-about";
 import {SecondaryMarket} from "../../../../../components/aboutpage/secondarymarket";
 import {GetAheadAbout} from "../../../../../components/aboutpage/getaheadabout";
+import {routing} from "../../../../i18n/routing";
+import {unstable_setRequestLocale} from "next-intl/server";
+
+export function generateStaticParams() {
+        return routing.locales.map((locale) => ({locale}));
+}
 
 
-export default function AboutUsPage() {
+export default async function AboutUsPage({params}) {
+        unstable_setRequestLocale(params.locale);
     return (
         <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] pt-[100px] smbvp:px-[30px] px-[10px]">
             <AboutFirst/>

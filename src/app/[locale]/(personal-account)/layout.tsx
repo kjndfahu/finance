@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 import {NextIntlClientProvider} from "next-intl";
-import {getMessages} from "next-intl/server";
+import {getMessages, unstable_setRequestLocale} from "next-intl/server";
 import {Headerlk} from "../../../../components/headerlk/headerlk";
 import '../globals.css';
 import {LkNavbar} from "../../../../components/lk/lk-navbar";
@@ -33,7 +33,9 @@ export default async function PersonalAccountLayout({
     children: React.ReactNode;
     params: {locale: string};
 }) {
+
     const messages = await getMessages();
+    unstable_setRequestLocale(locale);
     return (
             <html lang={locale}>
             <body className={myFont.className}>

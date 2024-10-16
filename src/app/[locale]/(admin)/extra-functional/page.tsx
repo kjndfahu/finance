@@ -1,10 +1,15 @@
 import {ExtraFunctions} from "../../../../../components/adminpanel/extra-functions";
 import {getServerSession} from "next-auth";
-import {authOptions} from "../../../api/auth/[...nextauth]/route";
-import {Details} from "../../../../../components/adminpanel/details";
 import {redirect} from "next/navigation";
+import {authOptions} from "../../../../../utils/authOptions";
+import {routing} from "../../../../i18n/routing";
+import {unstable_setRequestLocale} from "next-intl/server";
+export function generateStaticParams() {
+    return routing.locales.map((locale) => ({locale}));
+}
 
-export default async function ExtraFunctionalPage() {
+export default async function ExtraFunctionalPage({params}) {
+    unstable_setRequestLocale(params.locale);
     const session = await getServerSession(authOptions)
     const userSession = session?.user?.role
     if (userSession === 'ADMIN') {
