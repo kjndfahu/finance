@@ -3,15 +3,15 @@ import { compare } from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from "../../../../../prisma/prisma-client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import {NextApiHandler} from "next";
 
-// Определите интерфейс для пользователя
 interface User extends NextAuthUser {
     id: string;
     role: string;
-    balance: number; // Добавьте другие свойства, если необходимо
+    balance: number;
 }
 
-// Определите настройки аутентификации
+
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     session: {
@@ -86,7 +86,6 @@ export const authOptions: NextAuthOptions = {
     },
 };
 
-// Экспортируйте обработчик
-const handler = NextAuth(authOptions);
+const handler: NextApiHandler = (req, res) => NextAuth(req, res, authOptions)
 
 export { handler as GET, handler as POST };
