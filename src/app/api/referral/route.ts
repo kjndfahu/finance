@@ -4,8 +4,7 @@ import { getServerSession } from 'next-auth'; // Функция для полу�
 
 export async function GET(req: NextRequest) {
     try {
-        // Получаем сессию
-        const session = await getServerSession(req);
+        const session = await getServerSession();
 
         if (!session || !session.user || !session.user.name) {
             return NextResponse.json(
@@ -14,7 +13,6 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        // Ищем пользователя по telegramId из сессии
         const user = await prisma.user.findUnique({
             where: {
                 login: session.user.name,
