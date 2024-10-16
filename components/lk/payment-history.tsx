@@ -82,7 +82,7 @@ export const PaymentHistory: React.FC<Props> = ({ session, minSum, maxSum, setTo
                                     {operation.type === 'topup' ? t('deposit-creation') : t('withdraw')}
                                 </h1>
                                 <h3 className="md:text-[19px] text-[14px] text-[#b0b0b0]">
-                                    {operation.type === 'topup' ? t('open-deposit') : t('Withdraw')}
+                                    {operation.type === 'topup' ? t('open-deposit') : t('open-withdraw')}
                                 </h3>
                                 <h3 className="md:text-[16px] text-[13px] text-[#b0b0b0]">{new Date(operation.createdAt).toLocaleString()}</h3>
                             </div>

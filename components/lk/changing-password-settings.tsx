@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDebounce } from 'use-debounce';
+import {usePathname} from "next/navigation";
 
 interface Props {
     className?: string;
@@ -16,7 +17,6 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
     console.log(session.user)
 
     const [debouncedCurrentPassword] = useDebounce(currentPassword, 500);

@@ -1,5 +1,7 @@
+'use client'
 import {ReferralLink} from "./referal-link";
 import {useTranslations} from "next-intl";
+import {usePathname} from "next/navigation";
 
 interface Props{
     className?:string;

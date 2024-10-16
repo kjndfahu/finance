@@ -15,7 +15,7 @@ export const AllTopUp:React.FC<Props> = ({session, className})=>{
         <div className="flex min-h-screen flex-col bg-[#f5f5f5] w-full md:gap-5 gap-2">
             <DepositTopUp session={session}/>
             <TopUpSystem isSystem={isSystem} setSystem={setSystem} />
-            <TopUpAmountBalance session={session} isSystem={isSystem}/>
+            <TopUpAmountBalance  session={session} isSystem={isSystem}/>
         </div>
     )
 }

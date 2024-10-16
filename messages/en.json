@@ -340,6 +340,8 @@
     "withdrawal": "Withdrawal",
     "transaction-history": "Transaction History",
     "deposit-creation": "Deposit creation",
+    "withdraw": "Withdraw creation",
+    "open-withdraw": "Open withdraw",
     "open-deposit": "Open deposit"
   },
   "Registration":{
