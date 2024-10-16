@@ -1,12 +1,18 @@
-import NextAuth, { NextAuthOptions } from 'next-auth';
+import NextAuth, { NextAuthOptions, User as NextAuthUser } from 'next-auth';
 import { compare } from 'bcrypt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import {prisma} from "../../../../../prisma/prisma-client";
-import {PrismaAdapter} from "@next-auth/prisma-adapter";
+import { prisma } from "../../../../../prisma/prisma-client";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
+// Определите интерфейс для пользователя, который будет возвращен
+interface User extends NextAuthUser {
+    id: string;
+    role: string;
+    balance: number; // Добавьте другие свойства, если необходимо
+}
 
 export const authOptions: NextAuthOptions = {
-    adapter:PrismaAdapter(prisma),
+    adapter: PrismaAdapter(prisma),
     session: {
         strategy: 'jwt',
     },
@@ -35,13 +41,14 @@ export const authOptions: NextAuthOptions = {
 
                 if (!isPasswordValid) return null;
 
-
+                // Верните пользователя с необходимыми полями
                 return {
                     id: String(findUser.id),
                     email: findUser.email,
                     name: findUser.login,
                     role: findUser.role,
-                };
+                    balance: findUser.balance, // Добавьте баланс или другие необходимые поля
+                } as User; // Приведение типа
             },
         }),
     ],
