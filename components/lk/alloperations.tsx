@@ -16,7 +16,6 @@ export const AllOperations: React.FC<Props> = ({session, className}) => {
     const [maxSum, setMaxSum] = useState<number | null>(null);
     const [totalTopupSum, setTotalTopupSum] = useState<number>(0);
     const [totalWithdrawSum, setTotalWithdrawSum] = useState<number>(0);
-
     return (
         <div className="flex min-h-screen flex-col bg-[#f5f5f5] w-full md:gap-5 gap-2">
             <AmountOfPayments
@@ -37,10 +36,18 @@ export const AllOperations: React.FC<Props> = ({session, className}) => {
                 />
             )}
             {activeTab === 2 && (
-                <TopUpHistory session={session} />
+                <TopUpHistory session={session}
+                              minSum={minSum}
+                              maxSum={maxSum}
+                              setTotalTopupSum={setTotalTopupSum}
+                              setTotalWithdrawSum={setTotalWithdrawSum} />
             )}
             {activeTab === 3 && (
-                <WithdrawHistory session={session} />
+                <WithdrawHistory session={session}
+                                 minSum={minSum}
+                                 maxSum={maxSum}
+                                 setTotalTopupSum={setTotalTopupSum}
+                                 setTotalWithdrawSum={setTotalWithdrawSum} />
             )}
         </div>
     );

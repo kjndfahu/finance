@@ -1,4 +1,4 @@
-import cube from '../../assets/cube.png'
+import cube from '../../public/assets/cube.png'
 import Image from 'next/image'
 import {useTranslations} from "next-intl";
 

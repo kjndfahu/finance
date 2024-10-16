@@ -21,8 +21,7 @@ export const VenchurInfo: React.FC<Props> = ({
     const t = useTranslations("LK");
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
     const depositSumAsNumber = parseFloat(value);
-    const currentDatePlus15Days = format(addMinutes(new Date(), 5), 'yyyy-MM-dd HH:mm:ss');
-    // const currentDatePlus15Days = addDays(new Date(), 15);
+    const currentDatePlus15Days = addDays(new Date(), 15)
     console.log(currentDatePlus15Days, 'date')
     const formattedEndDate = format(currentDatePlus15Days, 'dd.MM.yy HH:mm:ss');
     const getDepositRange = (percent: string) => {

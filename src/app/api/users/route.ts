@@ -59,6 +59,7 @@ export async function POST(req: NextRequest) {
 
         const hashedPassword = await hash(password, 10);
 
+
         const newUser = await prisma.user.create({
             data: {
                 login,
@@ -73,22 +74,27 @@ export async function POST(req: NextRequest) {
             }
         });
 
-        // Логика для создания записи в таблице Referrals
         if (referralCode) {
+            console.log("Referral Code:", referralCode); // Отладочная информация
+
             const referrer = await prisma.user.findUnique({
                 where: { referralCode }
             });
 
             if (referrer) {
-                // Создание новой записи в таблице Referrals
                 await prisma.referrals.create({
                     data: {
-                        userId: referrer.id, // Используем ID реферера
-                        totalReferrals: 1, // Начальное значение для количества рефералов
+                        userId: newUser.id,
+                        referredBy:referrer.id ,
+                        totalReferrals: 1,
                     }
                 });
+            } else {
+                console.log("Referrer not found for code:", referralCode); // Отладочная информация
+                return NextResponse.json({ user: null, message: "Неверный реферальный код" }, { status: 409 });
             }
         }
+
 
         const { password: newUserPassword, ...rest } = newUser;
         return NextResponse.json({ user: rest });

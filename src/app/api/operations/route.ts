@@ -17,8 +17,7 @@ export async function GET(req: Request) {
         const withdrawOperations = await prisma.withdrawOperations.findMany({
             where: { email },
         });
-
-        // Объединяем оба массива и сортируем их по дате
+        
         const allOperations = [
             ...topUpOperations.map(op => ({ ...op, type: 'topup' })),
             ...withdrawOperations.map(op => ({ ...op, type: 'withdraw' })),

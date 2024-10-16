@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Minus } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface WithdrawOperation {
     id: number;
@@ -13,50 +12,52 @@ interface WithdrawOperation {
 interface Props {
     className?: string;
     session: any;
+    minSum: number | null;
+    maxSum: number | null;
+    setTotalTopupSum: (value: number) => void;
+    setTotalWithdrawSum: (value: number) => void;
 }
 
-export const WithdrawHistory: React.FC<Props> = ({ session, className }) => {
+export const WithdrawHistory: React.FC<Props> = ({ session, minSum, maxSum, className }) => {
     const t = useTranslations('History');
-    const email = session?.user?.email;
-
-    const [withdraws, setWithdraws] = useState<WithdrawOperation[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [operations, setOperations] = useState<WithdrawOperation[]>([]);
+    const [sortedOperations, setSortedOperations] = useState<WithdrawOperation[]>([]);
+    const email = session.user.email;
 
     useEffect(() => {
-        const fetchWithdrawHistory = async () => {
+        const fetchTopUpHistory = async () => {
             try {
                 const response = await fetch(`/api/withdrawoperations?email=${email}`);
+
                 if (!response.ok) {
-                    throw new Error('Ошибка загрузки данных');
+                    throw new Error('Ошибка при получении истории пополнений');
                 }
+
                 const data = await response.json();
-                setWithdraws(data);
+                setOperations(data);
             } catch (error) {
-                console.error('Ошибка получения истории выводов:', error);
-                toast.error('Не удалось загрузить историю выводов');
-            } finally {
-                setLoading(false);
+                console.error('Ошибка загрузки истории пополнений:', error);
             }
         };
 
-        if (email) {
-            fetchWithdrawHistory();
-        }
+        fetchTopUpHistory();
     }, [email]);
 
-    if (loading) {
-        return <div>Загрузка...</div>;
-    }
+    useEffect(() => {
+        const filteredOperations = operations.filter(operation => {
+            const sumValid = (!minSum || operation.sum >= minSum) && (!maxSum || operation.sum <= maxSum);
+            return sumValid;
+        });
 
-    if (!withdraws.length) {
-        return <div>Нет данных о выводах средств</div>;
-    }
+        setSortedOperations(filteredOperations);
+    }, [operations, minSum, maxSum]);
+
 
     return (
         <div className={`flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px] ${className}`}>
             <h4 className="md:text-[18px] text-[15px] text-[#777777]">{t('transaction-history')}</h4>
             <div className="flex flex-col gap-3">
-                {withdraws.map((withdraw) => (
+                {sortedOperations.map((withdraw) => (
                     <div key={withdraw.id} className="flex flex-row items-center border-b-[1px] py-3 border-[#b0b0b0] justify-between">
                         <div className="flex flex-row gap-3">
                             <div className="flex items-center justify-center bg-[#f5f5f5] md:w-[85px] md:h-[85px] w-[50px] h-[50px] rounded-full">

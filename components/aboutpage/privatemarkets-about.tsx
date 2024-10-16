@@ -1,5 +1,5 @@
 import Image from "next/image";
-import phone from "../../assets/investmentTracker.webp";
+import phone from "../../public/assets/investmentTracker.webp";
 import {useTranslations} from "next-intl";
 
 interface Props{

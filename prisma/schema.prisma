@@ -47,6 +47,7 @@ model Referrals {
   totalAmount    Int @default(0)
   totalReferrals Int @default(0)
   totalProfit    Int @default(0)
+  referredBy     Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

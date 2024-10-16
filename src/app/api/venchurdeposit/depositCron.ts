@@ -1,8 +1,9 @@
 import cron from 'node-cron';
 import { prisma } from "../../../../prisma/prisma-client";
 
+
 export const start = () => {
-    cron.schedule('0 * * * *', async () => { // Проверка каждый час
+    cron.schedule('0 * * * *', async () => {
         const currentDate = new Date();
 
         const finishedDeposits = await prisma.deposits.findMany({
@@ -10,21 +11,21 @@ export const start = () => {
                 endDate: {
                     lte: currentDate,
                 },
-                status: 'INWORK', // Проверяем только активные депозиты
+                status: 'INWORK',
             },
         });
 
         for (const deposit of finishedDeposits) {
+            const allSum = deposit.withdrawSum.toString();
             await prisma.user.update({
                 where: { login: deposit.login },
                 data: {
                     balance: {
-                        increment: parseFloat(deposit.depositSum), // Конечная сумма
+                        increment: parseFloat(allSum),
                     },
                 },
             });
 
-            // Обновляем статус депозита
             await prisma.deposits.update({
                 where: { id: deposit.id },
                 data: { status: 'FINISHED' },

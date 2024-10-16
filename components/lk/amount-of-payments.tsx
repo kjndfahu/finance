@@ -27,7 +27,7 @@ export const AmountOfPayments: React.FC<Props> = ({
     const [minInput, setMinInput] = useState<string>('');
     const [maxInput, setMaxInput] = useState<string>('');
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]); // State for date range
-    const [startDate, endDate] = dateRange; // Destructure for ease of use
+    const [startDate, endDate] = dateRange;
     console.log(dateRange, 'dateRange')
     const handleMinSumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMinInput(e.target.value);
@@ -58,7 +58,7 @@ export const AmountOfPayments: React.FC<Props> = ({
                     selectsRange
                     dateFormat="dd.MM.yyyy"
                     placeholderText="с 05.04.24 до 14.04.24"
-                    className="w-[10%] bg-white border-transparent focus:outline-0"
+                    className="w-[100%] cursor-pointer bg-white border-transparent focus:outline-0"
                 />
                 <CalendarCheck2 color="#b0b0b0" />
             </div>

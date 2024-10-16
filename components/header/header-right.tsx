@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { useTranslations } from "next-intl";
-import { ChevronDown } from "lucide-react";
-import { useState } from "react";
-import { LangModal } from "../lang-modal";
+import {useTranslations} from "next-intl";
+import {ChevronDown} from "lucide-react";
+import {useState} from "react";
+import {LangModal} from "../lang-modal";
 
 interface Props {
     className?: string;
@@ -10,11 +10,10 @@ interface Props {
     session: any;
 }
 
-export const HeaderRight: React.FC<Props> = ({ session, locale, className }) => {
+export const HeaderRight: React.FC<Props> = ({session, locale, className}) => {
     const t = useTranslations("HeaderRight");
     const [isClicked, setClicked] = useState(false);
     const [isLang, setLang] = useState(false);
-    console.log(session.value)
     return (
         <div className="flex flex-row w-[33%] items-center text-[19px] gap-3">
             <div onClick={() => {
@@ -44,24 +43,23 @@ export const HeaderRight: React.FC<Props> = ({ session, locale, className }) => 
                     </>
                 )}
                 {isLang ? (
-                    <LangModal locale={locale} />
+                    <LangModal locale={locale}/>
                 ) : null}
             </div>
+            <Link href={`/${locale}/invite-and-earn`}>
+                <div
+                    className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">
+                    {t("invite-and-earn")}
+                </div>
+            </Link>
+            <Link href={`/${locale}/registration`}>
+                <div
+                    className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">
+                    {t("getstarted")}
+                </div>
+            </Link>
 
 
-                <>
-                    <Link href={`/${locale}/invite-and-earn`}>
-                        <div className="mdbvp:flex hidden items-center bg-[#e5f9ff] rounded-[10px] py-1 px-3 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-[#15B0DB]">
-                            {t("invite-and-earn")}
-                        </div>
-                    </Link>
-                    <Link href={`/${locale}/registration`}>
-                        <div className="mdbvp:flex hidden items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 px-7 font-semibold justify-center xl:text-[19px] lg:text-[17px] text-[15px] text-white">
-                            {t("getstarted")}
-                        </div>
-                    </Link>
-                </>
-           
         </div>
     );
 };

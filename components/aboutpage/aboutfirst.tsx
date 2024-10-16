@@ -1,4 +1,4 @@
-import abstract from '../../assets/abstract.png';
+import abstract from '../../public/assets/abstract.png';
 import Image from "next/image";
 import {useTranslations} from "next-intl";
 

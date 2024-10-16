@@ -120,9 +120,10 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
                                 https://www.bvifsc.vg/regulated-entities/global-alliance-fund-management-ltd</a>
                         </div>
                     </div>
-                    <div className="flex flex-col  justify-center text-left h-[200px] bg-white gap-5 pt-5 md:px-10 px-3 w-[50%] rounded-[20px]">
+                    <div
+                        className="flex flex-col  justify-center text-left h-[200px] bg-white gap-5 pt-5 md:px-10 px-3 w-[50%] rounded-[20px]">
                         <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/FAQ.pdf" download>
+                            <a href="/assets/FAQ_.pdf" download>
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
                                     alt="PDF Icon" className="w-[35px]"/>
@@ -132,13 +133,24 @@ export const CorporateStructure: React.FC<Props> = ({ className }) => {
                             </div>
                         </div>
                         <div className="flex flex-row gap-5 items-center">
-                            <a href="/assets/clients.pdf" download>
+                            <a href="/assets/Клиентское%20соглашение.pdf" download>
                                 <img
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
                                     alt="PDF Icon" className="w-[35px]"/>
                             </a>
                             <div className="flex flex-col text-left">
-                                <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Клиентское соглашение</h2>
+                                <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Клиентское
+                                    соглашение</h2>
+                            </div>
+                        </div>
+                        <div className="flex flex-row gap-5 items-center">
+                            <a href="/assets/Политика%20Конфиденциальности.pdf" download>
+                                <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGAA4Wd4bco5Xv33GasXrnDdQT5OFXwa3HUQ&s"
+                                    alt="PDF Icon" className="w-[35px]"/>
+                            </a>
+                            <div className="flex flex-col text-left">
+                                <h2 className="lg:text-[20px] mdbvp:text-[18px] smbvp:text-[16px] text-[14px]">Политика конфиденциальности</h2>
                             </div>
                         </div>
                     </div>

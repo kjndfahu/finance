@@ -249,11 +249,16 @@
   "TopUpPersonal": {
     "balance": "Доступный баланс",
     "choosesystem": "Выберите систему для вывода",
+    "enter-withdraw": "Введите сумму для пополнения",
+    "error-message": "Ошибка",
+    "typing": "Начните вводить...",
+    "whole-balance": "Весь баланс",
     "address-send": "Адрес для отправки",
     "send-exactly": "Отправьте ровно",
     "otherwise": "В ином случае средства могут быть утеряны!",
     "paid": "Оплачено",
-    "cancel-deposit": "Отменить пополнение"
+    "cancel-deposit": "Отменить пополнение",
+    "request-withdrawal": "Запросить пополнение"
   },
   "WithdrawPersonal": {
     "balance": "Доступный баланс",

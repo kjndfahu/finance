@@ -249,12 +249,15 @@
     "balance": "Available balance",
     "choosesystem": "Select a system for top-up",
     "address-send": "Address to send to",
+    "enter-withdraw": "Enter the amount to top-up",
     "send-exactly": "Send exactly",
+    "error-message": "Error",
     "typing": "Start typing...",
     "whole-balance": "Whole balance",
     "otherwise": "Otherwise the funds may be lost!",
     "paid": "Paid",
-    "cancel-deposit": "Cancel deposit"
+    "cancel-deposit": "Cancel deposit",
+    "request-withdrawal": "Request Top-Up"
   },
   "WithdrawPersonal": {
     "balance": "Available balance",

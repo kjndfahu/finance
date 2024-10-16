@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import {prisma} from "../../../../../prisma/prisma-client";
 import {PrismaAdapter} from "@next-auth/prisma-adapter";
 
+
 export const authOptions: NextAuthOptions = {
     adapter:PrismaAdapter(prisma),
     session: {
@@ -73,7 +74,7 @@ export const authOptions: NextAuthOptions = {
                     role:token.role,
                 }
             }
-            
+
         },
     },
 };
