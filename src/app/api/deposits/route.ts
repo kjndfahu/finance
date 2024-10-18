@@ -48,6 +48,7 @@ export const POST = async (req: Request) => {
                 status,
             },
         });
+
         await prisma.user.update({
             where: { login: login },
             data: {
@@ -56,28 +57,6 @@ export const POST = async (req: Request) => {
                 },
             },
         });
-
-        const referral = await prisma.referrals.findUnique({
-            where: { userId: (await prisma.user.findUnique({ where: { login } }))?.id }
-        });
-
-        if (referral) {
-            const referrerId = referral.referredBy;
-            const referralBonus = depositAmount * 0.03;
-
-            await prisma.user.update({
-                where: { id: referrerId },
-                data: {
-                    balance: {
-                        increment: referralBonus,
-                    },
-                },
-            });
-
-            console.log(`Referral bonus of ${referralBonus} credited to referrer with ID: ${referrerId}`);
-        } else {
-            console.log(`No referral found for user ${login}`);
-        }
 
 
         console.log(`Deposit created successfully:`, newDeposit);

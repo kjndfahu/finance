@@ -4,6 +4,7 @@ import { User } from "@prisma/client";
 import { list } from "../../services/users";
 import toast from "react-hot-toast";
 import debounce from "debounce";
+import { ModalReferrals } from "./modalreferrals";
 
 interface Props {
     className?: string;
@@ -13,7 +14,8 @@ export const AllClients: React.FC<Props> = ({ className }) => {
     const [clients, setClients] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredClients, setFilteredClients] = useState<User[]>([]);
-
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [selectedClientLogin, setSelectedClientLogin] = useState<string | null>(null); // Логин выбранного клиента
     const debouncedSetSearchTerm = useCallback(
         debounce((newValue: string) => setSearchTerm(newValue), 500),
         []
@@ -81,8 +83,7 @@ export const AllClients: React.FC<Props> = ({ className }) => {
         <div className="md:mt-[50px] bg-[#f5f5f5] text-black flex flex-col gap-[50px] ">
             <div className="bg-white shadow-lg rounded-lg md:p-6 p-2 w-full overflow-x-auto">
                 <h2 className="md:text-2xl text-[17px] mb-4">Список всех клиентов</h2>
-                <div
-                    className="flex flex-row items-center text-[18px] md:px-4 px-2 md:py-2  gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
+                <div className="flex flex-row items-center text-[18px] md:px-4 px-2 md:py-2 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
                     <input
                         onChange={handleChange}
                         placeholder="Начните вводить логин или email..."
@@ -106,7 +107,10 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                     <tbody>
                     {filteredClients.map((client) => (
                         <tr key={client.id} className="border-b">
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.login}</td>
+                            <td onClick={() => {
+                                setSelectedClientLogin(client.login); // Устанавливаем логин выбранного клиента
+                                setModalOpen(true);
+                            }} className="md:px-4 cursor-pointer px-1 py-2 md:text-[16px] text-[13px]">{client.login}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] cursor-pointer"
                                 onClick={() => handleCopyPassword(client.password)}>
                                 {client.password.length > 7 ? (
@@ -116,20 +120,26 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                                 )}
                             </td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">200</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">200</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">$0</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.name}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.phoneNumber}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.telegramId}</td>
                             <td onClick={() => handleDeleteUser(client.id)}
-                                className="md:px-4 px-2 py-2 md:text-[16px] text-[13px] cursor-pointer text-red-500">Удалить
-                                клиента
+                                className="md:px-4 px-2 py-2 md:text-[16px] text-[13px] cursor-pointer text-red-500">Удалить клиента
                             </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
+                {isModalOpen && (
+                    <ModalReferrals
+                        setModalOpen={setModalOpen}
+                        isModalOpen={isModalOpen}
+                        selectedClientLogin={selectedClientLogin} // Передаем логин клиента
+                    />
+                )}
             </div>
         </div>
     );
-}
+};

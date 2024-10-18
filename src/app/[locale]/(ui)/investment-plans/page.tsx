@@ -11,7 +11,6 @@ export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
 }
 
-
 export default async function InvestmentPage({params}) {
     unstable_setRequestLocale(params.locale);
     return (

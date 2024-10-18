@@ -16,7 +16,7 @@ export const TopUpAmountBalance: React.FC<Props> = ({ session, isSystem, classNa
     const [value, setValue] = useState('');
 
     const debouncedSetValue = useCallback(
-        debounce((newValue: string) => setValue(newValue), 500),
+        debounce((newValue: string) => setValue(newValue), 100),
         []
     );
 

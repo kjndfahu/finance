@@ -87,7 +87,6 @@ export const Login: React.FC<Props> = ({ session, className }) => {
                         {form.formState.errors.password && (
                             <span className="text-red-500">{form.formState.errors.password.message}</span>
                         )}
-                        <p className="text-gray-400 w-full hover:text-black cursor-pointer mt-2">{t('forgot-password?')}</p>
                     </div>
 
                     <div className="flex w-full gap-5 items-center">

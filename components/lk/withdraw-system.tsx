@@ -1,5 +1,5 @@
 'use client'
-import {Tether, Trx} from "../icons";
+import {Bustd, Tether, Trx} from "../icons";
 import {useTranslations} from "next-intl";
 import {useState} from "react";
 
@@ -8,6 +8,7 @@ interface Props{
     isSystem?:string;
     setSystem: any;
 }
+
 
 export const WithdrawSystem:React.FC<Props> = ({isSystem, setSystem, className})=>{
     const t = useTranslations("WithdrawPersonal")
@@ -30,7 +31,7 @@ export const WithdrawSystem:React.FC<Props> = ({isSystem, setSystem, className})
                 <div
                     onClick={() => setSystem('BUSDT')}
                     className={`${isSystem === 'BUSDT' ? 'bg-[#f5f5f5]' : 'bg-white'} cursor-pointer flex flex-row items-center md:gap-3 gap-1 w-full border-[1px] border-[#b0b0b0] rounded-[5px] md:px-2 md:py-2 px-1`}>
-                    <Tether className="w-[30px] h-[30px]"/>
+                    <Bustd className="w-[30px] h-[30px]"/>
                     <h2 className="md:text-[16px] text-[11px]">BUSDT (BEP-20)</h2>
                 </div>
                 <div

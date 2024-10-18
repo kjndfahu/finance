@@ -13,7 +13,7 @@ interface Props {
 export const ReferralLink: React.FC<Props> = ({ session, className }) => {
     const [referralCode, setReferralCode] = useState<string>("");
     const t = useTranslations('Refferal');
-    const myUrl = new URL('http://localhost:3000/registration?referralCode=');
+    const myUrl = new URL('http://localhost:3000/en/registration?referralCode=');
     const url = myUrl.toString();
 
     useEffect(() => {

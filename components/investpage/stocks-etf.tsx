@@ -9,8 +9,10 @@ export const StocksEtf:React.FC = () => {
             </div>
             <div className="flex flex-col mdbvp:text-left text-center text-black mdbvp:w-[50%] gap-10">
                 <h2 className="md:text-[42px] md:leading-[45px] text-[28px] leading-[28px] font-semibold">{t('title1')}</h2>
-                <div className="flex flex-col gap-2">
-                    <p className="text-[20px] leading-[26px]">{t('text1')}</p>
+                <div className="flex flex-col gap-3">
+                    <p className="text-[18px] leading-[26px]">{t('text1')}</p>
+                    <p className="text-[18px] leading-[26px]">{t('text2')}</p>
+                    <p className="text-[18px] leading-[26px]">{t('text3')}</p>
                 </div>
             </div>
         </div>

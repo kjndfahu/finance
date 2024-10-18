@@ -13,6 +13,8 @@ export const BurgerMenu: React.FC<Props> = ({session, className}) => {
     const bb = typeof session
     const bg = typeof null
     console.log(typeof session)
+    console.log(session)
+    console.log(bg)
     return (
         <div className="flex flex-col w-full items-center min-h-screen gap-10 z-[49] pt-[120px] bg-white">
             <div className="flex flex-col text-[22px] text-black gap-5">
@@ -49,7 +51,7 @@ export const BurgerMenu: React.FC<Props> = ({session, className}) => {
                     </Link>
                 </div>
             )}
-            {bb===bg && (
+            {session!==null && (
                 <Link className="w-full" href={`${locale}/account`}>
                     <div
                         className="flex items-center bg-[#15B0DB] cursor-pointer rounded-[10px] py-1 font-semibold justify-center text-[15px] text-white">Enter

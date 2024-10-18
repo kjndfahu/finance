@@ -23,7 +23,7 @@ export const AllDeposit:React.FC<Props> = ({session, className})=>{
 
     const handleWholeBalanceClick = () => {
         if (session?.user?.balance) {
-            setValue(session.user.balance.toString()); // Устанавливаем баланс в инпут
+            setValue(session.user.balance.toString());
         }
     };
     return (

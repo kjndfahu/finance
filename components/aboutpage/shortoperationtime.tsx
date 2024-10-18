@@ -5,7 +5,7 @@ interface Props{
 }
 
 export const ShortOperationTime:React.FC<Props> = ({className}) => {
-    const t = useTranslations('ShortOperationTime')
+    const t = useTranslations('CapitalGainsAbout')
     return (
         <div className="flex mdbvp:flex-row flex-col justify-between items-center text-blackw-full smbvp:gap-[70px] gap-[20px] mt-16 mdbvp:px-[100px]">
             <div className="flex flex-col  mdbvp:text-left text-center text-black mdbvp:w-[50%] mdbvp:gap-10 gap-2">

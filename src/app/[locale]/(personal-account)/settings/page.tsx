@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "../../../../../utils/authOptions";
 import { routing } from "../../../../i18n/routing";
 import { unstable_setRequestLocale } from "next-intl/server";
+import {ReferralsTable} from "../../../../../components/lk/referrals-table";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));

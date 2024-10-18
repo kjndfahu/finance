@@ -40,7 +40,8 @@
     "with-fixed": "with fixed",
     "income": "income",
     "for": "for",
-    "projected-profitability": "projected profitability",
+    "projected": "projected",
+    "profitability": "profitability",
     "plan-predict": "Plan and predict earnings all",
     "income-fixed": "income is fixed"
   },
@@ -190,15 +191,23 @@
   },
   "StocksEtf": {
     "title1": "Stocks and ETF",
-    "text1": "Investing through the purchase of an equity index is one of the key plans provided by our company for long-term growth of your capital and diversification of your investment portfolio. This plan involves purchasing an index rather than buying shares directly. Our experts create an index to maximise returns by referencing news, patterns, using historical data as well as bespoke algorithms created for our company. Buying an index allows you to invest in a wide range of companies, in the case of a fall in the value of one of the stocks, the growth of another will cover this fall. In this regard, the investor always receives a guaranteed profit. Investing by buying an index is an effective tool for achieving your financial goals. This strategy provides diversification, stable capital growth and ease of investment."
+    "text1": "Investing through the purchase of an equity index is one of the key plans provided by our company for long-term growth of your capital and diversification of your investment portfolio. This plan involves purchasing an index rather than buying shares directly.",
+    "text2": "Our experts form an index to maximise profits by referencing news, patterns, using historical data as well as bespoke algorithms created for our company.",
+    "text3": "Buying an index allows you to invest in a wide range of companies: if the value of one of the stocks falls, the growth of the other will cover this fall. In this regard, the investor always receives a guaranteed profit.",
+    "text4": "Investing through the purchase of an index is an effective tool for achieving your financial goals. This strategy provides diversification, stable capital growth and ease of investing."
   },
   "VentureInvest": {
     "title1": "Private Markets (Venture)",
-    "text1": "Venture capital investment is the investor's key to achieving high levels of profitability and supporting innovation. This investment plan provides for the buyout and sale of stakes in promising start-ups at various stages of their development. We actively participate in the equity of start-up companies, providing them with funding in exchange for a stake in the business. What is venture capital investment? Venture capital investment is the process of financing young and promising companies (start-ups) that have high growth potential. Such investments are usually made in exchange for an equity stake in the company. Our company plays an active role in the development of start-ups, providing not only financial resources, but also expert support, strategic guidance and a network of contacts. High return potential: Successful start-ups provide multiple returns on the money invested. Our investments generate significant returns, exceeding the initial investment by tens or even hundreds of times. Venture investing allows us to diversify our investment portfolio by allocating capital across different sectors and companies. This helps us to significantly increase our returns."
+    "text1": "Venture capital investment is the investor's key to achieving high levels of profitability and supporting innovation. This investment plan provides for the buyout and sale of stakes in promising start-ups at various stages of their development. We actively participate in the capital of start-up companies, providing them with financing in exchange for a stake in the business.",
+    "text2": "What is venture capital investment? Venture capital investment is the process of financing young and promising companies (start-ups) that have high growth potential. Such investments are usually made in exchange for an equity stake in the company. Our company plays an active role in the development of start-ups, providing not only financial resources, but also expert support, strategic guidance and a network of contacts.",
+    "text3": "High return potential: Successful start-ups provide multiple returns on investment. Our investments generate significant returns, exceeding initial investments by dozens or even hundreds of times. Venture investing allows us to diversify our investment portfolio by allocating capital across different sectors and companies. This helps us to significantly increase our returns."
   },
   "PublicIPOMarketInvest": {
     "title1": "Public IPO market",
-    "text1": "The main way to generate income from venture capital investments is to successfully exit the investment (exit). This can be the sale of our stake to other investors, strategic partners, or a company going public. In such cases, the value of our stakes increases significantly When a startup in which we hold a significant stake goes public, we sell part or all of our stake on the public market. The share price at the IPO stage is usually significantly higher than the initial value of our investment, allowing us to realise a significant profit. We carefully assess potential and market conditions to choose the optimal time to sell our stakes, thereby maximising the return on our investment. We are actively involved in buying shares in companies at their IPO stage. Investing in shares at the stage of their initial public offering is often accompanied by a significant increase in their value in the short term, which allows us to receive high returns. By participating in IROs of various companies from different industries, we ensure diversification of our portfolio, which helps us to earn money at all times. We thoroughly analyse companies before their IPOs, assessing their business models, financial performance and growth prospects in order to make an informed choice."
+    "text1": "The main way to generate income from venture capital investments is through a successful exit from the investment (exit). This can be the sale of our stake to other investors, strategic partners or the IPO of a company. In such cases, the value of our shares increases significantly.",
+    "text2": "When a startup in which we have a significant stake goes public, we sell some or all of our stake on the public market. The share price at the IPO stage is typically significantly higher than the initial value of our investment, allowing us to realise significant returns. We carefully evaluate potential and market conditions to determine the optimal time to sell our interests, thereby maximising the return on our investment.",
+    "text3": "We are actively involved in buying shares in companies at the IPO stage. Investing in shares at the initial public offering stage is often accompanied by a significant increase in their value in the short term, which allows us to earn high returns.",
+    "text4": "By participating in IPOs of different companies from different industries, we ensure that our portfolio is diversified, which helps us to make money every time. We carefully analyse companies before their IPOs, assessing their business models, financial performance and growth prospects to make informed choices."
   },
   "StartNowInvest": {
     "title1": "Start now",
@@ -225,7 +234,7 @@
     "textMohamad": "Mr Mohamad is vice president of products at Careem. He previously worked at Facebook (Core ML) and Samsung (Dir R&D Al Lab)."
   },
   "ContentInfo": {
-    "text": "This information is of a general nature, contains investment recommendations and is subject to change at the discretion of the rights holder. This information reflects the views of Alliance VC on a binding basis and can be guaranteed to be complete and accurate. An investment in Alliance VC should be considered as a tool to diversify your current investment portfolio and should only be made after consultation with an independent qualified investment and tax advisor. If you are unsure of the meaning of the information provided, please seek advice from a qualified adviser. Investments in Alliance VC are speculative and high yielding, and the risk of losing all or part of your funds exists only in the event of user inattention and malfunctioning payment systems. Renaissance Investments can give assurances that investment objectives will be achieved and results will not fluctuate during the period of investment, past results are a guarantee of future results. Investors are strongly advised to consider investing in a single product as a complete investment programme. Diversify your portfolio by selecting multiple company products."
+    "text": "This information is of a general nature, contains investment recommendations and is subject to change at the discretion of the rights holder. This information reflects the views of Alliance VC on a binding basis and can be guaranteed to be complete and accurate. An investment in Alliance VC should be considered as a tool to diversify your current investment portfolio and should only be made after consultation with an independent qualified investment and tax advisor. If you are unsure of the meaning of the information provided, please seek advice from a qualified adviser. Investments in Alliance VC are speculative and high yielding, and the risk of losing all or part of your funds exists only in the event of user inattention and malfunctioning payment systems. Alliance can give assurances that investment objectives will be achieved and results will not fluctuate during the period of investment, past results are a guarantee of future results. Investors are strongly advised to consider investing in a single product as a complete investment programme. Diversify your portfolio by selecting multiple company products."
   },
   "Partners": {
     "partners": "Partners",
@@ -253,6 +262,7 @@
     "enter-withdraw": "Enter the amount to top-up",
     "send-exactly": "Send exactly",
     "error-message": "Error",
+    "success-message": "Success",
     "typing": "Start typing...",
     "whole-balance": "Whole balance",
     "otherwise": "Otherwise the funds may be lost!",
@@ -316,6 +326,8 @@
     "region": "Region",
     "telegram": "Telegram",
     "сhange-password": "Change password",
+    "password-updated": "Password changed",
+    "password-mismatch": "Error",
     "old-password": "Old password",
     "new-password": "New password",
     "confirm-password": "Confirm password"
@@ -391,6 +403,23 @@
     "participation-link": "Participation by a link",
     "contact-support": "Contact support",
     "modaltext": "You are not able to participate in the IPO at this time, contact technical support for more information"
+  },
+  "CorporateStructure": {
+    "maintext": "Corporate structure",
+    "maintext2": "and regulatory framework",
+    "text": "We've built a powerful and compliant infrastructure to scale with confidence."
+  },
+  "ReferralsTable": {
+    "firstline": "1 line 8%",
+    "secondline": "2 line 6%",
+    "thirdline": "3 line 3%",
+    "yourreferrals": "Your referrals",
+    "login": "Login",
+    "line": "Line",
+    "amount-of-deposits": "Amount of deposits",
+    "you-invited": "You've been invited",
+    "accrued-profit": "Accrued profit",
+    "total-deposits": "Total deposits"
   }
 }
 

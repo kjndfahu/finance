@@ -88,7 +88,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
                     onClick={handleTopUpRequest}
                     className={`flex items-center cursor-pointer justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-[7px] py-3 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                    {isSubmitting ? t('submitting') : t('paid')}
+                    {isSubmitting ? t('paid') : t('paid')}
                 </div>
                 <div
                     onClick={() => setIsClicked(false)}

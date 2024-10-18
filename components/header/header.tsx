@@ -22,7 +22,7 @@ export const Header:React.FC<Props> = ({session ,locale, className}) => {
                 <div className="flex fixed w-full z-50 flex-row bg-white items-center justify-between py-3 xl:px-[75px] px-[25px] shadow-xl">
                     <HeaderLinks locale={locale}/>
                     <HeaderRight session={session} locale={locale}/>
-                    <div className="mdbvp:hidden flex font-semibold w-[33%] flex items-center justify-center text-black">RAISON</div>
+                    <div className="mdbvp:hidden flex font-semibold w-[33%] items-center justify-center text-black">ALLIANCE</div>
                     <div onClick={() => setBurger(!isBurger)} className="mdbvp:hidden w-[33%] flex items-center justify-end">
                         {isBurger &&pathname==='/en/menu' ? (
                             <Link href={`/${locale}`}>

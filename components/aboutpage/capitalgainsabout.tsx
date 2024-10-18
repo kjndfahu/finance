@@ -1,7 +1,7 @@
 import {useTranslations} from "next-intl";
 
 export const CapitalGainsAbout:React.FC = () => {
-    const t = useTranslations('CapitalGainsAbout')
+    const t = useTranslations('ShortOperationTime')
     return (
         <div className="flex mdbvp:flex-row flex-col items-center justify-between text-black w-full smbvp:gap-[70px] gap-[20px] mt-16 mdbvp:px-[100px]">
             <div className="mdbvp:w-[50%] rounded-[35px]">
