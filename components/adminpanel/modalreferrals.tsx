@@ -21,14 +21,14 @@ interface ApiResponse {
 
 export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, selectedClientLogin }) => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
-    const [userEmail, setUserEmail] = useState<string | null>(null); // Добавляем состояние для email
+    const [userEmail, setUserEmail] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (isModalOpen) {
             document.body.style.overflow = "hidden";
-            fetchReferrals(); // Запрос данных о рефералах
+            fetchReferrals();
         } else {
             document.body.style.overflow = "";
         }
@@ -38,15 +38,15 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`/api/getmodalreferrals?login=${selectedClientLogin}`); // Измените путь на правильный путь к вашему API
+            const response = await fetch(`/api/getmodalreferrals/${selectedClientLogin}`);
             if (!response.ok) {
-                throw new Error("Не удалось загрузить данные");
+                throw new Error("Не удалось загрузить данные: " + response.statusText);
             }
             const data: ApiResponse = await response.json();
-            setUserEmail(data.email); // Сохраняем email
+            setUserEmail(data.email);
             setReferrals(data.referrals);
-        } catch (error) {
-            setError(error.message);
+        } catch (err) {
+            setError((err as Error).message);
         } finally {
             setLoading(false);
         }
@@ -70,7 +70,7 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
                 <div className="flex flex-col items-center gap-1">
                     <h1 className="text-[24px] leading-6 text-black">Рефералы</h1>
                 </div>
-                <div className="w-[100%] bg-white p-4 rounded-xl">
+                <div className="w-full bg-white p-4 rounded-xl">
                     <h2 className="text-xl font-bold text-black mb-4">
                         Рефералы пользователя {selectedClientLogin} (email: {userEmail})
                     </h2>

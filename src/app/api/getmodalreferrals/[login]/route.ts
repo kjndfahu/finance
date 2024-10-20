@@ -1,34 +1,32 @@
-import { prisma } from "../../../../prisma/prisma-client";
+import { NextRequest } from 'next/server';
+import { prisma } from "../../../../../prisma/prisma-client";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest) => {
     try {
-        const { searchParams } = new URL(req.url);
-        const login = searchParams.get('login'); // Получаем логин
+        const url = new URL(req.url);
+        const login = url.pathname.split('/')[3];
 
         if (!login) {
             return new Response(JSON.stringify({ error: 'login is required' }), { status: 400 });
         }
 
-        // Найти пользователя по логину
         const user = await prisma.user.findUnique({
-            where: { login }, // Используем логин для поиска
+            where: { login },
         });
 
         if (!user) {
             return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
         }
 
-        // Ищем рефералов по userId
         const referrals = await prisma.referrals.findMany({
             where: {
                 referredBy: user.id,
                 typeofline: {
-                    not: 0,  // Исключаем записи с typeofline = 0
+                    not: 0,
                 },
             },
         });
 
-        // Получаем логины рефералов
         const referralLogins = await Promise.all(
             referrals.map(async (referral) => {
                 const referredUser = await prisma.user.findUnique({

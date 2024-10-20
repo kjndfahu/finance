@@ -1,19 +1,32 @@
-'use client'
+// components/lk/referrals-table.tsx
+'use client';
+
 import React, { useEffect, useState } from 'react';
-import {useTranslations} from "next-intl";
+import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     className?: string;
-    session: any;
+    session: any; // Здесь вы можете уточнить тип данных для сессии
 }
 
 export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
-    const [referrals, setReferrals] = useState([]);
-    const t = useTranslations("ReferralsTable")
+    const [referrals, setReferrals] = useState<any[]>([]);
+    const t = useTranslations("ReferralsTable");
+    const router = useRouter();
+
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
-                const response = await fetch(`/api/getreferralstable?email=${session.user.email}`);
+                // Получаем email из session
+                const email = session.user.email;
+                // Формируем URL для запроса к динамическому роуту
+                const response = await fetch(`/api/getreferralstable/${email}`);
+
+                if (!response.ok) {
+                    throw new Error('Ошибка при получении данных');
+                }
+
                 const data = await response.json();
                 setReferrals(data);
             } catch (error) {
@@ -39,7 +52,7 @@ export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
     };
 
     return (
-        <div className="bg-white p-4 rounded-xl shadow-md">
+        <div className={`bg-white p-4 rounded-xl shadow-md ${className}`}>
             <h2 className="text-xl font-bold text-black mb-4">{t('yourreferrals')}</h2>
             <div className="overflow-x-auto">
                 <table className="min-w-full">

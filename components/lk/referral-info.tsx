@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import React, { useEffect, useState } from 'react';
-import {useTranslations} from "next-intl";
+import { useTranslations } from "next-intl";
 
 interface Props {
     className?: string;
@@ -9,11 +9,18 @@ interface Props {
 
 export const ReferralsInfo: React.FC<Props> = ({ className, session }) => {
     const [referralData, setReferralData] = useState({ totalReferrals: 0, totalProfit: 0, totalAmount: 0 });
-    const t = useTranslations("ReferralsTable")
+    const t = useTranslations("ReferralsTable");
+
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
-                const response = await fetch(`/api/getreferrals?email=${session.user.email}`);
+                const response = await fetch(`/api/getreferrals/${session.user.email}`);
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Failed to fetch referral data');
+                }
+
                 const data = await response.json();
                 setReferralData(data);
             } catch (error) {
@@ -25,7 +32,7 @@ export const ReferralsInfo: React.FC<Props> = ({ className, session }) => {
     }, [session.user.email]);
 
     return (
-        <div className="bg-white p-4 rounded-xl shadow-md">
+        <div className={`bg-white p-4 rounded-xl shadow-md ${className}`}>
             <div className="flex justify-between items-center">
                 <div className="flex flex-col items-center w-1/3">
                     <span className="md:text-[16px] text-center text-[12px] text-gray-500">{t('you-invited')}</span>
@@ -35,7 +42,7 @@ export const ReferralsInfo: React.FC<Props> = ({ className, session }) => {
                 <div className="border-r border-gray-300 h-12" />
 
                 <div className="flex flex-col items-center w-1/3">
-                    <span className="md:text-[16px] text-[12px] text-center text-gray-500 ">{t('accrued-profit')}</span>
+                    <span className="md:text-[16px] text-[12px] text-center text-gray-500">{t('accrued-profit')}</span>
                     <span className="md:text-2xl text-[17px] text-black font-bold">${referralData.totalAmount.toFixed(2)}</span>
                 </div>
 

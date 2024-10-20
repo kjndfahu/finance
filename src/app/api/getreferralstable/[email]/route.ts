@@ -1,34 +1,31 @@
-import { prisma } from "../../../../prisma/prisma-client";
+import { NextRequest, NextResponse } from 'next/server';
+import {prisma} from "../../../../../prisma/prisma-client";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest, { params }: { params: { email: string } }) => {
     try {
-        const { searchParams } = new URL(req.url);
-        const email = searchParams.get('email');
+        const { email } = params; // Получаем email из параметров маршрута
 
         if (!email) {
-            return new Response(JSON.stringify({ error: 'email is required' }), { status: 400 });
+            return NextResponse.json({ error: 'Email is required' }, { status: 400 });
         }
 
-        // Найти userId по email
         const user = await prisma.user.findUnique({
             where: { email },
         });
 
         if (!user) {
-            return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
+            return NextResponse.json({ error: 'User not found' }, { status: 404 });
         }
 
-        // Ищем рефералов по userId
         const referrals = await prisma.referrals.findMany({
             where: {
                 referredBy: user.id,
                 typeofline: {
-                    not: 0,  // Исключаем записи с typeofline = 0
+                    not: 0,
                 },
             },
         });
 
-        // Получаем логины рефералов
         const referralLogins = await Promise.all(
             referrals.map(async (referral) => {
                 const referredUser = await prisma.user.findUnique({
@@ -42,9 +39,9 @@ export const GET = async (req: Request) => {
             })
         );
 
-        return new Response(JSON.stringify(referralLogins), { status: 200 });
+        return NextResponse.json(referralLogins, { status: 200 });
     } catch (error) {
         console.error('Error fetching referrals data:', error);
-        return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 };

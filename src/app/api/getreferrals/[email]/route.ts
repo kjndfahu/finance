@@ -1,9 +1,9 @@
-import { prisma } from "../../../../prisma/prisma-client";
+import {prisma} from "../../../../../prisma/prisma-client";
 
-export const GET = async (req: Request) => {
+
+export const GET = async (req: Request, { params }: { params: { email: string } }) => {
     try {
-        const { searchParams } = new URL(req.url);
-        const email = searchParams.get('email');
+        const email = params.email;
 
         if (!email) {
             return new Response(JSON.stringify({ error: 'email is required' }), { status: 400 });
@@ -27,7 +27,7 @@ export const GET = async (req: Request) => {
 
         const totalReferrals = referrals.reduce((sum, referral) => sum + referral.totalReferrals, 0);
         const totalAmount = referrals.reduce((sum, referral) => sum + referral.totalAmount, 0);
-        const totalProfit = referrals.reduce((sum, referral) => sum + referral.totalProfit, 0);  // Добавляем расчет totalProfit
+        const totalProfit = referrals.reduce((sum, referral) => sum + referral.totalProfit, 0);
 
         return new Response(JSON.stringify({ totalReferrals, totalAmount, totalProfit }), { status: 200 });
     } catch (error) {

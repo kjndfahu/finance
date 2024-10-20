@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useEffect, useState } from "react";
 import { Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -13,30 +13,28 @@ interface Props {
 export const ReferralLink: React.FC<Props> = ({ session, className }) => {
     const [referralCode, setReferralCode] = useState<string>("");
     const t = useTranslations('Refferal');
-    const myUrl = new URL('http://localhost:3000/en/registration?referralCode=');
-    const url = window.location.href
-    const newUrl = url.replace(/(\/en\/).*/, '$1');
-    console.log(newUrl); // http://localhost:3000/en/
+    const url = window.location.href;
+    const newUrl = url.replace(/(\/en\/).*/, '$1'); // Изменяем URL на корректный
+    const emailToPost = session.user.email; // Извлекаем email из сессии
+
     useEffect(() => {
         const fetchReferralCode = async () => {
-            try {
-                const response = await axios.get('/api/referral', {
-                    params: {
-                        name: session?.user?.name
-                    }
-                });
+            if (emailToPost) {
+                try {
+                    // Отправляем POST-запрос с email
+                    const response = await axios.post(`/api/referral`, {
+                        email: emailToPost // Передаем email в теле запроса
+                    });
 
-                // Устанавливаем реферальный код в состояние
-                setReferralCode(response.data.referralCode);
-            } catch (error) {
-                console.error("Error fetching referral code:", error);
+                    setReferralCode(response.data.referralCode);
+                } catch (error) {
+                    console.error("Error fetching referral code:", error);
+                }
             }
         };
 
-        if (session?.user?.name) {
-            fetchReferralCode();
-        }
-    }, [session?.user?.name]);
+        fetchReferralCode();
+    }, [emailToPost]);
 
     const handleCopy = () => {
         const textToCopy = `${newUrl}registration?referralCode=${referralCode}`;

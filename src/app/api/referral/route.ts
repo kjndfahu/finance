@@ -1,21 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../../prisma/prisma-client';
-import { getServerSession } from 'next-auth'; // Функция для получения сессии
 
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        const session = await getServerSession();
+        // Извлекаем тело запроса
+        const body = await req.json();
+        const email = body.email;
 
-        if (!session || !session.user || !session.user.name) {
+        if (!email) {
             return NextResponse.json(
-                { error: 'User is not authenticated or telegramId is missing.' },
-                { status: 401 }
+                { error: 'Email is required.' },
+                { status: 400 }
             );
         }
 
+        // Ищем пользователя по email
         const user = await prisma.user.findUnique({
             where: {
-                login: session.user.name,
+                email,
             },
         });
 
