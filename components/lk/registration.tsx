@@ -38,16 +38,20 @@ export const Registration: React.FC<Props> = ({ className }) => {
     useEffect(() => {
         const queryParams = new URLSearchParams(window.location.search);
         const referralCode = queryParams.get('referralCode');
-        console.log(referralCode)
         if (referralCode) {
-            form.setValue('referralCode', referralCode);
+            form.setValue('referralCode', referralCode); // Устанавливаем в форме
+            localStorage.setItem('referralCode', referralCode); // Сохраняем в localStorage
+        } else {
+            const storedReferralCode = localStorage.getItem('referralCode');
+            if (storedReferralCode) {
+                form.setValue('referralCode', storedReferralCode);
+            }
         }
-    }, []);
+    }, [form]);
 
     const onClick = () => {
         router.back();
     };
-
 
     const onSubmit = async (values: z.infer<typeof formRegisterSchema>) => {
         const formData = {
@@ -61,7 +65,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData), // Отправка всех значений формы
+            body: JSON.stringify(formData),
         });
 
         if (!response.ok) {
@@ -124,6 +128,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
                             <span className="text-red-500">{form.formState.errors.password.message}</span>
                         )}
                     </div>
+
                     <div>
                         <label htmlFor="confirmPassword" className="sr-only">Повторите пароль</label>
                         <input

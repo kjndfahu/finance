@@ -1,4 +1,4 @@
-import phone from '../../public/assets/investmentTracker.webp'
+import phone from '../../public/assets/firstscreen.png'
 import Image from 'next/image'
 import {useTranslations} from "next-intl";
 

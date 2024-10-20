@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import {useTranslations} from "next-intl";
+import {Logo} from "../icons";
 
 interface Props{
     className?:string;
@@ -12,7 +13,7 @@ export const HeaderLinks:React.FC<Props> = ({locale, className}) => {
     return (
         <div className="mdbvp:flex hidden flex-row items-center xl:gap-8 gap-5">
             <Link href="/">
-                <div className="bg-[#b0b0b0] xl:w-[130px] xl:h-[50px] w-[90px] h-[40px] rounded-[10px]"></div>
+                <Logo className="md:w-[160px] md:h-[80px] w-[120px] h-[80px]"/>
             </Link>
             <Link href={`/${locale}/aboutus`}>
                 <div className="flex gap-2 items-center xl:text-[19px] lg:text-[17px] text-[15px] text-black">

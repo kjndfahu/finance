@@ -312,10 +312,11 @@
     "top-up": "Top-Up balance",
     "create-deposit": "Create deposit",
     "withdraw": "Funds Withdrawal",
+    "exit-btn": "Exit",
     "transactions": "Transactions history ",
     "settings": "Settings",
     "affiliate": "Affiliate Programme",
-    "exit": "Exit"
+    "exit": "Tech. Support"
   },
   "Settings":{
     "settings": "Settings",
@@ -420,6 +421,10 @@
     "you-invited": "You've been invited",
     "accrued-profit": "Accrued profit",
     "total-deposits": "Total deposits"
+  },
+  "Tarrifs-tab": {
+    "stocks": "Stocks and ETF's",
+    "venchur": "Venchur"
   }
 }
 

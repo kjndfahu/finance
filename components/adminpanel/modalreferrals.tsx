@@ -14,8 +14,14 @@ interface Referral {
     depositSum: string;
 }
 
+interface ApiResponse {
+    email: string; // Добавляем email в интерфейс
+    referrals: Referral[];
+}
+
 export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, selectedClientLogin }) => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
+    const [userEmail, setUserEmail] = useState<string | null>(null); // Добавляем состояние для email
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -36,8 +42,9 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
             if (!response.ok) {
                 throw new Error("Не удалось загрузить данные");
             }
-            const data = await response.json();
-            setReferrals(data);
+            const data: ApiResponse = await response.json();
+            setUserEmail(data.email); // Сохраняем email
+            setReferrals(data.referrals);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -61,10 +68,12 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
                     </div>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                    <h1 className="text-[24px] leading-6 text-black">Рефералы</h1> {/* Используем логин клиента */}
+                    <h1 className="text-[24px] leading-6 text-black">Рефералы</h1>
                 </div>
-                <div className="w-[100%] bg-white p-4 rounded-xl ">
-                    <h2 className="text-xl font-bold text-black mb-4">Рефералы пользователя {selectedClientLogin}</h2>
+                <div className="w-[100%] bg-white p-4 rounded-xl">
+                    <h2 className="text-xl font-bold text-black mb-4">
+                        Рефералы пользователя {selectedClientLogin} (email: {userEmail})
+                    </h2>
                     {loading ? (
                         <p>Загрузка...</p>
                     ) : error ? (

@@ -14,8 +14,9 @@ export const ReferralLink: React.FC<Props> = ({ session, className }) => {
     const [referralCode, setReferralCode] = useState<string>("");
     const t = useTranslations('Refferal');
     const myUrl = new URL('http://localhost:3000/en/registration?referralCode=');
-    const url = myUrl.toString();
-
+    const url = window.location.href
+    const newUrl = url.replace(/(\/en\/).*/, '$1');
+    console.log(newUrl); // http://localhost:3000/en/
     useEffect(() => {
         const fetchReferralCode = async () => {
             try {
@@ -38,7 +39,7 @@ export const ReferralLink: React.FC<Props> = ({ session, className }) => {
     }, [session?.user?.name]);
 
     const handleCopy = () => {
-        const textToCopy = `${url}${referralCode}`;
+        const textToCopy = `${newUrl}registration?referralCode=${referralCode}`;
 
         navigator.clipboard.writeText(textToCopy).then(() => {
             toast.success("Success! Referral link copied!"); // Показать тост
@@ -52,7 +53,7 @@ export const ReferralLink: React.FC<Props> = ({ session, className }) => {
             <h2 className="text-[18px] text-[#777777] mt-3">{t('personal-reference:')}</h2>
             <div className="flex flex-row items-center bg-[#f5f5f5] border-[1px] border-[#777777] rounded-[5px] p-3 text-[#777777] gap-3">
                 <h4 className="text-blue-500 font-semibold text-[18px] cursor-pointer" onClick={handleCopy}>
-                    {url}{referralCode}
+                    {newUrl}registration?referralCode={referralCode}
                 </h4>
                 <Copy width={19} onClick={handleCopy} className="cursor-pointer" />
             </div>

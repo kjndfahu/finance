@@ -3,7 +3,6 @@ import {getMessages, unstable_setRequestLocale} from 'next-intl/server';
 import localFont from "next/font/local";
 import '../globals.css';
 import {Header} from "../../../../components/header/header";
-import {SessionProvider} from "next-auth/react";
 import {getServerSession} from "next-auth";
 import {authOptions} from "../../../../utils/authOptions";
 const myFont = localFont({

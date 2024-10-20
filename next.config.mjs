@@ -4,13 +4,34 @@ const withNextIntl = createNextIntlPlugin()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true, // Включаем строгий режим React
-    swcMinify: true, // Включаем SWC для минимизации
+    reactStrictMode: true,
+    swcMinify: true,
     async rewrites() {
         return [
             {
                 source: '/assets/:path*',
-                destination: '/assets/:path*', // Matched parameters can be used in the destination
+                destination: '/assets/:path*',
+            },
+        ];
+    },
+    async headers() {
+        return [
+            {
+                source: '/api/:path*',
+                headers: [
+                    {
+                        key: 'Access-Control-Allow-Origin',
+                        value: 'https://allianceinvesting.pro, https://allianceventures.pro',
+                    },
+                    {
+                        key: 'Access-Control-Allow-Methods',
+                        value: 'GET, POST, PUT, DELETE, OPTIONS',
+                    },
+                    {
+                        key: 'Access-Control-Allow-Headers',
+                        value: 'X-Requested-With, Content-Type, Authorization',
+                    },
+                ],
             },
         ];
     },

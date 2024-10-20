@@ -11,7 +11,7 @@ interface Props{
 }
 
 export const AllWithdrawClient:React.FC<Props> = ({session})=>{
-    const [isSystem, setSystem] = useState('trc-20')
+    const [isSystem, setSystem] = useState('TRC-20')
     const [value, setValue] = useState('');
     return (
         <div className="flex min-h-screen flex-col bg-[#f5f5f5] w-full gap-5 ">

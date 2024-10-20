@@ -5,6 +5,8 @@ import {LangModal} from "../lang-modal";
 import {useState} from "react";
 import Link from "next/link";
 import {signOut} from "next-auth/react";
+import {Logo} from "../icons";
+import {useTranslations} from "next-intl";
 
 interface Props {
     className?: string;
@@ -16,13 +18,11 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
     const isAuthPage = pathname === `/${locale}/registration` || pathname === `/${locale}/login`;
     const [isClicked, setClicked] = useState(false)
     const [isLang, setLang] = useState(false)
+    const t = useTranslations('NavbarLK')
     return (
         <div
             className="flex flex-row items-center bg-[#f5f5f5] text-black mdbvp:text-[23px] text-[17px] justify-between w-full lg:px-[150px] px-[10px] pt-[25px]">
-            <div className="flex flex-row mdbvp:gap-5 gap-2 items-center">
-                <div className=" bg-blue-600 mdbvp:w-[55px] mdbvp:h-[55px] w-[35px] h-[35px] rounded-[5px]"></div>
-                <h1>Alliance</h1>
-            </div>
+            <Logo className="md:w-[200px] md:h-[100px] w-[120px] h-[80px]"/>
             <div className="flex flex-row mdbvp:gap-5 gap-2">
                 <div onClick={() => {
                     setClicked(!isClicked);
@@ -74,7 +74,7 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
                     <Link href="#" onClick={() => signOut({
                         callbackUrl: '/'
                     })}>
-                        <h4>Выйти</h4>
+                        <h4>{t('exit-btn')}</h4>
                     </Link>
                 )}
             </div>

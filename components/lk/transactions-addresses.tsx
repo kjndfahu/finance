@@ -82,7 +82,6 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
                 </h2>
                 <Copy color="#777777" />
             </div>
-            <h4 className="text-[16px] text-[#777777]">{t('send-exactly')} ${value}! {t('otherwise')}</h4>
             <div className="flex flex-col gap-4 text-[17px]">
                 <div
                     onClick={handleTopUpRequest}

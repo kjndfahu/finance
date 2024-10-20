@@ -1,5 +1,5 @@
 import Image from "next/image";
-import phone from "../../public/assets/investmentTracker.webp";
+import phone from "../../public/assets/secondscreen.png";
 import {ArrowRight} from "lucide-react";
 import {useTranslations} from "next-intl";
 

@@ -9,7 +9,7 @@ export const GET = async (req: Request) => {
             return new Response(JSON.stringify({ error: 'login is required' }), { status: 400 });
         }
 
-        // Найти userId по логину
+        // Найти пользователя по логину
         const user = await prisma.user.findUnique({
             where: { login }, // Используем логин для поиска
         });
@@ -42,7 +42,7 @@ export const GET = async (req: Request) => {
             })
         );
 
-        return new Response(JSON.stringify(referralLogins), { status: 200 });
+        return new Response(JSON.stringify({ email: user.email, referrals: referralLogins }), { status: 200 });
     } catch (error) {
         console.error('Error fetching referrals data:', error);
         return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });

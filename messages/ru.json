@@ -312,11 +312,12 @@
     "account": "Аккаунт",
     "top-up": "Пополнить баланс",
     "create-deposit": "Создать депозит",
+    "exit-btn": "Выйти",
     "withdraw": "Вывод средств",
     "transactions": "История операций",
     "settings": "Настройки",
     "affiliate": "Партнерская программа",
-    "exit": "Выход"
+    "exit": "Тех. Поддержка"
   },
   "Settings":{
     "settings": "Настройки",
@@ -421,5 +422,9 @@
     "you-invited": "Вами приглашено",
     "accrued-profit": "Начисленная прибыль",
     "total-deposits": "Общая сумма депозитов"
+  },
+  "Tarrifs-tab": {
+    "stocks": "Акции и ETF",
+    "venchur": "Венчур"
   }
 }
