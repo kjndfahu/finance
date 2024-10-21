@@ -10,6 +10,7 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "../../../../utils/authOptions";
 import {unstable_setRequestLocale} from "next-intl/server";
 
+
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
 }

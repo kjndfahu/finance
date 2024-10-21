@@ -29,7 +29,7 @@ export const InviteBlock:React.FC<Props> =({session, className}) => {
                 <h2 className="font-semibold text-black mdbvp:text-[50px] mdbvp:leading-[43px] md:text-[32px] md:leading-[32px] text-[18px] leading-[18px]">{t('earn-by')}<br/>
                     {t('real-investors')}</h2>
                 <p className="mdbvp:text-[20px] mdbvp:leading-[20px] md:text-[15px] md:leading-[15px] text-[12px] leading-[12px] text-black font-thin">{t('affiliate-system')}<br/> {t('existing-partners')}</p>
-                <Link href={isSessionNull ? `/en/registration` : `/en/account`}>
+                <Link href={`/ru/invite-and-earn`}>
                     <div
                         className="flex items-center bg-[#F5F5F5] text-black md:text-[18px] text-[10px] rounded-[10px] md:px-4 px-2 md:py-2 py-1 md:w-[205px] w-[120px] gap-2 font-semibold justify-center">
                         {t('invite-earn')}

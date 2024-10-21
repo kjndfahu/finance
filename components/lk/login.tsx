@@ -88,6 +88,9 @@ export const Login: React.FC<Props> = ({ session, className }) => {
                             <span className="text-red-500">{form.formState.errors.password.message}</span>
                         )}
                     </div>
+                    <Link href="https://t.me/technical_support_alliance">
+                        <p className="mt-2 text-[#b0b0b0]">Забыли пароль?</p>
+                    </Link>
 
                     <div className="flex w-full gap-5 items-center">
                         <div className="flex w-[50%] items-center justify-between">

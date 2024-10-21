@@ -3,6 +3,7 @@ import {ArrowRight} from "lucide-react";
 import {AboutImage} from "./aboutimage";
 import {useTranslations} from "next-intl";
 import {useEffect, useState} from "react";
+import Link from "next/link";
 
 
 interface Props{
@@ -28,10 +29,13 @@ export const AboutUs:React.FC<Props> = ({session, className}) => {
                     <h2>$700M+</h2>
                     <p className="xl:text-[18px] text-[15px] text-[#b0b0b0] font-normal">{t('trade-turnover')}</p>
                 </div>
-                <div className="flex justify-center mdbvp:py-0 py-3 items-center xl:px-14 px-8 rounded-[10px] flex-row gap-2 bg-white xl:text-[20px] mdbvp:text-[15px] text-[13px]">
-                    {t('more-about-us')}
-                    <ArrowRight className="mdbvp:w-[20px] w-[12px ]" color="#000000"/>
-                </div>
+                <Link href={`/ru/aboutus`}>
+                    <div
+                        className="flex justify-center mdbvp:py-0 py-3 items-center xl:px-14 px-8 rounded-[10px] flex-row gap-2 bg-white xl:text-[20px] mdbvp:text-[15px] text-[13px]">
+                        {t('more-about-us')}
+                        <ArrowRight className="mdbvp:w-[20px] w-[12px ]" color="#000000"/>
+                    </div>
+                </Link>
             </div>
         </div>
     )

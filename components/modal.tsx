@@ -1,13 +1,13 @@
-'use client'
 import { useCallback, useState, useEffect } from "react";
 import debounce from "debounce";
 import { X } from "lucide-react";
+import axios from "axios"; // Импортируем axios
 
 interface Props {
     className?: string;
     isModalOpen: boolean;
     setModalOpen: (isOpen: boolean) => void;
-    detail: { name: string; details: string; id: number }; // Your BankingDetails type
+    detail: { name: string; details: string; id: number }; // Ваш тип BankingDetails
     handleUpdate: (updatedDetail: { id: number; name: string; details: string }) => void;
 }
 
@@ -36,8 +36,18 @@ export const Modal: React.FC<Props> = ({
         }
     }, [isModalOpen]);
 
-    const handleSubmit = () => {
-        handleUpdate({ id: detail.id, name: detail.name, details: value });
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.put(`/api/bankcard/${detail.id}`, {
+                name: detail.name,
+                details: value,
+            });
+            handleUpdate(response.data); // Обновляем состояние в родительском компоненте
+            setModalOpen(false); // Закрываем модальное окно
+        } catch (error) {
+            console.error('Ошибка при обновлении:', error);
+
+        }
     };
 
     return (
