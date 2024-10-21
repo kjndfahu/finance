@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { formRegisterSchema, TFormRegisterData } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
+import {Eye, EyeOff} from "lucide-react";
 
 interface Props {
     className?: string;
@@ -18,6 +19,8 @@ export const Registration: React.FC<Props> = ({ className }) => {
     const locale = pathname.slice(0, 3);
     const router = useRouter();
     const t = useTranslations('Registration');
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const form = useForm<TFormRegisterData>({
         resolver: zodResolver(formRegisterSchema),
@@ -29,7 +32,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
             password: '',
             confirmPassword: '',
             phoneNumber: '',
-            region: null,
+            region: '',
             telegramId: '',
             referralCode: '',
         },
@@ -56,7 +59,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
     const onSubmit = async (values: z.infer<typeof formRegisterSchema>) => {
         const formData = {
             ...values,
-            region: +(values.region),
+            region: values.region,
         };
 
         console.log('Форма отправлена:', formData);
@@ -117,13 +120,20 @@ export const Registration: React.FC<Props> = ({ className }) => {
 
                     <div>
                         <label htmlFor="password" className="sr-only">Пароль</label>
-                        <input
-                            {...form.register('password')}
-                            type="password"
-                            id="password"
-                            placeholder={t('desired-password')}
-                            className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                        <div
+                            className="flex items-center w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500  ">
+                            <input
+                                {...form.register('password')}
+                                type={showNewPassword ? "text" : "password"}
+                                id="password"
+                                placeholder={t('desired-password')}
+                                className="w-full bg-white border-transparent focus:outline-0"
+                            />
+                            <div className="cursor-pointer" onClick={() => setShowNewPassword(!showNewPassword)}>
+                                {showNewPassword ? <EyeOff width={20} color="#b0b0b0"/> :
+                                    <Eye width={20} color="#b0b0b0"/>}
+                            </div>
+                        </div>
                         {form.formState.errors.password && (
                             <span className="text-red-500">{form.formState.errors.password.message}</span>
                         )}
@@ -131,13 +141,20 @@ export const Registration: React.FC<Props> = ({ className }) => {
 
                     <div>
                         <label htmlFor="confirmPassword" className="sr-only">Повторите пароль</label>
-                        <input
-                            {...form.register('confirmPassword')}
-                            type="password"
-                            id="confirmPassword"
-                            placeholder={t('repeat-password')}
-                            className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                        <div
+                            className="flex items-center w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500  ">
+                            <input
+                                {...form.register('confirmPassword')}
+                                type={showConfirmPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                placeholder={t('repeat-password')}
+                                className="w-full bg-white border-transparent focus:outline-0"
+                            />
+                            <div className="cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                {showConfirmPassword ? <EyeOff width={20} color="#b0b0b0"/> :
+                                    <Eye width={20} color="#b0b0b0"/>}
+                            </div>
+                        </div>
                         {form.formState.errors.confirmPassword && (
                             <span className="text-red-500">{form.formState.errors.confirmPassword.message}</span>
                         )}
@@ -189,7 +206,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
                         <label htmlFor="region" className="sr-only">Регион</label>
                         <input
                             {...form.register('region')}
-                            type="number"
+                            type="text"
                             id="region"
                             placeholder={t('region')}
                             className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

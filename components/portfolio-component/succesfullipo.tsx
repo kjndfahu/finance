@@ -1,10 +1,11 @@
 import Image from 'next/image';
+import {BeyondMeat, Facebook, Twitio, Zoom} from "../icons";
 
 export const SuccesfullIPO: React.FC = () => {
     const companies = [
         {
             name: 'BEYOND MEAT',
-            logo: 'https://ginsbergs.com/wp-content/uploads/2021/08/Beyond-Meat-Logo.png', // Replace with actual logo paths
+            logo: <BeyondMeat className="lg:w-[220px] lg:h-[70px] w-[150px] h-[50px]"/>,
             type: 'Производитель растительного мяса',
             performance: '+441%',
             ipoDate: '03.05.2019',
@@ -16,7 +17,7 @@ export const SuccesfullIPO: React.FC = () => {
         },
         {
             name: 'ZOOM',
-            logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Zoom_Communications_Logo.svg/1200px-Zoom_Communications_Logo.svg.png',
+            logo: <Zoom className="lg:w-[160px] lg:h-[70px] w-[110px] h-[40px]"/>,
             type: 'Коммуникационно-технологическая компания',
             performance: '+1171%',
             ipoDate: '18.04.2019',
@@ -28,7 +29,7 @@ export const SuccesfullIPO: React.FC = () => {
         },
         {
             name: 'TWILIO',
-            logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Twilio_logo.png',
+            logo: <Twitio className="lg:w-[190px] lg:h-[70px] w-[110px] h-[40px]"/>,
             type: 'Разработчик программного обеспечения',
             performance: '+1722%',
             ipoDate: '22.06.2016',
@@ -40,7 +41,7 @@ export const SuccesfullIPO: React.FC = () => {
         },
         {
             name: 'FACEBOOK',
-            logo: 'https://static.xx.fbcdn.net/rsrc.php/y1/r/4lCu2zih0ca.svg',
+            logo: <Facebook className="lg:w-[190px] lg:h-[70px] w-[150px] h-[60px]"/>,
             type: 'Крупнейшая в мире соцсеть',
             performance: '+677%',
             ipoDate: '17.05.2012',
@@ -59,8 +60,10 @@ export const SuccesfullIPO: React.FC = () => {
                     <div key={index}
                          className="border rounded-lg p-6 shadow-md flex flex-col justify-between bg-[#F3F7FA]">
                         <div className="flex w-full items-center justify-between">
-                            <p className=" w-[25%] text-sm text-gray-500">{company.type}</p>
-                            <img className="lg:flex hidden w-[30%] h-[40px]" src={company.logo} alt="logo"/>
+                            <div className="flex mdbvp:flex-row flex-col justify-between">
+                                <p className=" w-[25%] text-sm text-gray-500">{company.type}</p>
+                                {company.logo}
+                            </div>
                             <div className="flex justify-end text-green-500 w-[30%] font-bold text-lg">{company.performance}</div>
                         </div>
                         <div className="mt-4 text-sm text-[#777777]">

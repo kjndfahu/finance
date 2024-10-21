@@ -6,6 +6,7 @@ import { withdrawtable } from "../../services/users";
 import { format } from "date-fns";
 import toast from "react-hot-toast";
 
+
 interface Props {
     className?: string;
 }
@@ -29,7 +30,7 @@ export const WithdrawTable: React.FC<Props> = ({ className }) => {
     const handleReject = async (requestId: number) => {
         try {
             const response = await fetch('/api/withdrawrequest/decline', {
-                method: 'DELETE',  // Или другой метод, в зависимости от вашего API
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -59,7 +60,7 @@ export const WithdrawTable: React.FC<Props> = ({ className }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    requestId,  // Добавляем requestId
+                    requestId,
                     email,
                     amount,
                 }),
@@ -69,7 +70,7 @@ export const WithdrawTable: React.FC<Props> = ({ className }) => {
             if (response.ok) {
                 toast.success('Заявка на вывод одобрена');
                 console.log('Заявка одобрена:', result);
-                setRequest(prev => prev.filter((req) => req.id !== requestId));  // Удаляем заявку из состояния
+                setRequest(prev => prev.filter((req) => req.id !== requestId));
             } else {
                 toast.error('Ошибка одобрения заявки');
                 console.error('Ошибка одобрения заявки:', result.error);
@@ -77,6 +78,14 @@ export const WithdrawTable: React.FC<Props> = ({ className }) => {
         } catch (err) {
             console.error('Ошибка при отправке запроса:', err);
         }
+    };
+
+    const handleCopy = (text: string) => {
+        navigator.clipboard.writeText(text).then(() => {
+            toast.success("Success! Referral link copied!"); // Показать тост
+        }).catch((err) => {
+            console.error('Failed to copy: ', err);
+        });
     };
 
     return (
@@ -102,15 +111,15 @@ export const WithdrawTable: React.FC<Props> = ({ className }) => {
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{format(new Date(request.createdAt), 'yyyy-MM-dd HH:mm:ss')}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${request.amount}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">
-                                <div className="flex items-center gap-2">
+                                <div onClick={() => handleCopy(request.paymentDetails)} className="flex items-center gap-2">
                                     <h3>{request.paymentDetails}</h3>
-                                    <Copy width={15} height={15} />
+                                    <Copy width={15} height={15} className="cursor-pointer" />
                                 </div>
                             </td>
                             <td className="px-4 py-2 flex flex-col items-start">
                                 <button
                                     className="text-green-500 py-1 rounded"
-                                    onClick={() => approveRequest(request.id, request.email, request.amount)} // Используем request.id
+                                    onClick={() => approveRequest(request.id, request.email, request.amount)}
                                 >
                                     Одобрить
                                 </button>

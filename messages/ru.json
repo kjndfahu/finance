@@ -258,7 +258,7 @@
   },
   "TopUpPersonal": {
     "balance": "Доступный баланс",
-    "choosesystem": "Выберите систему для вывода",
+    "choosesystem": "Выберите систему для пополнения",
     "enter-withdraw": "Введите сумму для пополнения",
     "error-message": "Ошибка",
     "success-message": "Успех",
@@ -317,7 +317,9 @@
     "transactions": "История операций",
     "settings": "Настройки",
     "affiliate": "Партнерская программа",
-    "exit": "Тех. Поддержка"
+    "exit": "Тех. Поддержка",
+    "registration": "Регистрация",
+    "login": "Вход"
   },
   "Settings":{
     "settings": "Настройки",
@@ -368,7 +370,7 @@
     "first-name": "Имя...",
     "last-name": "Фамилия...",
     "phone-number": "Номер телефона в любом формате...",
-    "region": "Регион (цифрами)...",
+    "region": "Регион...",
     "telegram": "@username вашего Telegram-аккаунта",
     "registration": "Регистрация",
     "have-account": "У меня уже есть аккаунт",
@@ -426,5 +428,19 @@
   "Tarrifs-tab": {
     "stocks": "Акции и ETF",
     "venchur": "Венчур"
+  },
+  "BurgerMenu": {
+    "aboutus": "О нас",
+    "investment-plans": "Инвестиционные планы",
+    "portfolio": "Портфолио",
+    "contents": "Содержание",
+    "invite-and-earn": "Приглашайте и зарабатывайте",
+    "getstarted": "Начать",
+    "personal-account": "Войти"
+  },
+  "AboutImage": {
+    "financial-world": "Ваш проводник в финансовом мире",
+    "earn-money": "Зарабатывайте с нами как профессиональный инвестор",
+    "getstarted": "Начать"
   }
 }

@@ -17,7 +17,7 @@ model User {
   email       String @unique
   telegramId  String @unique
   phoneNumber String @unique
-  region      Int
+  region      String
   password    String
 
   role         Role   @default(USER)

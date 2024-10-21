@@ -6,6 +6,8 @@ import {PublicIPOMarketInvest} from "../../../../../components/investpage/public
 import {StartNowInvest} from "../../../../../components/investpage/startnow-invest";
 import {routing} from "../../../../i18n/routing";
 import {unstable_setRequestLocale} from "next-intl/server";
+import {getServerSession} from "next-auth";
+import {authOptions} from "../../../../../utils/authOptions";
 
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({locale}));
@@ -13,9 +15,10 @@ export function generateStaticParams() {
 
 export default async function InvestmentPage({params}) {
     unstable_setRequestLocale(params.locale);
+    const session = await getServerSession(authOptions)
     return (
         <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] pt-[100px] smbvp:px-[30px] px-[10px]">
-            <InvestmentManagement/>
+            <InvestmentManagement session={session}/>
             <Tarrifs/>
             <StocksEtf/>
             <VentureInvest/>

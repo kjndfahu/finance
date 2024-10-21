@@ -22,7 +22,9 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
     return (
         <div
             className="flex flex-row items-center bg-[#f5f5f5] text-black mdbvp:text-[23px] text-[17px] justify-between w-full lg:px-[150px] px-[10px] pt-[25px]">
-            <Logo className="md:w-[200px] md:h-[100px] w-[120px] h-[80px]"/>
+            <Link href="/">
+                <Logo className="md:w-[200px] md:h-[100px] w-[120px] h-[80px]"/>
+            </Link>
             <div className="flex flex-row mdbvp:gap-5 gap-2">
                 <div onClick={() => {
                     setClicked(!isClicked);
@@ -58,22 +60,20 @@ export const Headerlk: React.FC<Props> = ({locale}) => {
                         <Link href={`/${locale}/registration`}>
                             <div className="flex flex-row gap-3">
                                 <div
-                                    className="bg-blue-600 mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-white">Регистрация
+                                    className="bg-blue-600 mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-white">{t('registration')}
                                 </div>
                             </div>
                         </Link>
 
                         <Link href={`/${locale}/login`}>
                             <div className="flex flex-row gap-3">
-                                <div className="mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-black">Вход
+                                <div className="mdbvp:text-[17px] text-[14px] mdbvp:px-5 px-3 mdbvp:py-2 py-1 mdbvp:rounded-[10px] rounded-[5px] cursor-pointer text-black">{t('login')}
                                 </div>
                             </div>
                         </Link>
                     </>
                 ) : (
-                    <Link href="#" onClick={() => signOut({
-                        callbackUrl: '/'
-                    })}>
+                    <Link href="/">
                         <h4>{t('exit-btn')}</h4>
                     </Link>
                 )}

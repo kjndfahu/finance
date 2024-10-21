@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../prisma/prisma-client";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcrypt";
 import { $Enums } from ".prisma/client";
 import Role = $Enums.Role;
 
@@ -26,7 +25,14 @@ export const authOptions: NextAuthOptions = {
                     where: { email: credentials.email },
                 });
 
-                if (!user || !(await compare(credentials.password, user.password))) {
+                if (!user) {
+                    console.log('User not found:', credentials.email);
+                    return null;
+                }
+
+                // Проверка пароля
+                if (credentials.password !== user.password) {
+                    console.log('Incorrect password for user:', credentials.email);
                     return null;
                 }
 

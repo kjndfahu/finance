@@ -21,7 +21,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
-                        value: 'https://allianceinvesting.pro, https://allianceventures.pro',
+                        value: 'https://allventcapcom.com, https://allventcapcom.net',
                     },
                     {
                         key: 'Access-Control-Allow-Methods',

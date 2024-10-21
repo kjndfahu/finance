@@ -1,7 +1,7 @@
-import {useEffect, useState} from "react";
-import {addDays, addMinutes, format, isAfter} from "date-fns";
+import { useEffect, useState } from "react";
+import { addDays, format, isAfter } from "date-fns";
 import { useTranslations } from "next-intl";
-import {toast} from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 interface Props {
     className?: string;
@@ -21,9 +21,9 @@ export const VenchurInfo: React.FC<Props> = ({
     const t = useTranslations("LK");
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
     const depositSumAsNumber = parseFloat(value);
-    const currentDatePlus15Days = addDays(new Date(), 15)
-    console.log(currentDatePlus15Days, 'date')
+    const currentDatePlus15Days = addDays(new Date(), 15);
     const formattedEndDate = format(currentDatePlus15Days, 'dd.MM.yy HH:mm:ss');
+
     const getDepositRange = (percent: string) => {
         switch (percent) {
             case '2':
@@ -36,17 +36,21 @@ export const VenchurInfo: React.FC<Props> = ({
                 return { min: 0, max: Infinity };
         }
     };
+
     const selectedRange = getDepositRange(middlePercent);
-    const calculatingAllMoney = (value: string, dataVenchur: number, middlePercent   : string) => {
+
+    const calculatingAllMoney = (value: string, dataVenchur: number, middlePercent: string) => {
         const newPercent = parseFloat(middlePercent);
         const newValue = parseFloat(value);
         return newValue + (newValue / 100 * newPercent * dataVenchur);
     };
+
+    const totalMoney = calculatingAllMoney(value, dataVenchur, middlePercent);
     const calculatingEarning = (value: string, totalMoney: number) => {
         const newValue = parseFloat(value);
         return totalMoney - newValue;
     };
-    const totalMoney = calculatingAllMoney(value, dataVenchur, middlePercent);
+
     const earnings = calculatingEarning(value, totalMoney);
 
     useEffect(() => {
@@ -65,7 +69,7 @@ export const VenchurInfo: React.FC<Props> = ({
     const handleCreateDeposit = async () => {
         const depositSumAsNumber = parseFloat(value);
         if (depositSumAsNumber > session.user.balance) {
-            toast.error(`${t('toast-success-balance')}` );
+            toast.error(`${t('toast-success-balance')}`);
             return;
         }
         if (!middlePercent || middlePercent === '0') {
@@ -99,6 +103,7 @@ export const VenchurInfo: React.FC<Props> = ({
             toast.error(`${t('toast-sendeing-error')}`);
         }
     };
+
     return (
         <div className="w-full mx-auto bg-white rounded-lg md:p-6">
             <h2 className="md:text-lg text-[15px] font-semibold mb-4">
@@ -108,12 +113,12 @@ export const VenchurInfo: React.FC<Props> = ({
             <div className="grid grid-cols-3 gap-4 text-left">
                 <div>
                     <p className="md:text-[16px] text-[14px] text-gray-500">{t('exit-amount')}</p>
-                    <p className="md:text-2xl text-[18px] font-bold">${totalMoney.toFixed(2)}</p>
+                    <p className="md:text-2xl text-[18px] font-bold">${isNaN(totalMoney) ? "0.00" : totalMoney.toFixed(2)}</p>
                 </div>
 
                 <div>
                     <p className="md:text-[16px] text-[14px] text-gray-500">{t('accrued-profit')}</p>
-                    <p className="md:text-2xl text-[18px] font-bold">${earnings.toFixed(2)}</p>
+                    <p className="md:text-2xl text-[18px] font-bold">${isNaN(earnings) ? "0.00" : earnings.toFixed(2)}</p>
                 </div>
 
                 <div>
@@ -122,9 +127,8 @@ export const VenchurInfo: React.FC<Props> = ({
                 </div>
             </div>
 
-
             <button onClick={handleCreateDeposit}
-                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md">{t('create-deposit')}</button>
+                    className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
         </div>
     );
 };

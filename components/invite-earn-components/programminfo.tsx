@@ -21,12 +21,12 @@ export const ProgrammInfo:React.FC = () => {
         <div className="flex flex-col items-center bg-[#F5F5F5] mt-10 rounded-[40px] justify-center mdbvp:py-[100px] py-[50px]">
             <div className="flex flex-col gap-2 items-center text-black ">
                 <h1 className="mdbvp:text-[52px] mdbvp:leading-[52px] text-[35px] leading-[35px] font-semibold text-center">{t('title')}</h1>
-                <p className="text-center">{t('textmain')}</p>
+                <p className="md:w-full w-[85%] text-center ">{t('textmain')}</p>
             </div>
-            <div className="flex md:flex-row flex-col justify-evenly mdbvp:gap-7 gap-4 mt-10 w-full mdbvp:px-[120px] px-[30px]">
+            <div className="flex md:flex-row flex-col justify-evenly mdbvp:gap-7 gap-4 mt-10 w-full mdbvp:px-[90px] px-[10px]">
                 {data.map((item) => (
-                    <div key={item.title} className="flex md:w-[33%] w-full flex-col gap-5 bg-[#FFFFFF] rounded-[20px] px-7 py-7 text-black">
-                        <h2 className="mdbvp:text-[38px] text-[25px] font-semibold">{item.title}</h2>
+                    <div key={item.title} className="flex md:w-[33%] w-full flex-col gap-5 bg-[#FFFFFF] rounded-[20px] px-5 py-7 text-black">
+                        <h2 className="lg:text-[35px] lg:leading-[38px] text-[24px] leading-[24px] font-semibold">{item.title}</h2>
                         <p className="mdbvp:text-[20px] text-[16px]">{item.text}</p>
                     </div>
                 ))}

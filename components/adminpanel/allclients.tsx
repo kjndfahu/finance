@@ -94,7 +94,6 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                     <thead>
                     <tr className="bg-white text-[#b0b0b0]">
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Логин</th>
-                        <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Пароль</th>
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Баланс</th>
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Пополнено</th>
                         <th className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] font-normal text-left">Выведено</th>
@@ -111,14 +110,6 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                                 setSelectedClientLogin(client.login); // Устанавливаем логин выбранного клиента
                                 setModalOpen(true);
                             }} className="md:px-4 cursor-pointer px-1 py-2 md:text-[16px] text-[13px]">{client.login}</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px] cursor-pointer"
-                                onClick={() => handleCopyPassword(client.password)}>
-                                {client.password.length > 7 ? (
-                                    <span>{client.password.substring(0, 7)}...</span>
-                                ) : (
-                                    <span>{client.password}</span>
-                                )}
-                            </td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">$0</td>

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -24,21 +24,21 @@ export const Login: React.FC<Props> = ({ session, className }) => {
             password: '',
         },
     });
-    console.log(session?.user?.role);
 
-    const router = useRouter(); // Переместил сюда
+    const router = useRouter();
 
     const onSubmit = async (data: TFormLoginData) => {
         try {
             const resp = await signIn('credentials', {
                 ...data,
-                redirect: false
+                redirect: false,
             });
 
-            if (resp?.ok) {
-                router.push(`${locale}/account`);
-            } else {
+            if (resp?.error) {
+                console.log('Login failed:', resp.error);
                 toast.error('Login failed, please try again.');
+            } else if (resp?.ok) {
+                router.push(`${locale}/account`);
             }
         } catch (error) {
             console.log('ERROR [LOGIN]', error);
@@ -49,7 +49,7 @@ export const Login: React.FC<Props> = ({ session, className }) => {
     const t = useTranslations('Registration');
     const onClick = () => {
         router.back();
-    }
+    };
 
     return (
         <div className="flex justify-center items-center mt-20 bg-gray-100">

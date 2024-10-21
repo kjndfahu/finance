@@ -20,13 +20,13 @@ export default async function HomePage({params}) {
     console.log(session)
     return (
         <div className="flex flex-col bg-[#FFFFFF] xl:px-[100px] px-[25px] pt-[100px]">
-            <AboutUs/>
+            <AboutUs session={session}/>
             <Offer/>
-            <TwoBlocks/>
-            <InviteBlock/>
-            <IpoInfoblock/>
+            <TwoBlocks session={session}/>
+            <InviteBlock session={session}/>
+            <IpoInfoblock session={session}/>
             <Tarrifs/>
-            <MainFooter/>
+            <MainFooter session={session}/>
         </div>
     );
 }

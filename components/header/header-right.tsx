@@ -14,14 +14,12 @@ export const HeaderRight: React.FC<Props> = ({ session, locale, className }) => 
     const t = useTranslations("HeaderRight");
     const [isClicked, setClicked] = useState(false);
     const [isLang, setLang] = useState(false);
-    const [isClient, setIsClient] = useState(false); // Новый state для проверки клиента
+    const [isClient, setIsClient] = useState(false);
 
-    // Устанавливаем флаг isClient только на клиенте
     useEffect(() => {
         setIsClient(true);
     }, []);
 
-    // Проверка для того, чтобы session.value использовался только на клиенте
     const isSessionNull = isClient && session.value === "null";
 
     return (

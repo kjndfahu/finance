@@ -2,17 +2,19 @@
 import {ArrowRight} from "lucide-react";
 import {AboutImage} from "./aboutimage";
 import {useTranslations} from "next-intl";
+import {useEffect, useState} from "react";
 
 
 interface Props{
     className?:string;
+    session:any;
 }
 
-export const AboutUs:React.FC<Props> = ({className}) => {
+export const AboutUs:React.FC<Props> = ({session, className}) => {
     const t = useTranslations("AboutMerit")
     return (
         <div className="flex flex-col xl:gap-16 gap-8">
-            <AboutImage/>
+            <AboutImage session={session}/>
             <div className="flex mdbvp:flex-row mdbvp:gap-0 gap-5 flex-col justify-between xl:px-[100px] px-[50px] rounded-[20px] xl:py-12 py-8 bg-[#F5F5F5] w-full text-black font-semibold xl:text-[32px] text-[25px]">
                 <div className="flex flex-col text-center mdbvp:text-left">
                     <h2>500+</h2>

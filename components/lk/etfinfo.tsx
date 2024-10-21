@@ -1,7 +1,7 @@
 import { addDays, format, isAfter } from "date-fns";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import {useTranslations} from "next-intl";
+import { useTranslations } from "next-intl";
 
 interface Props {
     className?: string;
@@ -13,7 +13,7 @@ interface Props {
 
 export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, className, session }) => {
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
-    const depositSumAsNumber = parseFloat(value);
+    const depositSumAsNumber = parseFloat(value) || 0; // Убедитесь, что значение - это число
     const t = useTranslations('LK');
     const getDepositRange = (percent: string) => {
         switch (percent) {
@@ -29,15 +29,16 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
     };
 
     const selectedRange = getDepositRange(lowPercent);
+
     const calculatingAllMoney = (value: string, dataStocks: number, lowPercent: string) => {
-        const newPercent = parseFloat(lowPercent);
-        const newValue = parseFloat(value);
+        const newPercent = parseFloat(lowPercent) || 0;
+        const newValue = parseFloat(value) || 0;
         return newValue + (newValue / 100 * newPercent * dataStocks);
     };
 
     const totalMoney = calculatingAllMoney(value, dataStocks, lowPercent);
     const calculatingEarning = (value: string, totalMoney: number) => {
-        const newValue = parseFloat(value);
+        const newValue = parseFloat(value) || 0;
         return totalMoney - newValue;
     };
 
@@ -59,9 +60,9 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
     }, [depositSumAsNumber, lowPercent]);
 
     const handleCreateDeposit = async () => {
-        const depositSumAsNumber = parseFloat(value);
+        const depositSumAsNumber = parseFloat(value) || 0; // Убедитесь, что значение - это число
         if (depositSumAsNumber > session.user.balance) {
-            toast.error(`${t('toast-success-balance')}` );
+            toast.error(`${t('toast-success-balance')}`);
             return;
         }
         if (!lowPercent || lowPercent === '0') {
@@ -103,12 +104,12 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
             <div className="grid grid-cols-3 gap-4 text-left">
                 <div>
                     <p className="md:text-[16px] text-[14px] text-gray-500">{t('exit-amount')}</p>
-                    <p className="md:text-2xl text-[18px] font-bold">${totalMoney.toFixed(2)}</p>
+                    <p className="md:text-2xl text-[18px] font-bold">${totalMoney.toFixed(2) || '0.00'}</p>
                 </div>
 
                 <div>
                     <p className="md:text-[16px] text-[14px] text-gray-500">{t('accrued-profit')}</p>
-                    <p className="md:text-2xl text-[18px] font-bold">${earnings.toFixed(2)}</p>
+                    <p className="md:text-2xl text-[18px] font-bold">${earnings.toFixed(2) || '0.00'}</p>
                 </div>
 
                 <div>
@@ -117,7 +118,7 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
                 </div>
             </div>
 
-            <button onClick={handleCreateDeposit} className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md">{t('create-deposit')}</button>
+            <button onClick={handleCreateDeposit} className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
         </div>
     );
 };

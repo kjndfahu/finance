@@ -15,6 +15,8 @@ import {SecondaryMarket} from "../../../../../components/aboutpage/secondarymark
 import {GetAheadAbout} from "../../../../../components/aboutpage/getaheadabout";
 import {routing} from "../../../../i18n/routing";
 import {unstable_setRequestLocale} from "next-intl/server";
+import {getServerSession} from "next-auth";
+import {authOptions} from "../../../../../utils/authOptions";
 
 export function generateStaticParams() {
         return routing.locales.map((locale) => ({locale}));
@@ -23,22 +25,23 @@ export function generateStaticParams() {
 
 export default async function AboutUsPage({params}) {
         unstable_setRequestLocale(params.locale);
+        const session = await getServerSession(authOptions)
     return (
         <div className="flex flex-col bg-[#FFFFFF] mdbvp:px-[100px] pt-[100px] smbvp:px-[30px] px-[10px]">
-            <AboutFirst/>
+            <AboutFirst session={session}/>
             <IndexblockAbout/>
             <ProssesAbout/>
-            <PrivateMarketsAbout/>
+            <PrivateMarketsAbout session={session}/>
             <WhyInvestAbout/>
             <SelectoppAbout/>
-            <GetAheadAbout/>
+            <GetAheadAbout session={session}/>
             <SecondaryMarket/>
             <Nocommissions/>
-            <InvestIPOAbout/>
+            <InvestIPOAbout session={session}/>
             <WhyProfitable/>
             <CapitalGainsAbout/>
             <ShortOperationTime/>
-            <MainFooter/>
+            <MainFooter session={session}/>
         </div>
     )
 }

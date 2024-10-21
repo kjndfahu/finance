@@ -26,17 +26,14 @@ export const PUT = async (req: Request) => {
         }
 
 
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
-
-        if (!isMatch) {
+        if(currentPassword !== user.password){
             return new Response(JSON.stringify({ error: 'Incorrect current password' }), { status: 400 });
         }
 
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         await prisma.user.update({
             where: { email },
-            data: { password: hashedPassword },
+            data: { password: newPassword },
         });
 
         return new Response(JSON.stringify({ message: 'Password updated successfully' }), { status: 200 });

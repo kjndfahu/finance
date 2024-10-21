@@ -36,7 +36,7 @@ export const Settings: React.FC<Props> = ({ className, session }) => {
     };
 
     useEffect(() => {
-        fetchUserData(); // Загружаем данные пользователя при монтировании компонента
+        fetchUserData();
     }, [session.user.name]);
 
     if (loading) {
@@ -119,7 +119,7 @@ export const Settings: React.FC<Props> = ({ className, session }) => {
                     <div className="flex flex-col">
                         <h1 className="md:text-[18px] text-[15px]">{t('telegram')}</h1>
                         <div className="flex flex-row items-center bg-[#f5f5f5] border-[1px] border-[#777777] rounded-[5px] px-4 py-1 text-[#777777] gap-3">
-                            <h4 className="md:text-[18px] text-[15px]">@{userData.telegramId}</h4>
+                            <h4 className="md:text-[18px] text-[15px]">{userData.telegramId}</h4>
                         </div>
                     </div>
                 </div>

@@ -14,7 +14,7 @@ const formRegisterSchema = formLoginSchema
             surname: z.string().min(2, { message: 'Введите корректно фамилию' }),
             confirmPassword: passwordSchema,
             phoneNumber: z.string().min(10, { message: 'Введите корректно номер телефона' }),
-            region: z.number().min(1, { message: 'Введите корректно номер региона' }),
+            region: z.string().min(1, { message: 'Введите корректно номер региона' }),
             telegramId: z.string().min(3, { message: 'Введите корректно телеграм айди' }),
             referralCode: z.string().optional() // реферальный код является опциональным
         })
@@ -60,8 +60,6 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        const hashedPassword = await hash(password, 10);
-
         const newUser = await prisma.user.create({
             data: {
                 login,
@@ -71,7 +69,7 @@ export async function POST(req: NextRequest) {
                 telegramId,
                 phoneNumber,
                 region,
-                password: hashedPassword,
+                password: password,
                 referralCode: referralCodeToUse,
             }
         });

@@ -316,7 +316,9 @@
     "transactions": "Transactions history ",
     "settings": "Settings",
     "affiliate": "Affiliate Programme",
-    "exit": "Tech. Support"
+    "exit": "Tech. Support",
+    "registration": "Registration",
+    "login": "Login"
   },
   "Settings":{
     "settings": "Settings",
@@ -367,7 +369,7 @@
     "first-name": "First Name...",
     "last-name": "Last name...",
     "phone-number": "Phone number",
-    "region": "Region (in numbers)...",
+    "region": "Region...",
     "telegram": "@username of your Telegram account",
     "registration": "Registration",
     "have-account": "I already have an account",
@@ -425,6 +427,20 @@
   "Tarrifs-tab": {
     "stocks": "Stocks and ETF's",
     "venchur": "Venchur"
+  },
+  "BurgerMenu": {
+    "aboutus": "About Us",
+    "investment-plans": "Investment plans",
+    "portfolio": "Portfolio",
+    "contents": "Contents",
+    "invite-and-earn": "Invite and earn",
+    "getstarted": "Get started",
+    "personal-account": "Enter"
+  },
+  "AboutImage": {
+    "financial-world": "Your guide to the financial world",
+    "earn-money": "Earn money with us as a professional investor",
+    "getstarted": "Get started"
   }
 }
 

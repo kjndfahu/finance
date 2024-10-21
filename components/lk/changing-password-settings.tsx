@@ -85,14 +85,12 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
                             onChange={(e) => setNewPassword(e.target.value)}
                             className="w-full bg-white border-transparent focus:outline-0"
                         />
-                        {/* Иконка для отображения/скрытия */}
                         <div onClick={() => setShowNewPassword(!showNewPassword)}>
                             {showNewPassword ? <EyeOff width={20} color="#b0b0b0" /> : <Eye width={20} color="#b0b0b0" />}
                         </div>
                     </div>
                 </div>
 
-                {/* Подтверждение пароля */}
                 <div className="flex flex-col">
                     <h1>{t('confirm-password')}</h1>
                     <div className="flex flex-row items-center px-4 py-1 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">

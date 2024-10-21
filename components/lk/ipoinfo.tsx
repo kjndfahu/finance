@@ -32,7 +32,7 @@ export const IPOInfo:React.FC<Props> = ({value = 0, dataIPO,highPercent, classNa
                 {t('personalinfodeposit')}
             </h2>
 
-            <div className="grid grid-cols-3 gap-4 text-left">
+            <div className=" grid grid-cols-3 gap-4 text-left">
                 <div>
                     <p className="md:text-[16px] text-[14px] text-gray-500">{t('exit-amount')}</p>
                     <p className="md:text-2xl text-[18px] font-bold">${totalMoney.toFixed(2)}</p>
@@ -49,7 +49,7 @@ export const IPOInfo:React.FC<Props> = ({value = 0, dataIPO,highPercent, classNa
                 </div>
             </div>
 
-            <button onClick={() => setModalOpen(true)} className="md:mt-6 mt-2 w-full md:py-3 py-1 bg-blue-600 md:text-[16px] text-[13px] text-white rounded-lg font-medium hover:bg-blue-700">
+            <button onClick={() => setModalOpen(true)} className=" md:mt-6 mt-2 w-full md:py-3 py-1 bg-blue-600 md:text-[16px] text-[13px] text-white rounded-lg font-medium hover:bg-blue-700">
                 {t('create-deposit')}
             </button>
             {isModalOpen && (<ModalDeposit isModalOpen={isModalOpen} setModalOpen={setModalOpen}/> )}

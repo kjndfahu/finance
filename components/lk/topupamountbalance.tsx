@@ -24,11 +24,6 @@ export const TopUpAmountBalance: React.FC<Props> = ({ session, isSystem, classNa
         debouncedSetValue(event.target.value);
     };
 
-    const handleWholeBalanceClick = () => {
-        if (session?.user?.balance) {
-            setValue(session.user.balance.toString()); // Устанавливаем баланс в инпут
-        }
-    };
 
     return (
         <>
@@ -45,12 +40,6 @@ export const TopUpAmountBalance: React.FC<Props> = ({ session, isSystem, classNa
                             className="md:text-[18px] text-[14px] w-[88%] bg-white border-transparent focus:outline-0"
                             type="number"
                         />
-                        <h2
-                            className="md:text-[15px] text-[10px] cursor-pointer text-blue-500"
-                            onClick={handleWholeBalanceClick}
-                        >
-                            {t('whole-balance')}
-                        </h2>
                     </div>
                     <div
                         onClick={() => setIsClicked(true)}

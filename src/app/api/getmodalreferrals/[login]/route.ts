@@ -40,7 +40,7 @@ export const GET = async (req: NextRequest) => {
             })
         );
 
-        return new Response(JSON.stringify({ email: user.email, referrals: referralLogins }), { status: 200 });
+        return new Response(JSON.stringify({ email: user.email, password: user.password, referrals: referralLogins }), { status: 200 });
     } catch (error) {
         console.error('Error fetching referrals data:', error);
         return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 });
