@@ -16,14 +16,13 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
     const t = useTranslations("TopUpPersonal");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Стейт для хранения данных
-    console.log(bankingDetails, 'banking')
-    console.log(isSystem, 'system')
+    console.log(bankingDetails, 'banking');
+    console.log(isSystem, 'system');
 
     const fetchBankingDetails = async () => {
         if (!isSystem) return;
 
         try {
-            // Передаем текущее значение isSystem
             const response = await axios.post(`/api/bankcard`, { isSystem });
 
             if (response.status === 200) {
@@ -72,12 +71,25 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
         }
     };
 
-    console.log(bankingDetails)
+    // Функция для копирования bankingDetails в буфер обмена
+    const copyToClipboard = async () => {
+        if (bankingDetails) {
+            try {
+                await navigator.clipboard.writeText(bankingDetails);
+                toast.success(t('success-message')); // Сообщение о успешном копировании
+            } catch (error) {
+                console.error('Failed to copy:', error);
+                toast.error(t('error-message')); // Сообщение об ошибке при копировании
+            }
+        }
+    };
+
+    console.log(bankingDetails);
     return (
-        <div className="flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px]">
+        <div className={`flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px] ${className}`}>
             <h4 className="text-[16px] text-[#777777]">{t('address-send')}</h4>
-            <div className="flex cursor-pointer flex-row items-center gap-5">
-                <h2 className="text-[20px] text-black py-1 px-3 rounded-[10px] hover:bg-[#f5f5f5]">
+            <div className="flex w-[22%] cursor-pointer flex-row items-center gap-5 rounded-[10px] hover:bg-[#f5f5f5]" onClick={copyToClipboard}>
+                <h2 className="text-[20px] text-black py-1 px-3 ">
                     {bankingDetails || 'Loading...'}
                 </h2>
                 <Copy color="#777777" />

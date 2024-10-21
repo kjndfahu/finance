@@ -21,7 +21,7 @@ const nextConfig = {
                 headers: [
                     {
                         key: 'Access-Control-Allow-Origin',
-                        value: 'https://allventcapcom.com, https://allventcapcom.net',
+                        value: 'https://allventcapcom.com, http://allventcapcom.net',
                     },
                     {
                         key: 'Access-Control-Allow-Methods',

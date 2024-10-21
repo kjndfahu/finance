@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { hash } from "bcrypt";
+
 import { z } from "zod";
 import { prisma } from "../../../../prisma/prisma-client";
 import { formLoginSchema, passwordSchema } from "../../../../components/lk/schema";
