@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import {useTranslations} from "next-intl";
 
 interface WithdrawOperation {
     id: number;
@@ -18,7 +19,7 @@ interface Props {
 export const WithdrawHistory: React.FC<Props> = ({ session, className }) => {
     const [operations, setOperations] = useState<WithdrawOperation[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-
+    const t = useTranslations('History');
     useEffect(() => {
         const fetchWithdrawOperations = async () => {
             try {
@@ -65,11 +66,11 @@ export const WithdrawHistory: React.FC<Props> = ({ session, className }) => {
     const getStatusText = (status: string) => {
         switch (status) {
             case 'REJECTED':
-                return 'Отказано';
+                return `${t('rejected')}`;
             case 'APPROVED':
-                return 'Принято';
+                return `${t('approved')}`;
             case 'INPROCESSING':
-                return 'Обрабатывается';
+                return `${t('processing')}`;
             default:
                 return status;
         }

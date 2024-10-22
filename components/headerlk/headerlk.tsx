@@ -8,6 +8,7 @@ import { Logo } from "../icons";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import {signOut} from "next-auth/react";
+import {router} from "next/client";
 
 interface Props {
     className?: string;
@@ -21,10 +22,8 @@ export const Headerlk: React.FC<Props> = ({ locale }) => {
     const [isLang, setLang] = useState(false);
     const t = useTranslations('NavbarLK');
 
-    // Функция для выхода из сессии
-    const handleSignOut = () => {
-        signOut({callbackUrl: '/'})
-    };
+
+
 
 
     return (
@@ -80,8 +79,8 @@ export const Headerlk: React.FC<Props> = ({ locale }) => {
                         </Link>
                     </>
                 ) : (
-                    <Link href="/">
-                        <button onClick={handleSignOut} className="text-black cursor-pointer">
+                    <Link href="#" onClick={() => signOut({redirect: true})}>
+                        <button className="text-black cursor-pointer">
                             <h4>{t('exit-btn')}</h4>
                         </button>
                     </Link>

@@ -322,7 +322,7 @@
   },
   "Settings":{
     "settings": "Settings",
-    "account": "Mail",
+    "mail": "Mail",
     "name": "Name",
     "surname": "Surname",
     "phone": "Phone Number",

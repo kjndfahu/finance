@@ -323,7 +323,7 @@
   },
   "Settings":{
     "settings": "Настройки",
-    "account": "Почта",
+    "mail": "Почта",
     "name": "Имя",
     "surname": "Фамилия",
     "phone": "Телефон",

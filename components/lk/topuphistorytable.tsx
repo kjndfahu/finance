@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import {useTranslations} from "next-intl";
 
 interface TopUpOperation {
     id: number;
@@ -18,6 +19,7 @@ interface Props {
 export const TopUpHistoryTable: React.FC<Props> = ({ session, className }) => {
     const [operations, setOperations] = useState<TopUpOperation[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const t = useTranslations('History')
 
     useEffect(() => {
         const fetchTopUpOperations = async () => {
@@ -65,11 +67,11 @@ export const TopUpHistoryTable: React.FC<Props> = ({ session, className }) => {
     const getStatusText = (status: string) => {
         switch (status) {
             case 'REJECTED':
-                return 'Отказано';
+                return `${t('rejected')}`;
             case 'APPROVED':
-                return 'Принято';
+                return `${t('approved')}`;
             case 'INPROCESSING':
-                return 'Обрабатывается';
+                return `${t('processing')}`;
             default:
                 return status;
         }

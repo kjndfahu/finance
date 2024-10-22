@@ -71,5 +71,14 @@ export const authOptions: NextAuthOptions = {
             };
             return session;
         },
+        async redirect({ url, baseUrl }) {
+            const domain = process.env.NEXTAUTH_URL;
+            if (domain === 'https://allventcapcom.com') {
+                return process.env.NEXTAUTH_URL_DOMAIN_1;
+            } else {
+                return process.env.NEXTAUTH_URL_DOMAIN_2;
+            }
+        }
+
     },
 };
