@@ -24,7 +24,7 @@ export const Details: React.FC<Props> = ({ className }) => {
         };
 
         fetchDetails();
-    }, [details]);
+    }, []);
 
     const openModal = (detail: BankingDetails) => {
         setSelectedDetail(detail);
