@@ -36,6 +36,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
         }
     };
 
+
     useEffect(() => {
         fetchBankingDetails();
     }, [isSystem]);
