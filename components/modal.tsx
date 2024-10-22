@@ -38,7 +38,7 @@ export const Modal: React.FC<Props> = ({
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.put(`/api/bankcard/${detail.id}`, {
+            const response = await axios.put(`/api/bankingdetails/${detail.id}`, {
                 name: detail.name,
                 details: value,
             });
@@ -46,9 +46,9 @@ export const Modal: React.FC<Props> = ({
             setModalOpen(false); // Закрываем модальное окно
         } catch (error) {
             console.error('Ошибка при обновлении:', error);
-
         }
     };
+
 
     return (
         <div
