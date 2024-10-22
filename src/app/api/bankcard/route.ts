@@ -26,3 +26,12 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 }
+export async function GET() {
+    try {
+        const details = await prisma.bankingDetails.findMany();
+        return NextResponse.json(details);
+    } catch (error) {
+        console.error('Error fetching banking details:', error);
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
+}

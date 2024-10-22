@@ -1,7 +1,7 @@
-'use client'
+'use client';
 import { useEffect, useState } from "react";
-import { BankingDetails } from "@prisma/client"; // Assuming you're using Prisma
-import { bankDetails } from "../../services/users";
+import { BankingDetails } from "@prisma/client"; // Предполагается, что вы используете Prisma
+import { bankDetails } from "../../services/users"; // Убедитесь, что bankDetails возвращает данные
 import { Modal } from "../modal";
 
 interface Props {
@@ -16,15 +16,19 @@ export const Details: React.FC<Props> = ({ className }) => {
     useEffect(() => {
         const fetchDetails = async () => {
             try {
-                const data = await bankDetails();
+                const response = await fetch('/api/bankcard'); // Запрос к вашему API для получения данных
+                if (!response.ok) {
+                    throw new Error('Ошибка при получении данных');
+                }
+                const data = await response.json();
                 setDetails(data);
             } catch (err) {
                 console.error("Ошибка загрузки данных", err);
             }
         };
 
-        fetchDetails();
-    }, []);
+        fetchDetails(); // Вызов функции для загрузки данных при монтировании компонента
+    }, []); // Пустой массив зависимостей означает, что эффект сработает только один раз
 
     const openModal = (detail: BankingDetails) => {
         setSelectedDetail(detail);
@@ -46,7 +50,7 @@ export const Details: React.FC<Props> = ({ className }) => {
     };
 
     return (
-        <div className="flex justify-center w-full bg-[#f5f5f5] md:pt-[50px] max-w-[100%]">
+        <div className={`flex justify-center w-full bg-[#f5f5f5] md:pt-[50px] max-w-[100%] ${className}`}>
             <div className="w-full md:p-6 p-2 bg-white rounded-lg shadow-lg overflow-x-auto">
                 <h1 className="md:text-2xl text-[17px] text-black font-semibold mb-6">Реквизиты</h1>
                 <table className="w-full text-left table-auto">
