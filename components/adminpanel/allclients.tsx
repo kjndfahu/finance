@@ -6,16 +6,30 @@ import toast from "react-hot-toast";
 import debounce from "debounce";
 import { ModalReferrals } from "./modalreferrals";
 
-interface Props {
-    className?: string;
+interface WithdrawOperation {
+    sum: number;
+    status: string;
 }
 
-export const AllClients: React.FC<Props> = ({ className }) => {
+interface TopUpOperation {
+    sum: number;
+    status: string;
+}
+
+interface Props {
+    className?: string;
+    session: any;
+}
+
+export const AllClients: React.FC<Props> = ({ className, session }) => {
     const [clients, setClients] = useState<User[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredClients, setFilteredClients] = useState<User[]>([]);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [selectedClientLogin, setSelectedClientLogin] = useState<string | null>(null); // Логин выбранного клиента
+    const [selectedClientLogin, setSelectedClientLogin] = useState<string | null>(null);
+    const [withdrawSums, setWithdrawSums] = useState<{ [email: string]: number }>({});
+    const [topUpSums, setTopUpSums] = useState<{ [email: string]: number }>({});
+
     const debouncedSetSearchTerm = useCallback(
         debounce((newValue: string) => setSearchTerm(newValue), 500),
         []
@@ -25,12 +39,50 @@ export const AllClients: React.FC<Props> = ({ className }) => {
         debouncedSetSearchTerm(event.target.value);
     };
 
+    const fetchWithdrawAmount = async (email: string) => {
+        try {
+            const res = await fetch(`/api/withdrawoperations?email=${email}`);
+            const operations: WithdrawOperation[] = await res.json();
+
+            // Суммируем все операции со статусом APPROVED
+            const approvedSum = operations
+                .filter(operation => operation.status === 'APPROVED')
+                .reduce((acc, curr) => acc + curr.sum, 0);
+
+            setWithdrawSums(prev => ({ ...prev, [email]: approvedSum }));
+        } catch (err) {
+            console.error('Ошибка получения суммы вывода:', err);
+        }
+    };
+
+    const fetchTopUpAmount = async (email: string) => {
+        try {
+            const res = await fetch(`/api/topupoperations?email=${email}`);
+            const operations: TopUpOperation[] = await res.json();
+
+            // Суммируем все операции со статусом APPROVED
+            const approvedSum = operations
+                .filter(operation => operation.status === 'APPROVED')
+                .reduce((acc, curr) => acc + curr.sum, 0);
+
+            setTopUpSums(prev => ({ ...prev, [email]: approvedSum }));
+        } catch (err) {
+            console.error('Ошибка получения суммы пополнений:', err);
+        }
+    };
+
     useEffect(() => {
         const fetchClients = async () => {
             try {
                 const data = await list();
                 setClients(data);
-                setFilteredClients(data); // Сохраняем всех клиентов при загрузке
+                setFilteredClients(data);
+
+                // Для каждого клиента делаем запрос на получение выведенной суммы и суммы пополнений
+                data.forEach(client => {
+                    fetchWithdrawAmount(client.email);
+                    fetchTopUpAmount(client.email);
+                });
             } catch (err) {
                 console.log("Ошибка загрузки данных", err);
             }
@@ -70,15 +122,6 @@ export const AllClients: React.FC<Props> = ({ className }) => {
         }
     };
 
-    const handleCopyPassword = (password: string) => {
-        navigator.clipboard.writeText(password).then(() => {
-            toast.success("Пароль скопирован в буфер обмена!");
-        }).catch(err => {
-            toast.error("Ошибка копирования пароля");
-            console.error('Ошибка копирования:', err);
-        });
-    };
-
     return (
         <div className="md:mt-[50px] bg-[#f5f5f5] text-black flex flex-col gap-[50px] ">
             <div className="bg-white shadow-lg rounded-lg md:p-6 p-2 w-full overflow-x-auto">
@@ -107,12 +150,16 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                     {filteredClients.map((client) => (
                         <tr key={client.id} className="border-b">
                             <td onClick={() => {
-                                setSelectedClientLogin(client.login); // Устанавливаем логин выбранного клиента
+                                setSelectedClientLogin(client.login);
                                 setModalOpen(true);
                             }} className="md:px-4 cursor-pointer px-1 py-2 md:text-[16px] text-[13px]">{client.login}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">$0</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">
+                                ${topUpSums[client.email] ?? 0} {/* Суммированное значение пополнений */}
+                            </td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">
+                                ${withdrawSums[client.email] ?? 0} {/* Суммированное значение выводов */}
+                            </td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.name}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.phoneNumber}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">{client.telegramId}</td>
@@ -127,7 +174,7 @@ export const AllClients: React.FC<Props> = ({ className }) => {
                     <ModalReferrals
                         setModalOpen={setModalOpen}
                         isModalOpen={isModalOpen}
-                        selectedClientLogin={selectedClientLogin} // Передаем логин клиента
+                        selectedClientLogin={selectedClientLogin}
                     />
                 )}
             </div>

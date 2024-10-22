@@ -47,6 +47,16 @@ export async function POST(req: Request) {
             },
         });
 
+        const newTopUpOperation = await prisma.topUpOperations.create({
+            data: {
+                email,
+                sum: Number(sum),
+                status: "INPROCESSING"
+            },
+        });
+
+        console.log(newTopUpOperation)
+
         const message = `Новый запрос на пополнение:\nEmail: ${email}\nТип: ${type}\nСумма: ${sum}`;
         await sendTelegramNotification(message);
 

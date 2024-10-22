@@ -31,6 +31,8 @@ model User {
   deposits           Deposits[]
   withdrawrequest    WithdrawRequest[]
   withdrawoperations WithdrawOperations[]
+  withdrawodeclined  WithdrawDeclined[]
+  topupdeclined      TopUpDeclined[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -60,7 +62,9 @@ model OperationsHistory {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  withdraws WithdrawOperations[]
+  withdraws         WithdrawOperations[]
+  withdrawsdeclined WithdrawDeclined[]
+  topups            TopUpDeclined[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -71,8 +75,9 @@ model TopUpOperations {
 
   sum Int
 
-  email String
-  user  User?  @relation(fields: [email], references: [email], onDelete: Cascade)
+  email  String
+  user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
+  status WithdrawStatus @default(APPROVED)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -83,8 +88,39 @@ model WithdrawOperations {
 
   sum Int
 
-  email String
-  user  User?  @relation(fields: [email], references: [email])
+  email  String
+  user   User?          @relation(fields: [email], references: [email])
+  status WithdrawStatus @default(APPROVED)
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  OperationsHistory   OperationsHistory? @relation(fields: [operationsHistoryId], references: [id])
+  operationsHistoryId Int?
+}
+
+model WithdrawDeclined {
+  id Int @id @default(autoincrement())
+
+  sum Int
+
+  email  String
+  user   User?          @relation(fields: [email], references: [email])
+  status WithdrawStatus @default(REJECTED)
+
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  OperationsHistory   OperationsHistory? @relation(fields: [operationsHistoryId], references: [id])
+  operationsHistoryId Int?
+}
+
+model TopUpDeclined {
+  id Int @id @default(autoincrement())
+
+  sum Int
+
+  email  String
+  user   User?          @relation(fields: [email], references: [email])
+  status WithdrawStatus @default(REJECTED)
 
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
@@ -101,10 +137,11 @@ model BankingDetails {
 model TopUpRequest {
   id Int @id @default(autoincrement())
 
-  email String
-  user  User?  @relation(fields: [email], references: [email], onDelete: Cascade)
-  type  String
-  sum   Int
+  email  String
+  user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
+  type   String
+  sum    Int
+  status WithdrawStatus @default(INPROCESSING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -127,11 +164,12 @@ model Deposits {
 }
 
 model WithdrawRequest {
-  id             Int    @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   email          String
   method         String
   amount         Int
   paymentDetails String
+  status         WithdrawStatus @default(INPROCESSING)
 
   user User? @relation(fields: [email], references: [email], onDelete: Cascade)
 
@@ -147,4 +185,10 @@ enum DepositStatus {
 enum Role {
   USER
   ADMIN
+}
+
+enum WithdrawStatus {
+  APPROVED
+  INPROCESSING
+  REJECTED
 }

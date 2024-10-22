@@ -358,7 +358,10 @@
     "deposit-creation": "Deposit creation",
     "withdraw": "Withdraw creation",
     "open-withdraw": "Open withdraw",
-    "open-deposit": "Open deposit"
+    "open-deposit": "Open deposit",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "processing": "In processing"
   },
   "Registration":{
     "registration-website": "Registration on the website",
@@ -441,6 +444,14 @@
     "financial-world": "Your guide to the financial world",
     "earn-money": "Earn money with us as a professional investor",
     "getstarted": "Get started"
+  },
+  "VenchurInfo": {
+    "text": "Private markets - working period of 15 days, profit is accrued at the end of the deposit working period together with the investment",
+    "days": "days",
+    "daily": "daily",
+    "latestage": "Late stage of development",
+    "startup": "Start-up phase",
+    "posev": "Seeding stage"
   }
 }
 

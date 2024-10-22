@@ -9,9 +9,11 @@ interface Props {
     value: string;
     isSystem: any;
     session: any;
+    balance: any;
+    setBalance: any;
 }
 
-export const WithdrawAmountBalance: React.FC<Props> = ({ session, isSystem, value, className }) => {
+export const WithdrawAmountBalance: React.FC<Props> = ({ balance, setBalance, session, isSystem, value, className }) => {
     const t = useTranslations("WithdrawPersonal");
     const [count, setCount] = useState(0);
     const debouncedSetValue = useCallback(
@@ -30,10 +32,17 @@ export const WithdrawAmountBalance: React.FC<Props> = ({ session, isSystem, valu
     };
 
     const handleWithdrawRequest = async () => {
+        const amount = count;
+
+        // Проверка, что сумма для вывода не превышает баланс
+        if (amount > balance) {
+            toast.error(t('error')); // Показать ошибку
+            return;
+        }
+
         try {
             const email = session?.user.email;
             const method = isSystem;
-            const amount = count;
             const paymentDetails = value;
 
             const response = await fetch('/api/withdrawrequest', {
@@ -50,16 +59,17 @@ export const WithdrawAmountBalance: React.FC<Props> = ({ session, isSystem, valu
             });
 
             if (response.ok) {
-                toast.success("Success");
+                toast.success(t('success-withdrawal'));
+                setBalance(balance - amount); // Обновляем баланс
                 console.log("Withdrawal request submitted successfully");
             } else {
                 const errorData = await response.json();
                 console.error("Failed to submit the withdrawal request", errorData);
-                toast.error("Error");
+                toast.error(t('error'));
             }
         } catch (error) {
             console.error("Error submitting the withdrawal request:", error);
-            toast.error("Error");
+            toast.error(t('error'));
         }
     };
 

@@ -14,6 +14,7 @@ interface Props {
 interface Operation {
     sum: number;
     createdAt: string;
+    status: string;
     type: 'topup' | 'withdraw';
 }
 
@@ -32,6 +33,7 @@ export const PaymentHistory: React.FC<Props> = ({ session, minSum, maxSum, setTo
                 const formattedOperations = data.map((item: any) => ({
                     sum: item.sum,
                     createdAt: item.createdAt,
+                    status: item.status,
                     type: item.type === 'topup' ? 'topup' : 'withdraw'
                 }));
 
@@ -63,6 +65,32 @@ export const PaymentHistory: React.FC<Props> = ({ session, minSum, maxSum, setTo
         return withinMin && withinMax;
     });
 
+    const getStatusClass = (status: string) => {
+        switch (status) {
+            case 'REJECTED':
+                return 'text-red-500';
+            case 'APPROVED':
+                return 'text-green-500';
+            case 'IN PROCESSING':
+                return 'text-black';
+            default:
+                return '';
+        }
+    };
+
+    const getStatusText = (status: string) => {
+        switch (status) {
+            case 'REJECTED':
+                return `${t('rejected')}`;
+            case 'APPROVED':
+                return `${t('approved')}`;
+            case 'INPROCESSING':
+                return `${t('processing')}`;
+            default:
+                return status;
+        }
+    };
+
     return (
         <div className="flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px]">
             <h4 className="md:text-[18px] text-[15px] text-[#777777]">{t('transaction-history')}</h4>
@@ -81,8 +109,8 @@ export const PaymentHistory: React.FC<Props> = ({ session, minSum, maxSum, setTo
                                 <h1 className="md:text-[19px] text-[14px]">
                                     {operation.type === 'topup' ? t('deposit-creation') : t('withdraw')}
                                 </h1>
-                                <h3 className="md:text-[19px] text-[14px] text-[#b0b0b0]">
-                                    {operation.type === 'topup' ? t('open-deposit') : t('open-withdraw')}
+                                <h3 className={`md:text-[19px] text-[14px] text-[#b0b0b0] ${getStatusClass(operation.status)}`}>
+                                    {getStatusText(operation.status)}
                                 </h3>
                                 <h3 className="md:text-[16px] text-[13px] text-[#b0b0b0]">{new Date(operation.createdAt).toLocaleString()}</h3>
                             </div>

@@ -32,10 +32,6 @@ export const POST = async (req: Request) => {
             },
         });
 
-        await prisma.user.update({
-            where: { email },
-            data: { balance: user.balance - amount },
-        });
 
         await prisma.withdrawRequest.delete({
             where: { id: requestId },

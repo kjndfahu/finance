@@ -14,7 +14,7 @@ export const ReferralLink: React.FC<Props> = ({ session, className }) => {
     const [referralCode, setReferralCode] = useState<string>("");
     const t = useTranslations('Refferal');
     const url = window.location.href;
-    const newUrl = url.replace(/(\/en\/).*/, '$1'); // Изменяем URL на корректный
+    const newUrl = url.slice(0, -16); // Изменяем URL на корректный
     const emailToPost = session.user.email; // Извлекаем email из сессии
 
     useEffect(() => {

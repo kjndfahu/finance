@@ -43,7 +43,29 @@ export async function POST(req: Request) {
             }
         });
 
+        const newWithdrawOperation = await prisma.withdrawOperations.create({
+            data: {
+                email,
+                sum: +(amount),
+                status: "INPROCESSING"
+            }
+        });
+
+        const user = await prisma.user.findUnique({
+            where: { email },
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 });
+        }
+
+        await prisma.user.update({
+            where: { email },
+            data: { balance: user.balance - amount },
+        });
+
         console.log(newWithdrawRequest)
+        console.log(newWithdrawOperation)
 
         const message = `Новый запрос на вывод:\nEmail: ${email}\nТип: ${method}\nАдрес: ${paymentDetails}\nСумма: ${amount}`;
         await sendTelegramNotification(message);

@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CalendarCheck2 } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,8 +10,7 @@ interface Props {
     setTab: any;
     setMinSum: (value: number | null) => void;
     setMaxSum: (value: number | null) => void;
-    totalTopupSum: number;
-    totalWithdrawSum: number;
+    session: any;
 }
 
 export const AmountOfPayments: React.FC<Props> = ({
@@ -19,16 +18,62 @@ export const AmountOfPayments: React.FC<Props> = ({
                                                       setTab,
                                                       setMinSum,
                                                       setMaxSum,
-                                                      totalTopupSum,
-                                                      totalWithdrawSum,
+                                                      session,
                                                       className
                                                   }) => {
     const t = useTranslations('History');
     const [minInput, setMinInput] = useState<string>('');
     const [maxInput, setMaxInput] = useState<string>('');
-    const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]); // State for date range
+    const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+    const [totalWithdrawSum, setTotalWithdrawSum] = useState<number>(0);
+    const [totalTopUpSum, setTotalTopUpSum] = useState<number>(0);
     const [startDate, endDate] = dateRange;
-    console.log(dateRange, 'dateRange')
+
+    // Получаем email из сессии
+    const email = session.user.email; // или другой способ получения email
+
+    useEffect(() => {
+        const fetchWithdrawSum = async () => {
+            if (!email) return;
+
+            try {
+                const response = await fetch(`/api/withdrawoperations?email=${email}`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    const approvedWithdrawals = data.filter(operation => operation.status === 'APPROVED');
+                    const totalSum = approvedWithdrawals.reduce((acc, operation) => acc + operation.sum, 0);
+                    setTotalWithdrawSum(totalSum);
+                }
+            } catch (error) {
+                console.error('Error fetching withdraw sums:', error);
+            }
+        };
+
+        fetchWithdrawSum();
+    }, [email]);
+
+    useEffect(() => {
+        const fetchTopUpSum = async () => {
+            if (!email) return;
+
+            try {
+                const response = await fetch(`/api/topupoperations?email=${email}`);
+                const data = await response.json();
+
+                if (Array.isArray(data)) {
+                    const approvedWithdrawals = data.filter(operation => operation.status === 'APPROVED');
+                    const totalSum = approvedWithdrawals.reduce((acc, operation) => acc + operation.sum, 0);
+                    setTotalTopUpSum(totalSum);
+                }
+            } catch (error) {
+                console.error('Error fetching top-up sums:', error);
+            }
+        };
+
+        fetchTopUpSum();
+    }, [email]);
+
     const handleMinSumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMinInput(e.target.value);
         setMinSum(e.target.value ? parseFloat(e.target.value) : null);
@@ -44,7 +89,7 @@ export const AmountOfPayments: React.FC<Props> = ({
             <div className="flex md:flex-row flex-col justify-between md:items-center items-start">
                 <h4 className="text-[#777777]">{t('amount')}</h4>
                 <div className="flex gap-3">
-                    <h2 className="md:text-[22px] text-[15px] font-semibold text-green-500">+${totalTopupSum.toFixed(2)}</h2>
+                    <h2 className="md:text-[22px] text-[15px] font-semibold text-green-500">+${totalTopUpSum.toFixed(2)}</h2>
                     <h2 className="md:text-[22px] text-[15px] font-semibold">-${totalWithdrawSum.toFixed(2)}</h2>
                 </div>
             </div>

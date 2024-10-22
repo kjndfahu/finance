@@ -10,7 +10,6 @@ export function generateStaticParams() {
 }
 
 export default async function AllClientsPage({ params }) {
-    // Устанавливаем локаль
     unstable_setRequestLocale(params.locale);
 
     const session = await getServerSession(authOptions);
@@ -20,7 +19,7 @@ export default async function AllClientsPage({ params }) {
         const messages = await getMessages(); // Получаем сообщения, если это нужно
         return (
             <div className="flex flex-col min-h-screen bg-[#f5f5f5] w-full gap-5 md:px-[150px]">
-                <AllClients />
+                <AllClients session={session}/>
             </div>
         );
     } else {

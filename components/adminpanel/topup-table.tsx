@@ -49,28 +49,50 @@ export const TopUpTable: React.FC<Props> = ({ className }) => {
         }
     };
 
-    const handleReject = async (requestId: number) => {
+    const handleReject = async (requestId: number, email: string, sum: number) => {
+        // try {
+        //     const response = await fetch('/api/topuprequest/decline', {
+        //         method: 'DELETE',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({ requestId }),
+        //     });
+        //
+        //     const result = await response.json();
+        //
+        //     if (response.ok) {
+        //         setRequests(prev => prev.filter(request => request.id !== requestId));
+        //         toast.success('Заявка отклонена и удалена');
+        //     } else {
+        //         console.error('Ошибка при отклонении заявки:', result.message);
+        //         toast.error('Ошибка при отклонении заявки: ' + result.message);
+        //     }
+        // } catch (error) {
+        //     console.error('Ошибка при выполнении запроса на отклонение заявки:', error);
+        //     toast.error('Ошибка сервера при отклонении заявки');
+        // }
         try {
             const response = await fetch('/api/topuprequest/decline', {
-                method: 'DELETE',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ requestId }),
+                body: JSON.stringify({ requestId, email, sum }),
             });
 
             const result = await response.json();
 
             if (response.ok) {
-                setRequests(prev => prev.filter(request => request.id !== requestId));
+                setRequests(prev => prev.filter(req => req.id !== requestId));
                 toast.success('Заявка отклонена и удалена');
             } else {
-                console.error('Ошибка при отклонении заявки:', result.message);
-                toast.error('Ошибка при отклонении заявки: ' + result.message);
+                toast.error(`Ошибка при отклонении заявки: ${result.message || 'Неизвестная ошибка'}`);
+                console.error('Ошибка при отклонении заявки', result.message);
             }
         } catch (error) {
             console.error('Ошибка при выполнении запроса на отклонение заявки:', error);
-            toast.error('Ошибка сервера при отклонении заявки');
+            toast.error('Ошибка при выполнении запроса');
         }
     };
 
@@ -103,7 +125,7 @@ export const TopUpTable: React.FC<Props> = ({ className }) => {
                                     Одобрить
                                 </h2>
                                 <h2
-                                    onClick={() => handleReject(request.id)}
+                                    onClick={() => handleReject(request.id, request.email, request.sum)}
                                     className="text-red-500 cursor-pointer py-1 rounded"
                                 >
                                     Отклонить

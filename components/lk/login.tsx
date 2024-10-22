@@ -29,8 +29,12 @@ export const Login: React.FC<Props> = ({ session, className }) => {
 
     const onSubmit = async (data: TFormLoginData) => {
         try {
+            // Преобразование email в нижний регистр
+            const emailLowerCase = data.email.toLowerCase();
+
             const resp = await signIn('credentials', {
                 ...data,
+                email: emailLowerCase, // Используем преобразованный email
                 redirect: false,
             });
 
@@ -51,6 +55,15 @@ export const Login: React.FC<Props> = ({ session, className }) => {
         router.back();
     };
 
+    // Функция для очистки других полей при вводе email
+    const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        form.setValue('email', value);
+        if (value) {
+            form.setValue('password', ''); // Очищаем поле пароля
+        }
+    };
+
     return (
         <div className="flex justify-center items-center mt-20 bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -67,6 +80,7 @@ export const Login: React.FC<Props> = ({ session, className }) => {
                             type="email"
                             id="email"
                             placeholder={t('e-mail')}
+                            onInput={handleEmailInput}
                             className="w-full bg-white text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         {form.formState.errors.email && (

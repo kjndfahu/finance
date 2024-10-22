@@ -13,6 +13,7 @@ interface Props{
 
 export const AllDeposit:React.FC<Props> = ({session, className})=>{
     const [value, setValue] = useState('');
+    const [balance, setBalance] = useState(session.user.balance);
     const debouncedSetValue = useCallback(
         debounce((newValue: string) => setValue(newValue), 100),
         []
@@ -28,7 +29,7 @@ export const AllDeposit:React.FC<Props> = ({session, className})=>{
     };
     return (
         <div className="flex min-h-screen flex-col bg-[#f5f5f5] w-full md:gap-5 gap-2">
-            <DepositTopUp session={session}/>
+            <DepositTopUp balance={balance} session={session}/>
             <DepositAmountBalance value={value} handleWholeBalanceClick={handleWholeBalanceClick} session={session} handleChange={handleChange}/>
             <DepositTarrifPlan session={session} value={value}/>
         </div>

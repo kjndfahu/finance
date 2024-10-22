@@ -6,6 +6,7 @@ import { Minus } from 'lucide-react';
 interface WithdrawOperation {
     id: number;
     sum: number;
+    status:string;
     createdAt: string;
 }
 
@@ -34,7 +35,13 @@ export const WithdrawHistory: React.FC<Props> = ({ session, minSum, maxSum, clas
                 }
 
                 const data = await response.json();
-                setOperations(data);
+                const formattedOperations = data.map((item: any) => ({
+                    sum: item.sum,
+                    createdAt: item.createdAt,
+                    status: item.status,
+                }))
+
+                setOperations(formattedOperations);
             } catch (error) {
                 console.error('Ошибка загрузки истории пополнений:', error);
             }
@@ -52,6 +59,32 @@ export const WithdrawHistory: React.FC<Props> = ({ session, minSum, maxSum, clas
         setSortedOperations(filteredOperations);
     }, [operations, minSum, maxSum]);
 
+    const getStatusClass = (status: string) => {
+        switch (status) {
+            case 'REJECTED':
+                return 'text-red-500';
+            case 'APPROVED':
+                return 'text-green-500';
+            case 'IN PROCESSING':
+                return 'text-black';
+            default:
+                return '';
+        }
+    };
+
+    const getStatusText = (status: string) => {
+        switch (status) {
+            case 'REJECTED':
+                return `${t('rejected')}`;
+            case 'APPROVED':
+                return `${t('approved')}`;
+            case 'INPROCESSING':
+                return `${t('processing')}`;
+            default:
+                return status;
+        }
+    };
+
 
     return (
         <div className={`flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px] ${className}`}>
@@ -66,6 +99,9 @@ export const WithdrawHistory: React.FC<Props> = ({ session, minSum, maxSum, clas
                             <div className="flex flex-col gap-1">
                                 <h1 className="md:text-[19px] text-[14px]">Withdraw</h1>
                                 <h3 className="md:text-[16px] text-[13px] text-[#b0b0b0]">{new Date(withdraw.createdAt).toLocaleString()}</h3>
+                                <h3 className={`md:text-[19px] text-[14px] text-[#b0b0b0] ${getStatusClass(withdraw.status)}`}>
+                                    {getStatusText(withdraw.status)}
+                                </h3>
                             </div>
                         </div>
                         <h2 className="font-semibold md:text-[21px] text-[14px]">-${withdraw.sum.toFixed(2)}</h2>

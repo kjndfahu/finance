@@ -59,6 +59,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
     const onSubmit = async (values: z.infer<typeof formRegisterSchema>) => {
         const formData = {
             ...values,
+            email: values.email.toLowerCase(), // Преобразование email в нижний регистр
             region: values.region,
         };
 
@@ -98,6 +99,7 @@ export const Registration: React.FC<Props> = ({ className }) => {
                             id="email"
                             placeholder={t('e-mail')}
                             className="w-full bg-white text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onChange={(e) => form.setValue('email', e.target.value.toLowerCase())} // Преобразование email в нижний регистр
                         />
                         {form.formState.errors.email && (
                             <span className="text-red-500">{form.formState.errors.email.message}</span>
@@ -150,7 +152,8 @@ export const Registration: React.FC<Props> = ({ className }) => {
                                 placeholder={t('repeat-password')}
                                 className="w-full bg-white border-transparent focus:outline-0"
                             />
-                            <div className="cursor-pointer" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            <div className="cursor-pointer"
+                                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 {showConfirmPassword ? <EyeOff width={20} color="#b0b0b0"/> :
                                     <Eye width={20} color="#b0b0b0"/>}
                             </div>
@@ -251,3 +254,5 @@ export const Registration: React.FC<Props> = ({ className }) => {
         </div>
     );
 };
+
+

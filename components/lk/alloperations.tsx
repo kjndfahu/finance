@@ -23,8 +23,7 @@ export const AllOperations: React.FC<Props> = ({session, className}) => {
                 setTab={setTab}
                 setMinSum={setMinSum}
                 setMaxSum={setMaxSum}
-                totalTopupSum={totalTopupSum}
-                totalWithdrawSum={totalWithdrawSum}
+                session={session}
             />
             {activeTab === 1 && (
                 <PaymentHistory
