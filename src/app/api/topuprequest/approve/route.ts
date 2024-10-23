@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
         console.log('User found:', user);
 
-        // Удаление линии 0, если такая линия существует
+        // Обновляем линию 0 на линию 1, если такая существует
         const zeroLineReferral = await prisma.referrals.findFirst({
             where: { userId: user.id, typeofline: 0 },
         });
@@ -45,7 +45,6 @@ export async function POST(req: Request) {
 
         console.log('Top-up operation created:', topUpOperation);
 
-        // Обновление баланса пользователя
         const updatedUser = await prisma.user.update({
             where: { email: user.email },
             data: {
@@ -83,10 +82,19 @@ export async function POST(req: Request) {
                         data: {
                             totalProfit: existingFirstLevelReferral.totalProfit + sum,
                             totalAmount: existingFirstLevelReferral.totalAmount + firstLevelBonus,
-                            totalReferrals: 1,// обновляем totalAmount
+                            totalReferrals: 1,
                         },
                     });
                     console.log(`First-level referral totalProfit updated by ${sum} and totalAmount updated by ${firstLevelBonus}`);
+
+                    // Обновляем баланс пригласившего пользователя (первого уровня)
+                    await prisma.user.update({
+                        where: { id: firstLevelUser.id },
+                        data: {
+                            balance: firstLevelUser.balance + firstLevelBonus,
+                        },
+                    });
+                    console.log(`First level user balance updated with first level bonus: ${firstLevelBonus}`);
                 } else {
                     await prisma.referrals.create({
                         data: {
@@ -99,6 +107,14 @@ export async function POST(req: Request) {
                         },
                     });
                     console.log(`New first-level referral created with totalProfit ${sum} and totalAmount ${firstLevelBonus}`);
+
+                    await prisma.user.update({
+                        where: { id: firstLevelUser.id },
+                        data: {
+                            balance: firstLevelUser.balance + firstLevelBonus,
+                        },
+                    });
+                    console.log(`First level user balance updated with first level bonus: ${firstLevelBonus}`);
                 }
 
                 const secondLevelReferral = await prisma.referrals.findFirst({
@@ -115,7 +131,7 @@ export async function POST(req: Request) {
                     console.log('Second level user:', secondLevelUser);
 
                     if (secondLevelUser) {
-                        const secondLevelBonus = sum * 0.06;
+                        const secondLevelBonus = sum * 0.05;
 
                         // Проверяем и обновляем данные для второй линии
                         const existingSecondLevelReferral = await prisma.referrals.findFirst({
@@ -127,10 +143,19 @@ export async function POST(req: Request) {
                                 where: { id: existingSecondLevelReferral.id },
                                 data: {
                                     totalProfit: existingSecondLevelReferral.totalProfit + sum,
-                                    totalAmount: existingSecondLevelReferral.totalAmount + secondLevelBonus, // обновляем totalAmount
+                                    totalAmount: existingSecondLevelReferral.totalAmount + secondLevelBonus,
                                 },
                             });
                             console.log(`Second-level referral totalProfit updated by ${sum} and totalAmount updated by ${secondLevelBonus}`);
+
+                            // Обновляем баланс пригласившего пользователя (второго уровня)
+                            await prisma.user.update({
+                                where: { id: secondLevelUser.id },
+                                data: {
+                                    balance: secondLevelUser.balance + secondLevelBonus,
+                                },
+                            });
+                            console.log(`Second level user balance updated with second level bonus: ${secondLevelBonus}`);
                         } else {
                             await prisma.referrals.create({
                                 data: {
@@ -143,6 +168,15 @@ export async function POST(req: Request) {
                                 },
                             });
                             console.log(`New second-level referral created with totalProfit ${sum} and totalAmount ${secondLevelBonus}`);
+
+                            // Обновляем баланс второго уровня
+                            await prisma.user.update({
+                                where: { id: secondLevelUser.id },
+                                data: {
+                                    balance: secondLevelUser.balance + secondLevelBonus,
+                                },
+                            });
+                            console.log(`Second level user balance updated with second level bonus: ${secondLevelBonus}`);
                         }
 
                         const thirdLevelReferral = await prisma.referrals.findFirst({
@@ -171,10 +205,19 @@ export async function POST(req: Request) {
                                         where: { id: existingThirdLevelReferral.id },
                                         data: {
                                             totalProfit: existingThirdLevelReferral.totalProfit + sum,
-                                            totalAmount: existingThirdLevelReferral.totalAmount + thirdLevelBonus, // обновляем totalAmount
+                                            totalAmount: existingThirdLevelReferral.totalAmount + thirdLevelBonus,
                                         },
                                     });
                                     console.log(`Third-level referral totalProfit updated by ${sum} and totalAmount updated by ${thirdLevelBonus}`);
+
+                                    // Обновляем баланс пригласившего пользователя (третьего уровня)
+                                    await prisma.user.update({
+                                        where: { id: thirdLevelUser.id },
+                                        data: {
+                                            balance: thirdLevelUser.balance + thirdLevelBonus,
+                                        },
+                                    });
+                                    console.log(`Third level user balance updated with third level bonus: ${thirdLevelBonus}`);
                                 } else {
                                     await prisma.referrals.create({
                                         data: {
@@ -187,6 +230,15 @@ export async function POST(req: Request) {
                                         },
                                     });
                                     console.log(`New third-level referral created with totalProfit ${sum} and totalAmount ${thirdLevelBonus}`);
+
+                                    // Обновляем баланс третьего уровня
+                                    await prisma.user.update({
+                                        where: { id: thirdLevelUser.id },
+                                        data: {
+                                            balance: thirdLevelUser.balance + thirdLevelBonus,
+                                        },
+                                    });
+                                    console.log(`Third level user balance updated with third level bonus: ${thirdLevelBonus}`);
                                 }
 
                             } else {
@@ -225,15 +277,11 @@ export async function POST(req: Request) {
             where: { id: requestId },
         });
 
-        console.log('Top-up request deleted successfully');
+        console.log('Top-up request deleted:', requestId);
 
-        return NextResponse.json({
-            message: 'Top-up approved and balance updated successfully',
-            topUpOperation,
-            updatedUser,
-        }, { status: 200 });
+        return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Error approving top-up request:', error);
-        return NextResponse.json({ error: 'Server error' }, { status: 500 });
+        console.error('Error processing top-up request:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
