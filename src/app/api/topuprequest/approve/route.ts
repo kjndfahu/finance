@@ -131,7 +131,7 @@ export async function POST(req: Request) {
                     console.log('Second level user:', secondLevelUser);
 
                     if (secondLevelUser) {
-                        const secondLevelBonus = sum * 0.05;
+                        const secondLevelBonus = sum * 0.06;
 
                         // Проверяем и обновляем данные для второй линии
                         const existingSecondLevelReferral = await prisma.referrals.findFirst({

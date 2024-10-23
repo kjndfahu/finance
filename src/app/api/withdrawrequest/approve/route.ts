@@ -21,9 +21,6 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 });
         }
 
-        if (user.balance < amount) {
-            return NextResponse.json({ error: 'Недостаточно средств на балансе' }, { status: 400 });
-        }
 
         await prisma.withdrawOperations.create({
             data: {
