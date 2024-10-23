@@ -21,9 +21,6 @@ export const GET = async (req: NextRequest) => {
         const referrals = await prisma.referrals.findMany({
             where: {
                 referredBy: user.id,
-                typeofline: {
-                    not: 0,
-                },
             },
         });
 

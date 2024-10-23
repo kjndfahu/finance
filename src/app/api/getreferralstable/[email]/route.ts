@@ -3,7 +3,7 @@ import {prisma} from "../../../../../prisma/prisma-client";
 
 export const GET = async (req: NextRequest, { params }: { params: { email: string } }) => {
     try {
-        const { email } = params; // Получаем email из параметров маршрута
+        const { email } = params;
 
         if (!email) {
             return NextResponse.json({ error: 'Email is required' }, { status: 400 });
@@ -20,9 +20,6 @@ export const GET = async (req: NextRequest, { params }: { params: { email: strin
         const referrals = await prisma.referrals.findMany({
             where: {
                 referredBy: user.id,
-                typeofline: {
-                    not: 0,
-                },
             },
         });
 

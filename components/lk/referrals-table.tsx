@@ -1,4 +1,3 @@
-// components/lk/referrals-table.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -7,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
     className?: string;
-    session: any; // Здесь вы можете уточнить тип данных для сессии
+    session: any;
 }
 
 export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
@@ -18,9 +17,7 @@ export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
     useEffect(() => {
         const fetchReferralData = async () => {
             try {
-                // Получаем email из session
                 const email = session.user.email;
-                // Формируем URL для запроса к динамическому роуту
                 const response = await fetch(`/api/getreferralstable/${email}`);
 
                 if (!response.ok) {
@@ -37,7 +34,6 @@ export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
         fetchReferralData();
     }, [session.user.email]);
 
-    // Функция для преобразования line в строку с процентами
     const getLineText = (line: string) => {
         switch (line) {
             case 'Линия 1':
@@ -46,8 +42,10 @@ export const ReferralsTable: React.FC<Props> = ({ className, session }) => {
                 return `${t('secondline')}`;
             case 'Линия 3':
                 return `${t('thirdline')}`;
+            case 'Линия 0':
+                return `${t('zero')}`;
             default:
-                return line; // Возвращаем оригинальный текст, если line не соответствует 1, 2 или 3
+                return line;
         }
     };
 

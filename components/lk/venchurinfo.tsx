@@ -9,9 +9,12 @@ interface Props {
     middlePercent: string;
     value?: string;
     session: any;
+    balance:any;
+    setBalance:any;
 }
 
-export const VenchurInfo: React.FC<Props> = ({
+export const VenchurInfo: React.FC<Props> = ({balance,
+    setBalance,
                                                  session,
                                                  value = "0",
                                                  dataVenchur,
@@ -95,6 +98,7 @@ export const VenchurInfo: React.FC<Props> = ({
                 body: JSON.stringify(depositData),
             });
             if (response.ok) {
+                setBalance(balance - +(value));
                 toast.success(`${t('toast-deposit-success')}`);
             } else {
                 toast.error(`${t('toast-error')}`);

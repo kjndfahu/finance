@@ -49,7 +49,6 @@ export const Modal: React.FC<Props> = ({
         }
     };
 
-
     return (
         <div
             onClick={() => setModalOpen(false)}

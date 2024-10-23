@@ -22,6 +22,20 @@ export async function POST(req: Request) {
 
         console.log('User found:', user);
 
+        // Удаление линии 0, если такая линия существует
+        const zeroLineReferral = await prisma.referrals.findFirst({
+            where: { userId: user.id, typeofline: 0 },
+        });
+
+        if (zeroLineReferral) {
+            await prisma.referrals.updateMany({
+                where: { userId: user.id, typeofline: 0 },
+                data: { typeofline: 1 },
+            });
+            console.log('Zero-level referral(s) updated to first level.');
+        }
+
+        // Создание операции пополнения
         const topUpOperation = await prisma.topUpOperations.create({
             data: {
                 sum: parseInt(sum),
@@ -31,6 +45,7 @@ export async function POST(req: Request) {
 
         console.log('Top-up operation created:', topUpOperation);
 
+        // Обновление баланса пользователя
         const updatedUser = await prisma.user.update({
             where: { email: user.email },
             data: {
@@ -40,6 +55,7 @@ export async function POST(req: Request) {
 
         console.log('User balance updated:', updatedUser);
 
+        // Проверка на наличие реферальной записи
         const referral = await prisma.referrals.findFirst({
             where: { userId: user.id },
         });
@@ -56,43 +72,33 @@ export async function POST(req: Request) {
             if (firstLevelUser) {
                 const firstLevelBonus = sum * 0.08;
 
-                await prisma.user.update({
-                    where: { id: firstLevelUser.id },
-                    data: {
-                        balance: {
-                            increment: firstLevelBonus,
-                        },
-                    },
-                });
-
-                console.log(`First-level referral bonus of ${firstLevelBonus} credited`);
-
+                // Проверяем и обновляем данные для первой линии
                 const existingFirstLevelReferral = await prisma.referrals.findFirst({
-                    where: { userId: firstLevelUser.id, typeofline: 1 },
+                    where: { userId: user.id, typeofline: 1 },
                 });
 
                 if (existingFirstLevelReferral) {
-                    await prisma.referrals.create({
+                    await prisma.referrals.update({
+                        where: { id: existingFirstLevelReferral.id },
                         data: {
-                            userId: user.id,
-                            totalAmount: firstLevelBonus,
-                            totalReferrals: 0,
-                            totalProfit: sum,
-                            typeofline: 1,
-                            referredBy: referral.referredBy,
+                            totalProfit: existingFirstLevelReferral.totalProfit + sum,
+                            totalAmount: existingFirstLevelReferral.totalAmount + firstLevelBonus,
+                            totalReferrals: 1,// обновляем totalAmount
                         },
                     });
+                    console.log(`First-level referral totalProfit updated by ${sum} and totalAmount updated by ${firstLevelBonus}`);
                 } else {
                     await prisma.referrals.create({
                         data: {
                             userId: user.id,
                             totalAmount: firstLevelBonus,
-                            totalReferrals: 0,
+                            totalReferrals: 1,
                             totalProfit: sum,
                             typeofline: 1,
                             referredBy: referral.referredBy,
                         },
                     });
+                    console.log(`New first-level referral created with totalProfit ${sum} and totalAmount ${firstLevelBonus}`);
                 }
 
                 const secondLevelReferral = await prisma.referrals.findFirst({
@@ -111,32 +117,20 @@ export async function POST(req: Request) {
                     if (secondLevelUser) {
                         const secondLevelBonus = sum * 0.06;
 
-                        await prisma.user.update({
-                            where: { id: secondLevelUser.id },
-                            data: {
-                                balance: {
-                                    increment: secondLevelBonus,
-                                },
-                            },
-                        });
-
-                        console.log(`Second-level referral bonus of ${secondLevelBonus} credited`);
-
+                        // Проверяем и обновляем данные для второй линии
                         const existingSecondLevelReferral = await prisma.referrals.findFirst({
-                            where: { userId: secondLevelUser.id, typeofline: 2 },
+                            where: { userId: user.id, typeofline: 2 },
                         });
 
                         if (existingSecondLevelReferral) {
-                            await prisma.referrals.create({
+                            await prisma.referrals.update({
+                                where: { id: existingSecondLevelReferral.id },
                                 data: {
-                                    userId: user.id,
-                                    totalAmount: secondLevelBonus,
-                                    totalReferrals: 0,
-                                    totalProfit: sum,
-                                    typeofline: 2,
-                                    referredBy: secondLevelReferral.referredBy,
+                                    totalProfit: existingSecondLevelReferral.totalProfit + sum,
+                                    totalAmount: existingSecondLevelReferral.totalAmount + secondLevelBonus, // обновляем totalAmount
                                 },
                             });
+                            console.log(`Second-level referral totalProfit updated by ${sum} and totalAmount updated by ${secondLevelBonus}`);
                         } else {
                             await prisma.referrals.create({
                                 data: {
@@ -148,6 +142,7 @@ export async function POST(req: Request) {
                                     referredBy: secondLevelReferral.referredBy,
                                 },
                             });
+                            console.log(`New second-level referral created with totalProfit ${sum} and totalAmount ${secondLevelBonus}`);
                         }
 
                         const thirdLevelReferral = await prisma.referrals.findFirst({
@@ -166,32 +161,20 @@ export async function POST(req: Request) {
                             if (thirdLevelUser) {
                                 const thirdLevelBonus = sum * 0.03;
 
-                                await prisma.user.update({
-                                    where: { id: thirdLevelUser.id },
-                                    data: {
-                                        balance: {
-                                            increment: thirdLevelBonus,
-                                        },
-                                    },
-                                });
-
-                                console.log(`Third-level referral bonus of ${thirdLevelBonus} credited`);
-
+                                // Проверяем и обновляем данные для третьей линии
                                 const existingThirdLevelReferral = await prisma.referrals.findFirst({
-                                    where: { userId: thirdLevelUser.id, typeofline: 3 },
+                                    where: { userId: user.id, typeofline: 3 },
                                 });
 
                                 if (existingThirdLevelReferral) {
-                                    await prisma.referrals.create({
+                                    await prisma.referrals.update({
+                                        where: { id: existingThirdLevelReferral.id },
                                         data: {
-                                            userId: user.id,
-                                            totalAmount: thirdLevelBonus,
-                                            totalReferrals: 0,
-                                            totalProfit: sum,
-                                            typeofline: 3,
-                                            referredBy: thirdLevelReferral.referredBy,
+                                            totalProfit: existingThirdLevelReferral.totalProfit + sum,
+                                            totalAmount: existingThirdLevelReferral.totalAmount + thirdLevelBonus, // обновляем totalAmount
                                         },
                                     });
+                                    console.log(`Third-level referral totalProfit updated by ${sum} and totalAmount updated by ${thirdLevelBonus}`);
                                 } else {
                                     await prisma.referrals.create({
                                         data: {
@@ -203,6 +186,7 @@ export async function POST(req: Request) {
                                             referredBy: thirdLevelReferral.referredBy,
                                         },
                                     });
+                                    console.log(`New third-level referral created with totalProfit ${sum} and totalAmount ${thirdLevelBonus}`);
                                 }
 
                             } else {

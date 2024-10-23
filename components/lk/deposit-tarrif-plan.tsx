@@ -14,9 +14,11 @@ interface Props {
     className?: string;
     value?: string;
     session: any;
+    balance:any;
+    setBalance:any;
 }
 
-export const DepositTarrifPlan: React.FC<Props> = ({ value, className, session }) => {
+export const DepositTarrifPlan: React.FC<Props> = ({balance, setBalance, value, className, session }) => {
     const t = useTranslations("CreateDeposit");
     const [activeTab, setTab] = useState(1);
     const [lowPercent, setPercent] = useState('0');
@@ -33,13 +35,13 @@ export const DepositTarrifPlan: React.FC<Props> = ({ value, className, session }
             {activeTab === 1 && (
                 <>
                     <StocksAndETFsTarrif dataStocks={dataStocks} setPercent={setPercent} />
-                    <ETFInfo session={session} value={value} dataStocks={dataStocks} lowPercent={lowPercent} />
+                    <ETFInfo balance={balance} setBalance={setBalance} session={session} value={value} dataStocks={dataStocks} lowPercent={lowPercent} />
                 </>
             )}
             {activeTab === 2 && (
                 <>
                     <VenchurTarrif setMiddlePercent={setMiddlePercent} />
-                    <VenchurInfo session={session} value={value} dataVenchur={dataVenchur} middlePercent={middlePercent} />
+                    <VenchurInfo balance={balance} setBalance={setBalance} session={session} value={value} dataVenchur={dataVenchur} middlePercent={middlePercent} />
                 </>
             )}
             {activeTab === 3 && (

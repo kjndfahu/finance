@@ -9,9 +9,11 @@ interface Props {
     lowPercent: string;
     value?: string;
     session: any;
+    balance:any;
+    setBalance:any;
 }
 
-export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, className, session }) => {
+export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", dataStocks, lowPercent, className, session }) => {
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
     const depositSumAsNumber = parseFloat(value) || 0; // Убедитесь, что значение - это число
     const t = useTranslations('LK');
@@ -60,7 +62,7 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
     }, [depositSumAsNumber, lowPercent]);
 
     const handleCreateDeposit = async () => {
-        const depositSumAsNumber = parseFloat(value) || 0; // Убедитесь, что значение - это число
+        const depositSumAsNumber = parseFloat(value) || 0;
         if (depositSumAsNumber > session.user.balance) {
             toast.error(`${t('toast-success-balance')}`);
             return;
@@ -88,6 +90,7 @@ export const ETFInfo: React.FC<Props> = ({ value = "0", dataStocks, lowPercent, 
                 body: JSON.stringify(depositData),
             });
             if (response.ok) {
+                setBalance(balance - +(value));
                 toast.success(`${t('toast-deposit-success')}`);
             } else {
                 toast.error(`${t('toast-error')}`);

@@ -18,12 +18,12 @@ export const GET = async (req: Request, { params }: { params: { email: string } 
             return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
         }
 
-        // Ищем рефералов по userId
         const referrals = await prisma.referrals.findMany({
             where: {
                 referredBy: user.id,
             },
         });
+
 
         const totalReferrals = referrals.reduce((sum, referral) => sum + referral.totalReferrals, 0);
         const totalAmount = referrals.reduce((sum, referral) => sum + referral.totalAmount, 0);
