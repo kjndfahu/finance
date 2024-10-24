@@ -87,7 +87,7 @@ model WithdrawOperations {
   sum Int
 
   email  String
-  user   User?          @relation(fields: [email], references: [email])
+  user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
   status WithdrawStatus @default(APPROVED)
 
   createdAt           DateTime           @default(now())
@@ -102,7 +102,7 @@ model WithdrawDeclined {
   sum Int
 
   email  String
-  user   User?          @relation(fields: [email], references: [email])
+  user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
   status WithdrawStatus @default(REJECTED)
 
   createdAt           DateTime           @default(now())
@@ -117,12 +117,12 @@ model TopUpDeclined {
   sum Int
 
   email  String
-  user   User?          @relation(fields: [email], references: [email])
+  user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
   status WithdrawStatus @default(REJECTED)
 
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
-  OperationsHistory   OperationsHistory? @relation(fields: [operationsHistoryId], references: [id])
+  OperationsHistory   OperationsHistory? @relation(fields: [operationsHistoryId], references: [id], onDelete: Cascade)
   operationsHistoryId Int?
 }
 

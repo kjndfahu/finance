@@ -1,5 +1,5 @@
 import { prisma } from "../../../../prisma/prisma-client";
-import cron from './cronTasks';
+import cron from './cronTasks'; // Убедитесь, что здесь импортируется правильный модуль
 import { NextResponse } from "next/server";
 
 export const POST = async (req: Request) => {
@@ -14,17 +14,6 @@ export const POST = async (req: Request) => {
             endDate,
             status
         } = await req.json();
-
-        console.log("Received data:", {
-            login,
-            balance,
-            depositSum,
-            earning,
-            percent,
-            withdrawSum,
-            endDate,
-            status
-        });
 
         const depositAmount = parseFloat(depositSum);
         const [minAmount, maxAmount] = getDepositRange(percent);
@@ -58,8 +47,8 @@ export const POST = async (req: Request) => {
             },
         });
 
+        cron.startDepositTask(login); // Запускаем задачу для пользователя
 
-        console.log(`Deposit created successfully:`, newDeposit);
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
@@ -74,6 +63,7 @@ export const POST = async (req: Request) => {
     }
 };
 
+// Функция для получения диапазона сумм депозитов в зависимости от процента
 const getDepositRange = (percent: string) => {
     switch (percent) {
         case '0.9':
@@ -87,8 +77,7 @@ const getDepositRange = (percent: string) => {
     }
 };
 
-cron.start();
-
+// Обработка GET запроса для получения всех депозитов
 export async function GET() {
     const deposits = await prisma.deposits.findMany();
     return NextResponse.json(deposits);
