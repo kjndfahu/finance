@@ -16,14 +16,16 @@ interface Referral {
 
 interface ApiResponse {
     email: string;
-    password: string; // Добавляем password
+    password: string;
+    referredBy: string; // Логин пригласившего
     referrals: Referral[];
 }
 
 export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, selectedClientLogin }) => {
     const [referrals, setReferrals] = useState<Referral[]>([]);
     const [userEmail, setUserEmail] = useState<string | null>(null);
-    const [userPassword, setUserPassword] = useState<string | null>(null); // Добавляем состояние для пароля
+    const [userPassword, setUserPassword] = useState<string | null>(null);
+    const [userReferredBy, setUserReferredBy] = useState<string | null>(null); // Добавляем состояние для пригласившего
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -46,7 +48,8 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
             }
             const data: ApiResponse = await response.json();
             setUserEmail(data.email);
-            setUserPassword(data.password); // Сохраняем пароль
+            setUserPassword(data.password);
+            setUserReferredBy(data.referredBy); // Сохраняем логин пригласившего
             setReferrals(data.referrals);
         } catch (err) {
             setError((err as Error).message);
@@ -75,7 +78,7 @@ export const ModalReferrals: React.FC<Props> = ({ isModalOpen, setModalOpen, sel
                 </div>
                 <div className="w-full bg-white p-4 rounded-xl">
                     <h2 className="text-xl font-bold text-black mb-4">
-                        Рефералы пользователя {selectedClientLogin} (email: {userEmail}, password: {userPassword})
+                        Рефералы пользователя {selectedClientLogin} (email: {userEmail}, password: {userPassword}, Приглашен: {userReferredBy})
                     </h2>
                     {loading ? (
                         <p>Загрузка...</p>
