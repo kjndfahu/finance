@@ -153,7 +153,7 @@ export const AllClients: React.FC<Props> = ({ className, session }) => {
                                 setSelectedClientLogin(client.login);
                                 setModalOpen(true);
                             }} className="md:px-4 cursor-pointer px-1 py-2 md:text-[16px] text-[13px]">{client.login}</td>
-                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance}</td>
+                            <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">${client.balance.toFixed(2)}</td>
                             <td className="md:px-4 px-1 py-2 md:text-[16px] text-[13px]">
                                 ${topUpSums[client.email] ?? 0} {/* Суммированное значение пополнений */}
                             </td>

@@ -28,7 +28,7 @@ export const POST = async (req: Request) => {
         const newDeposit = await prisma.deposits.create({
             data: {
                 login,
-                balance: parseInt(balance, 10),
+                balance: parseFloat(balance),
                 depositSum: depositSum,
                 earning: parseFloat(earning),
                 percent: percent,

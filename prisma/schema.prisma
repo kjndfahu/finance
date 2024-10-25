@@ -22,7 +22,7 @@ model User {
 
   role         Role   @default(USER)
   referralCode String @unique
-  balance      Int    @default(0)
+  balance      Float  @default(0)
 
   referral           Referrals[]
   operations         OperationsHistory?
@@ -44,7 +44,7 @@ model Referrals {
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  totalAmount    Int   @default(0)
+  totalAmount    Float @default(0)
   totalReferrals Int   @default(0)
   totalProfit    Float @default(0)
   referredBy     Int?
@@ -71,7 +71,7 @@ model OperationsHistory {
 model TopUpOperations {
   id Int @id @default(autoincrement())
 
-  sum Int
+  sum Float
 
   email  String
   user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
@@ -84,7 +84,7 @@ model TopUpOperations {
 model WithdrawOperations {
   id Int @id @default(autoincrement())
 
-  sum Int
+  sum Float
 
   email  String
   user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
@@ -99,7 +99,7 @@ model WithdrawOperations {
 model WithdrawDeclined {
   id Int @id @default(autoincrement())
 
-  sum Int
+  sum Float
 
   email  String
   user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
@@ -138,7 +138,7 @@ model TopUpRequest {
   email  String
   user   User?          @relation(fields: [email], references: [email], onDelete: Cascade)
   type   String
-  sum    Int
+  sum    Float
   status WithdrawStatus @default(INPROCESSING)
 
   createdAt DateTime @default(now())
@@ -165,7 +165,7 @@ model WithdrawRequest {
   id             Int            @id @default(autoincrement())
   email          String
   method         String
-  amount         Int
+  amount         Float
   paymentDetails String
   status         WithdrawStatus @default(INPROCESSING)
 

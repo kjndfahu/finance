@@ -32,14 +32,14 @@ export const POST = async (req: Request) => {
         // 4. Создать запись в таблице withdrawDeclined
         await prisma.withdrawDeclined.create({
             data: {
-                sum: parseInt(amount),
+                sum: parseFloat(amount),
                 email: user.email
             }
         });
 
         await prisma.withdrawOperations.create({
             data: {
-                sum: parseInt(amount),
+                sum: parseFloat(amount),
                 email: user.email,
                 status: "REJECTED"
             }

@@ -35,31 +35,33 @@ export async function POST(req: Request) {
     try {
         const { email, type, sum } = await req.json();
 
-        if (!email || !type || !sum) {
+        if (!email || !type || typeof sum !== 'number') {
             return NextResponse.json({ message: 'Invalid data provided' }, { status: 400 });
         }
+
+        // Convert sum to Float
+        const sumFloat = parseFloat(sum.toString());
 
         const newRequest = await prisma.topUpRequest.create({
             data: {
                 email,
                 type,
-                sum: Number(sum),
+                sum: sumFloat, // Store as Float
             },
         });
 
         const newTopUpOperation = await prisma.topUpOperations.create({
             data: {
                 email,
-                sum: Number(sum),
+                sum: sumFloat, // Store as Float
                 status: "INPROCESSING"
             },
         });
 
-        console.log(newTopUpOperation)
+        console.log(newTopUpOperation);
 
-        const message = `Новый запрос на пополнение:\nEmail: ${email}\nТип: ${type}\nСумма: ${sum}`;
+        const message = `Новый запрос на пополнение:\nEmail: ${email}\nТип: ${type}\nСумма: ${sumFloat}`;
         await sendTelegramNotification(message);
-
 
         return NextResponse.json(newRequest, { status: 200 });
     } catch (error) {
@@ -67,6 +69,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'Error processing request' }, { status: 500 });
     }
 }
+
 
 export async function GET() {
     const users = await prisma.topUpRequest.findMany();

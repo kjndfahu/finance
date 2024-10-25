@@ -18,7 +18,7 @@ export const DepositAmountBalance:React.FC<Props> = ({value, handleWholeBalanceC
                 <div
                     className="flex flex-row items-center justify-between md:text-[18px] text-[13px] md:px-4 px-2 py-2 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
                     <input value={value} onChange={handleChange} placeholder={t('typing')}
-                           className="w-[70%] bg-white border-transparent focus:outline-0" type="text"/>
+                           className="w-[70%] bg-white border-transparent focus:outline-0" type="number"/>
                     <h2 onClick={handleWholeBalanceClick} className="text-[15px] cursor-pointer text-blue-500">{t('whole-balance')}</h2>
                 </div>
             </div>

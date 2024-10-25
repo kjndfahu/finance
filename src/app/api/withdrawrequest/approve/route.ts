@@ -21,14 +21,19 @@ export const POST = async (req: Request) => {
             return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 });
         }
 
+        // Преобразование amount в Float
+        const amountFloat = parseFloat(amount);
+
+        if (isNaN(amountFloat)) {
+            return NextResponse.json({ error: 'Неверная сумма' }, { status: 400 });
+        }
 
         await prisma.withdrawOperations.create({
             data: {
-                sum: parseInt(amount),
+                sum: amountFloat, // Храните значение как Float
                 email: user.email,
             },
         });
-
 
         await prisma.withdrawRequest.delete({
             where: { id: requestId },

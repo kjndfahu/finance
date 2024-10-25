@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { z } from "zod";
 import { prisma } from "../../../../prisma/prisma-client";
 import { formLoginSchema, passwordSchema } from "../../../../components/lk/schema";
 import { generateReferralCode } from "../../../../utils/generateReferralCode";
-import {handleReferralBonus} from "../../../../utils/referral";
 
 const formRegisterSchema = formLoginSchema
     .merge(
@@ -100,6 +98,7 @@ export async function POST(req: NextRequest) {
         const { password: newUserPassword, ...rest } = newUser;
         return NextResponse.json({ user: rest });
     } catch (err) {
+        console.error("Ошибка при регистрации:", err);
         return NextResponse.json({ err, message: "Ошибка при регистрации" }, { status: 404 });
     }
 }

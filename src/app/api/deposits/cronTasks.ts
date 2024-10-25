@@ -1,42 +1,42 @@
+import cron from 'node-cron';
 import { prisma } from "../../../../prisma/prisma-client";
 
 const tasks = {};
-const activeTasks = {};
-const depositAccruals = {}; // Объект для хранения дробной части начислений
 
-// Функция для начисления процентов от конкретного депозита пользователя
 const processSingleDepositEarnings = async (deposit) => {
     const { earning, id, login, endDate, percent, depositSum } = deposit;
 
     console.log(`Обработка депозита ${id} для ${login}: сумма ${earning}`);
 
     // Начисляем проценты на основе текущей суммы
-    const earningPerMinute = (parseFloat(earning) * percent) / 100;
+    const earningPerMinute = (parseFloat(earning) * percent) / 100; // Убираем округление
 
-    // Обновляем дробную часть начислений
-    depositAccruals[login] = depositAccruals[login] || 0; // Инициализация, если еще нет
-    depositAccruals[login] += earningPerMinute; // Увеличиваем дробную часть
-
-    const integerPart = Math.floor(depositAccruals[login]); // Целая часть
-    depositAccruals[login] -= integerPart; // Оставляем только дробную часть
+    console.log(`Начислено: ${earningPerMinute} для пользователя ${login}`);
 
     try {
-        // Открываем транзакцию для начисления процента и обновления статуса
         await prisma.$transaction(async (prisma) => {
-            // Обновляем баланс пользователя с учётом целой части начислений
-            if (integerPart > 0) {
+            // Проверяем, достаточно ли средств для начисления
+            const user = await prisma.user.findUnique({ where: { login } });
+            if (user.balance < earningPerMinute) {
+                console.log(`Недостаточно средств для начисления пользователю ${login}: текущий баланс ${user.balance}`);
+                return; // Прерываем выполнение, если средств недостаточно
+            }
+
+            if (earningPerMinute > 0) {
                 await prisma.user.update({
                     where: { login },
                     data: {
                         balance: {
-                            increment: integerPart,
+                            increment: earningPerMinute,
                         },
                     },
                 });
-                console.log(`Начислено ${integerPart.toFixed(2)} пользователю ${login} по депозиту ${id}`);
+                console.log(`Начислено ${earningPerMinute} пользователю ${login} по депозиту ${id}`);
+            } else {
+                console.log(`Нет целых единиц для начисления пользователю ${login} по депозиту ${id}`);
             }
 
-            // Если депозит завершён, обновляем статус и добавляем сумму депозита к балансу
+            // Проверяем, завершился ли депозит
             if (new Date() >= new Date(endDate)) {
                 await prisma.deposits.update({
                     where: { id },
@@ -44,7 +44,6 @@ const processSingleDepositEarnings = async (deposit) => {
                 });
                 console.log(`Депозит ${id} завершен и статус обновлен на FINISHED`);
 
-                // Добавляем сумму депозита к балансу пользователя
                 await prisma.user.update({
                     where: { login },
                     data: {
@@ -61,11 +60,7 @@ const processSingleDepositEarnings = async (deposit) => {
     }
 };
 
-// Функция для поиска и обновления всех активных депозитов пользователя
 const processDepositEarnings = async (login) => {
-    if (activeTasks[login]) return; // Предотвращаем параллельное выполнение
-
-    activeTasks[login] = true;
     try {
         const activeDeposits = await prisma.deposits.findMany({
             where: {
@@ -81,40 +76,34 @@ const processDepositEarnings = async (login) => {
         // Получаем текущее время
         const now = new Date();
         const currentSeconds = now.getSeconds();
-        const currentMinutes = now.getMinutes();
-        const currentHours = now.getHours();
 
-        // Обрабатываем каждый активный депозит пользователя отдельно
         for (const deposit of activeDeposits) {
             const depositCreationDate = new Date(deposit.createdAt);
             const depositSeconds = depositCreationDate.getSeconds();
-            const depositMinutes = depositCreationDate.getMinutes();
-            const depositHours = depositCreationDate.getHours();
 
-            // Проверяем, совпадают ли часы, минуты и секунды создания депозита с текущими
-            if (currentSeconds === depositSeconds && currentMinutes === depositMinutes && currentHours === depositHours) {
+            // Проверяем, совпадают ли секунды создания депозита с текущими
+            if (currentSeconds === depositSeconds) {
+                console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
                 await processSingleDepositEarnings(deposit);
+            } else {
+                console.log(`Секунды не совпадают: текущие ${currentSeconds}, депозит ${depositSeconds}`);
             }
         }
     } catch (error) {
-        console.error(`Ошибка при получении активных депозитов для ${login}:`, error);
-    } finally {
-        activeTasks[login] = false; // Освобождаем флаг выполнения
+        console.error(`Ошибка при получении активных депозитов для пользователя ${login}:`, error);
     }
 };
 
-// Запускаем задачу для начисления процентов
 const startDepositTask = (login) => {
     if (tasks[login]) {
-        clearInterval(tasks[login]); // Остановить предыдущую задачу, если она существует
+        tasks[login].stop();
         console.log(`Старая задача для пользователя ${login} остановлена.`);
     }
 
-    // Запланировать задачу с интервалом в 1 секунду для проверки депозитов
-    tasks[login] = setInterval(async () => {
+    tasks[login] = cron.schedule('* * * * * *', async () => {
         console.log(`Запущена задача для пользователя ${login}`);
         await processDepositEarnings(login);
-    }, 1000); // Интервал в 1 секунду
+    });
 
     console.log(`Запущена задача для пользователя ${login} с интервалом в 1 секунду.`);
 };

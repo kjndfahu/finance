@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "WithdrawDeclined" ALTER COLUMN "sum" SET DATA TYPE DOUBLE PRECISION;
+
+-- AlterTable
+ALTER TABLE "WithdrawOperations" ALTER COLUMN "sum" SET DATA TYPE DOUBLE PRECISION;
+
+-- AlterTable
+ALTER TABLE "WithdrawRequest" ALTER COLUMN "amount" SET DATA TYPE DOUBLE PRECISION;

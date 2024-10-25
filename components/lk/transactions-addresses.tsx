@@ -18,7 +18,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
     const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Стейт для хранения данных
     console.log(bankingDetails, 'banking');
     console.log(isSystem, 'system');
-
+    console.log(value, 'value')
     const fetchBankingDetails = async () => {
         if (!isSystem) return;
 

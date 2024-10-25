@@ -49,14 +49,14 @@ export const POST = async (req: Request) => {
         // 4. Создать запись в таблице withdrawDeclined
         await prisma.topUpDeclined.create({
             data: {
-                sum: parseInt(sum),
+                sum: parseFloat(sum),
                 email: user.email
             }
         });
 
         await prisma.topUpOperations.create({
             data: {
-                sum: parseInt(sum),
+                sum: parseFloat(sum),
                 email: user.email,
                 status: "REJECTED"
             }

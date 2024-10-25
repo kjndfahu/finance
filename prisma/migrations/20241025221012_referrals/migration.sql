@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Referrals" ALTER COLUMN "totalAmount" SET DEFAULT 0,
+ALTER COLUMN "totalAmount" SET DATA TYPE DOUBLE PRECISION;

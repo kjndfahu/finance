@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "TopUpOperations" ALTER COLUMN "sum" SET DATA TYPE DOUBLE PRECISION;

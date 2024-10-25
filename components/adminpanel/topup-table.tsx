@@ -50,28 +50,6 @@ export const TopUpTable: React.FC<Props> = ({ className }) => {
     };
 
     const handleReject = async (requestId: number, email: string, sum: number) => {
-        // try {
-        //     const response = await fetch('/api/topuprequest/decline', {
-        //         method: 'DELETE',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({ requestId }),
-        //     });
-        //
-        //     const result = await response.json();
-        //
-        //     if (response.ok) {
-        //         setRequests(prev => prev.filter(request => request.id !== requestId));
-        //         toast.success('Заявка отклонена и удалена');
-        //     } else {
-        //         console.error('Ошибка при отклонении заявки:', result.message);
-        //         toast.error('Ошибка при отклонении заявки: ' + result.message);
-        //     }
-        // } catch (error) {
-        //     console.error('Ошибка при выполнении запроса на отклонение заявки:', error);
-        //     toast.error('Ошибка сервера при отклонении заявки');
-        // }
         try {
             const response = await fetch('/api/topuprequest/decline', {
                 method: 'POST',

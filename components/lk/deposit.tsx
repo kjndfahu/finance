@@ -16,7 +16,7 @@ export const Deposit:React.FC<Props> = ({session, className})=>{
     return (
         <div className="flex flex-col gap-2 text-black bg-white border-[1px] border-[#f5f5f5] p-4 rounded-[10px]">
             <h4 className="md:text-[18px] text-[14px] text-[#777777]">{t('balance')}</h4>
-            <h2 className="md:text-[32px] text-[18px] font-semibold">${session?.user.balance}</h2>
+            <h2 className="md:text-[32px] text-[18px] font-semibold">${session?.user.balance.toFixed(2)}</h2>
             <div className="flex md:gap-5 gap-2 md:mt-4 mt-2">
                 <Link href={`${locale}/topup`}>
                     <div
