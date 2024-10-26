@@ -17,10 +17,6 @@ const processSingleDepositEarnings = async (deposit) => {
         await prisma.$transaction(async (prisma) => {
             // Проверяем, достаточно ли средств для начисления
             const user = await prisma.user.findUnique({ where: { login } });
-            if (user.balance < earningPerMinute) {
-                console.log(`Недостаточно средств для начисления пользователю ${login}: текущий баланс ${user.balance}`);
-                return; // Прерываем выполнение, если средств недостаточно
-            }
 
             if (earningPerMinute > 0) {
                 await prisma.user.update({
