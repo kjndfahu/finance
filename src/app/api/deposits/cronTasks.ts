@@ -72,13 +72,15 @@ const processDepositEarnings = async (login) => {
         // Получаем текущее время
         const now = new Date();
         const currentSeconds = now.getSeconds();
+        const currentMinutes = now.getMinutes()
 
         for (const deposit of activeDeposits) {
             const depositCreationDate = new Date(deposit.createdAt);
             const depositSeconds = depositCreationDate.getSeconds();
+            const depositMinutes = depositCreationDate.getMinutes();
 
             // Проверяем, совпадают ли секунды создания депозита с текущими
-            if (currentSeconds === depositSeconds) {
+            if (currentMinutes === depositMinutes && currentSeconds === depositSeconds) {
                 console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
                 await processSingleDepositEarnings(deposit);
             } else {
