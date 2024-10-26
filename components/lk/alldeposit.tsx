@@ -14,12 +14,9 @@ interface Props{
 export const AllDeposit:React.FC<Props> = ({session, className})=>{
     const [value, setValue] = useState('');
     const [balance, setBalance] = useState(session.user.balance);
-    const debouncedSetValue = useCallback(
-        debounce((newValue: string) => setValue(newValue), 100),
-        []
-    );
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        debouncedSetValue(event.target.value);
+        setValue(event.target.value);
     };
 
     const handleWholeBalanceClick = () => {

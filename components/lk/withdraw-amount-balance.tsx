@@ -16,13 +16,10 @@ interface Props {
 export const WithdrawAmountBalance: React.FC<Props> = ({ balance, setBalance, session, isSystem, value, className }) => {
     const t = useTranslations("WithdrawPersonal");
     const [count, setCount] = useState(0);
-    const debouncedSetValue = useCallback(
-        debounce((newValue: number) => setCount(newValue), 100),
-        []
-    );
+
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        debouncedSetValue(Number(event.target.value));
+        setCount(Number(event.target.value));
     };
 
     const handleWholeBalanceClick = () => {
