@@ -9,7 +9,7 @@ const processSingleDepositEarnings = async (deposit) => {
     console.log(`Обработка депозита ${id} для ${login}: сумма ${earning}`);
 
     // Начисляем проценты на основе текущей суммы
-    const earningPerMinute = (parseFloat(earning) * percent) / 100; // Убираем округление
+    const earningPerMinute = (parseFloat(depositSum) * percent) / 100; // Убираем округление
 
     console.log(`Начислено: ${earningPerMinute} для пользователя ${login}`);
 
@@ -72,17 +72,17 @@ const processDepositEarnings = async (login) => {
         // Получаем текущее время
         const now = new Date();
         const currentSeconds = now.getSeconds();
-        const currentMinutes = now.getMinutes()
-        const currentHours = now.getHours()
+        // const currentMinutes = now.getMinutes()
+        // const currentHours = now.getHours()
 
         for (const deposit of activeDeposits) {
             const depositCreationDate = new Date(deposit.createdAt);
             const depositSeconds = depositCreationDate.getSeconds();
-            const depositMinutes = depositCreationDate.getMinutes();
-            const depositHours = depositCreationDate.getHours();
+            // const depositMinutes = depositCreationDate.getMinutes();
+            // const depositHours = depositCreationDate.getHours();
 
             // Проверяем, совпадают ли секунды создания депозита с текущими
-            if (currentHours === depositHours && currentMinutes === depositMinutes && currentSeconds === depositSeconds) {
+            if (currentSeconds === depositSeconds) {
                 console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
                 await processSingleDepositEarnings(deposit);
             } else {
