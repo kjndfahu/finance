@@ -84,8 +84,13 @@ const processDepositEarnings = async (login) => {
             console.log(depositHours, 'deposit')
 
             // Проверяем, совпадают ли секунды создания депозита с текущими
-            if (currentMinutes === depositMinutes && currentSeconds === depositSeconds) {
+            if (currentHours === depositHours && currentMinutes === depositMinutes && currentSeconds === depositSeconds) {
                 console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
+                console.log(depositHours, 'depositUTC')
+                console.log(depositCreationDate.getHours(), 'deposit')
+
+                console.log(currentHours, 'currentUTC')
+                console.log(now.getHours(), 'current')
                 await processSingleDepositEarnings(deposit);
             } else {
                 console.log(`Секунды не совпадают: текущие ${currentSeconds}, депозит ${depositSeconds}`);
