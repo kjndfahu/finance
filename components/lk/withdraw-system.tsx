@@ -32,7 +32,7 @@ export const WithdrawSystem:React.FC<Props> = ({isSystem, setSystem, className})
                     onClick={() => setSystem('BUSDT')}
                     className={`${isSystem === 'BUSDT' ? 'bg-[#f5f5f5]' : 'bg-white'} cursor-pointer flex flex-row items-center md:gap-3 gap-1 w-full border-[1px] border-[#b0b0b0] rounded-[5px] md:px-2 md:py-2 px-1`}>
                     <Bustd className="w-[30px] h-[30px]"/>
-                    <h2 className="md:text-[16px] text-[11px]">BUSDT (BEP-20)</h2>
+                    <h2 className="md:text-[16px] text-[11px]">BUSD (BEP-20)</h2>
                 </div>
                 <div
                     onClick={() => setSystem('TRON')}

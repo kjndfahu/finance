@@ -52,10 +52,10 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
     console.log(currentDatePlus10Minutes)
 
     useEffect(() => {
-        if (isAfter(new Date(), currentDatePlus10Minutes)) {
+        if (isAfter(new Date(), currentDatePlus30Days)) {
             setStatus('FINISHED');
         }
-    }, [session.user.balance, currentDatePlus10Minutes]);
+    }, [session.user.balance, currentDatePlus30Days]);
 
     useEffect(() => {
         if (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max) {
@@ -81,7 +81,7 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
             earning: earnings,
             percent: lowPercent,
             withdrawSum: totalMoney,
-            endDate: currentDatePlus10Minutes,
+            endDate: currentDatePlus30Days,
             status
         };
         try {
