@@ -15,11 +15,11 @@ interface Props {
 
 export const WithdrawAmountBalance: React.FC<Props> = ({ balance, setBalance, session, isSystem, value, className }) => {
     const t = useTranslations("WithdrawPersonal");
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState('');
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCount(Number(event.target.value));
+        setCount(event.target.value);
     };
 
     const handleWholeBalanceClick = () => {
@@ -29,7 +29,7 @@ export const WithdrawAmountBalance: React.FC<Props> = ({ balance, setBalance, se
     };
 
     const handleWithdrawRequest = async () => {
-        const amount = count;
+        const amount = +(count);
 
         // Проверка, что сумма для вывода не превышает баланс
         if (amount > balance) {
