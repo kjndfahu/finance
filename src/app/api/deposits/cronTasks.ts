@@ -9,7 +9,7 @@ const processSingleDepositEarnings = async (deposit) => {
     console.log(`Обработка депозита ${id} для ${login}: сумма ${earning}`);
 
     // Начисляем проценты на основе текущей суммы
-    const earningPerMinute = (parseFloat(depositSum) * percent) / 100; // Убираем округление
+    const earningPerMinute = (parseFloat(depositSum) * percent) / 100;
 
     console.log(`Начислено: ${earningPerMinute} для пользователя ${login}`);
 
@@ -28,19 +28,22 @@ const processSingleDepositEarnings = async (deposit) => {
                     },
                 });
                 console.log(`Начислено ${earningPerMinute} пользователю ${login} по депозиту ${id}`);
+                console.log(endDate, 'endDate')
+                console.log(new Date(), 'newDate')
             } else {
                 console.log(`Нет целых единиц для начисления пользователю ${login} по депозиту ${id}`);
             }
 
             // Проверяем, завершился ли депозит
-            if (new Date() >= new Date(endDate)) {
-                await prisma.deposits.update({
+            if (new Date() > new Date(endDate)) {
+                console.log(`Попытка обновления статуса депозита ${id} для пользователя ${login}`);
+                const updatedDeposit = await prisma.deposits.update({
                     where: { id },
                     data: { status: 'FINISHED' },
                 });
-                console.log(`Депозит ${id} завершен и статус обновлен на FINISHED`);
+                console.log(`Статус депозита ${id} обновлен на: ${updatedDeposit.status}`);
 
-                await prisma.user.update({
+                const updatedUser = await prisma.user.update({
                     where: { login },
                     data: {
                         balance: {
@@ -48,8 +51,11 @@ const processSingleDepositEarnings = async (deposit) => {
                         },
                     },
                 });
-                console.log(`Сумма депозита ${depositSum} добавлена к балансу пользователя ${login}`);
+                console.log(`Сумма депозита ${depositSum} добавлена к балансу пользователя ${login}. Новый баланс: ${updatedUser.balance}`);
+            } else{
+                console.log('Еще не время')
             }
+
         });
     } catch (error) {
         console.error(`Ошибка при обновлении баланса для пользователя ${login}:`, error);
@@ -67,29 +73,64 @@ const processDepositEarnings = async (login) => {
             },
         });
 
+        const inactiveDeposits = await prisma.deposits.findMany({
+            where: {
+                login,
+                endDate: {
+                    lte: new Date(),
+                },
+            },
+        });
+
+        for(const deposit of inactiveDeposits){
+            try {
+                if (new Date() > new Date(deposit.endDate) && deposit.status === 'INWORK') {
+                    const earningPerMinute = (parseFloat(deposit.depositSum) * +(deposit.percent)) / 100;
+                    console.log(`Обновление статуса депозита ${deposit.id} на FINISHED`);
+                    const updatedDeposit = await prisma.deposits.update({
+                        where: { id: deposit.id },
+                        data: { status: 'FINISHED' },
+                    });
+                    console.log(`Статус депозита ${deposit.id} обновлен: ${updatedDeposit.status}`);
+
+                    // Добавление суммы депозита к балансу пользователя
+                    const updatedUser = await prisma.user.update({
+                        where: { login },
+                        data: {
+                            balance: {
+                                increment: parseFloat(deposit.depositSum) + earningPerMinute,
+                            },
+                        },
+                    });
+                    console.log(`Сумма депозита ${deposit.depositSum} добавлена к балансу пользователя ${login}. Новый баланс: ${updatedUser.balance}`);
+                }
+            } catch (error) {
+                console.error(`Ошибка при изменении статуса депозита или обновлении баланса пользователя ${login}:`, error);
+            }
+        }
+
+
         console.log(`Найдено активных депозитов для ${login}: ${activeDeposits.length}`);
 
         // Получаем текущее время
         const now = new Date();
         const currentSeconds = now.getSeconds();
-        const currentMinutes = now.getMinutes()
-        const currentHours = now.getUTCHours();
-        console.log(currentHours, 'current')
+        // const currentMinutes = now.getMinutes()
+        // const currentHours = now.getUTCHours();
+        // console.log(currentHours, 'current')
 
         for (const deposit of activeDeposits) {
+
             const depositCreationDate = new Date(deposit.createdAt);
             const depositSeconds = depositCreationDate.getSeconds();
-            const depositMinutes = depositCreationDate.getMinutes();
-            const depositHours = (depositCreationDate.getUTCHours())
-            console.log(depositHours, 'deposit')
+            // const depositMinutes = depositCreationDate.getMinutes();
+            // const depositHours = (depositCreationDate.getUTCHours())
 
             // Проверяем, совпадают ли секунды создания депозита с текущими
-            if (currentHours === depositHours && currentMinutes === depositMinutes && currentSeconds === depositSeconds) {
+            //currentHours === depositHours && currentMinutes === depositMinutes &&
+            if (currentSeconds === depositSeconds) {
                 console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
-                console.log(depositHours, 'depositUTC')
-                console.log(depositCreationDate.getHours(), 'deposit')
 
-                console.log(currentHours, 'currentUTC')
                 console.log(now.getHours(), 'current')
                 await processSingleDepositEarnings(deposit);
             } else {
@@ -99,6 +140,8 @@ const processDepositEarnings = async (login) => {
     } catch (error) {
         console.error(`Ошибка при получении активных депозитов для пользователя ${login}:`, error);
     }
+
+
 };
 
 const startDepositTask = (login) => {

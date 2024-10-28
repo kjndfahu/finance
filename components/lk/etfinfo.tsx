@@ -1,4 +1,4 @@
-import { addDays, format, isAfter } from "date-fns";
+import {addDays, addMinutes, format, isAfter} from "date-fns";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslations } from "next-intl";
@@ -46,13 +46,16 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
 
     const earnings = calculatingEarning(value, totalMoney);
     const currentDatePlus30Days = addDays(new Date(), 30);
+    const currentDatePlus10Minutes = addMinutes(new Date(), 10);
     const formattedEndDate = format(currentDatePlus30Days, 'dd.MM.yy HH:mm:ss');
+    console.log(currentDatePlus30Days)
+    console.log(currentDatePlus10Minutes)
 
     useEffect(() => {
-        if (isAfter(new Date(), currentDatePlus30Days)) {
+        if (isAfter(new Date(), currentDatePlus10Minutes)) {
             setStatus('FINISHED');
         }
-    }, [session.user.balance, currentDatePlus30Days]);
+    }, [session.user.balance, currentDatePlus10Minutes]);
 
     useEffect(() => {
         if (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max) {
@@ -78,7 +81,7 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
             earning: earnings,
             percent: lowPercent,
             withdrawSum: totalMoney,
-            endDate: currentDatePlus30Days,
+            endDate: currentDatePlus10Minutes,
             status
         };
         try {
