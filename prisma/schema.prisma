@@ -15,8 +15,8 @@ model User {
   name        String
   surname     String
   email       String @unique
-  telegramId  String @unique
-  phoneNumber String @unique
+  telegramId  String
+  phoneNumber String
   region      String
   password    String
 
