@@ -54,13 +54,13 @@ export const HistoryOfDeposits: React.FC<Props> = ({ className, session }) => {
                 <tbody>
                 {deposits.map((deposit) => (
                     <tr key={deposit.id} className="border-b">
-                        <td className="p-2 md:text-[16px] text-[12px]">{deposit.depositSum}$</td>
+                        <td className="p-2 md:text-[16px] text-[12px]"> {parseFloat(deposit.depositSum).toFixed(2)}$</td>
                         <td className="p-2 md:text-[16px] text-[12px] text-green-500">{deposit.percent}%</td>
                         <td className="p-2 md:text-[16px] text-[12px]">{new Date(deposit.endDate).toLocaleDateString()}</td>
                         <td className={`p-2 md:text-[16px] text-[12px] ${deposit.status === 'FINISHED' ? 'text-red-500' : ''}`}>
                             {deposit.status}
                         </td>
-                        <td className="p-2 md:text-[16px] text-[12px] text-green-500">${deposit.withdrawSum}</td>
+                        <td className="p-2 md:text-[16px] text-[12px] text-green-500">${deposit.withdrawSum.toFixed(2)}</td>
                     </tr>
                 ))}
                 </tbody>
