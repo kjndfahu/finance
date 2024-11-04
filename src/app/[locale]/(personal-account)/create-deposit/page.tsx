@@ -10,18 +10,16 @@ export function generateStaticParams() {
 }
 
 export default async function CreateDepositPage({ params }) {
-    // Устанавливаем локаль перед получением сессии
     unstable_setRequestLocale(params.locale);
 
     const session = await getServerSession(authOptions);
 
-    // Проверяем наличие сессии
     if (!session) {
-        redirect('/'); // Редирект на главную страницу, если сессия отсутствует
-        return null; // Завершаем выполнение функции
+        redirect('/');
+        return null;
     }
 
-    const userSession = session.user?.role; // Извлекаем роль пользователя
+    const userSession = session.user?.role;
 
     if (userSession === 'USER') {
         return (
@@ -30,7 +28,7 @@ export default async function CreateDepositPage({ params }) {
             </div>
         );
     } else {
-        redirect('/'); // Редирект на главную страницу для других ролей
-        return null; // Завершаем выполнение функции
+        redirect('/');
+        return null;
     }
 }

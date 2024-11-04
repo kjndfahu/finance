@@ -1,7 +1,6 @@
 import { prisma } from "../../../../prisma/prisma-client";
-import cron from './cronTasks'; // Убедитесь, что здесь импортируется правильный модуль
+import cron from './cronTasks';
 import { NextResponse } from "next/server";
-import {format} from "date-fns";
 
 export const POST = async (req: Request) => {
     try {
@@ -15,6 +14,27 @@ export const POST = async (req: Request) => {
             endDate,
             status
         } = await req.json();
+
+        // Получаем пользователя по логину
+        const user = await prisma.user.findUnique({
+            where: { login: login },
+        });
+
+        // Проверяем, существует ли пользователь
+        if (!user) {
+            return new Response(JSON.stringify({ error: 'Пользователь не найден' }), {
+                status: 404,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        // Проверяем, совпадает ли баланс из запроса с балансом в базе данных
+        if (parseFloat(balance) !== user.balance) {
+            return new Response(JSON.stringify({ error: 'Баланс не совпадает с балансом пользователя' }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
 
         const depositAmount = parseFloat(depositSum);
         const [minAmount, maxAmount] = getDepositRange(percent);
@@ -48,7 +68,7 @@ export const POST = async (req: Request) => {
             },
         });
 
-        cron.startDepositTask(login); // Запускаем задачу для пользователя
+        cron.startDepositTask(login);
 
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
             status: 200,
@@ -64,7 +84,6 @@ export const POST = async (req: Request) => {
     }
 };
 
-// Функция для получения диапазона сумм депозитов в зависимости от процента
 const getDepositRange = (percent: string) => {
     switch (percent) {
         case '0.9':
@@ -78,7 +97,6 @@ const getDepositRange = (percent: string) => {
     }
 };
 
-// Обработка GET запроса для получения всех депозитов
 export async function GET() {
     const deposits = await prisma.deposits.findMany();
     return NextResponse.json(deposits);
