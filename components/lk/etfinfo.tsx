@@ -66,6 +66,10 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
 
     const handleCreateDeposit = async () => {
         const depositSumAsNumber = parseFloat(value) || 0;
+        if (!value) {
+            toast.error(`${t('toast-error')}`); // Сообщение об ошибке для пустого значения
+            return;
+        }
         if (depositSumAsNumber > session.user.balance) {
             toast.error(`${t('toast-success-balance')}`);
             return;

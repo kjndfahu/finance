@@ -70,6 +70,10 @@ export const VenchurInfo: React.FC<Props> = ({balance,
     }, [depositSumAsNumber, middlePercent]);
 
     const handleCreateDeposit = async () => {
+        if (!value) {
+            toast.error(`${t('toast-error')}`); // Сообщение об ошибке для пустого значения
+            return;
+        }
         const depositSumAsNumber = parseFloat(value);
         if (depositSumAsNumber > session.user.balance) {
             toast.error(`${t('toast-success-balance')}`);
