@@ -6,27 +6,31 @@ const tasks = {};
 const processSingleDepositEarnings = async (deposit) => {
     const { earning, id, login, endDate, percent, depositSum } = deposit;
 
-    console.log(`Обработка депозита ${id} для ${login}: сумма ${earning}`);
+    console.log(`Обработка депозита ${id} для ${login}: текущая сумма ${earning}`);
 
-    const earningPerMinute = (parseFloat(depositSum) * percent) / 100;
+    // Рассчитываем доход за 24 часа
+    const earningPerDay = (parseFloat(depositSum) * percent) / 100;
 
     try {
         await prisma.$transaction(async (prisma) => {
             const user = await prisma.user.findUnique({ where: { login } });
 
-            if (earningPerMinute > 0) {
+            if (earningPerDay > 0) {
+                // Начисляем доход пользователю
                 await prisma.user.update({
                     where: { login },
                     data: {
                         balance: {
-                            increment: earningPerMinute,
+                            increment: earningPerDay,
                         },
                     },
                 });
-                console.log(`Начислено ${earningPerMinute} пользователю ${login} по депозиту ${id}`);
+                console.log(`Начислено ${earningPerDay} пользователю ${login} по депозиту ${id}`);
             }
 
+            // Проверяем, истек ли срок депозита
             if (new Date() > new Date(endDate)) {
+                // Обновляем статус депозита на "FINISHED" и возвращаем начальную сумму на баланс пользователя
                 await prisma.deposits.update({
                     where: { id },
                     data: { status: 'FINISHED' },
@@ -48,49 +52,25 @@ const processSingleDepositEarnings = async (deposit) => {
     }
 };
 
-const processDepositEarnings = async (login) => {
-    try {
-        const activeDeposits = await prisma.deposits.findMany({
-            where: {
-                login,
-                endDate: { gte: new Date() },
-            },
-        });
+const startDepositTask = async (login, deposit) => {
+    const creationDate = new Date(deposit.createdAt);
+    const nextExecutionDate = new Date(creationDate.getTime() + 24 * 60 * 60 * 1000);
 
-        const now = new Date();
-        const currentMinutes = now.getMinutes();
-        const currentHours = now.getUTCHours()
+    const hours = nextExecutionDate.getUTCHours();
+    const minutes = nextExecutionDate.getMinutes();
 
-        for (const deposit of activeDeposits) {
-            const depositCreationDate = new Date(deposit.createdAt);
-            const depositMinutes = depositCreationDate.getMinutes();
-            const depositHours = depositCreationDate.getUTCHours()
-
-            // Проверяем совпадение только минут
-            if (currentHours === depositHours && currentMinutes === depositMinutes) {
-                console.log(`Начисление процентов по депозиту ${deposit.id} для пользователя ${login}`);
-                await processSingleDepositEarnings(deposit);
-            } else {
-                console.log(`Не время для начисления по депозиту ${deposit.id}: текущие ${currentMinutes} минута, депозит ${depositMinutes} минута`);
-            }
-        }
-    } catch (error) {
-        console.error(`Ошибка при получении активных депозитов для пользователя ${login}:`, error);
-    }
-};;
-
-const startDepositTask = (login) => {
     if (tasks[login]) {
         tasks[login].stop();
         console.log(`Старая задача для пользователя ${login} остановлена.`);
     }
 
-    tasks[login] = cron.schedule('*/1 * * * *', async () => {
-        console.log(`Запущена задача для пользователя ${login} каждую минуту.`);
-        await processDepositEarnings(login);
+    // Запускаем задачу, которая будет выполняться в то же время на следующий день
+    tasks[login] = cron.schedule(`${minutes} ${hours} * * *`, async () => {
+        console.log(`Запущена ежедневная задача для пользователя ${login} в ${hours}:${minutes}.`);
+        await processSingleDepositEarnings(deposit);
     });
 
-    console.log(`Задача для пользователя ${login} запущена с проверкой раз в минуту.`);
+    console.log(`Задача для пользователя ${login} запущена и будет выполняться в ${hours}:${minutes} каждый день.`);
 };
 
 // Экспортируем метод
