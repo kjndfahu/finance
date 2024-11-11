@@ -69,7 +69,7 @@ export const POST = async (req: Request) => {
         });
 
         // Передаем созданный депозит в функцию startDepositTask
-        cron.startDepositTask(login, newDeposit);
+        cron.startDepositTask(login);
 
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
             status: 200,
