@@ -8,15 +8,13 @@ const processSingleDepositEarnings = async (deposit) => {
 
     console.log(`Обработка депозита ${id} для ${login}: текущая сумма ${earning}`);
 
-    // Рассчитываем доход за 24 часа
     const earningPerDay = (parseFloat(depositSum) * percent) / 100;
 
     try {
         await prisma.$transaction(async (prisma) => {
-            const user = await prisma.user.findUnique({ where: { login } });
+            const user = await prisma.user.findMany({ where: { login } });
 
             if (earningPerDay > 0) {
-                // Начисляем доход пользователю
                 await prisma.user.update({
                     where: { login },
                     data: {
@@ -28,9 +26,8 @@ const processSingleDepositEarnings = async (deposit) => {
                 console.log(`Начислено ${earningPerDay} пользователю ${login} по депозиту ${id}`);
             }
 
-            // Проверяем, истек ли срок депозита
+
             if (new Date() > new Date(endDate)) {
-                // Обновляем статус депозита на "FINISHED" и возвращаем начальную сумму на баланс пользователя
                 await prisma.deposits.update({
                     where: { id },
                     data: { status: 'FINISHED' },
