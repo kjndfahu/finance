@@ -15,12 +15,10 @@ export const POST = async (req: Request) => {
             status
         } = await req.json();
 
-        // Получаем пользователя по логину
         const user = await prisma.user.findUnique({
             where: { login: login },
         });
 
-        // Проверяем, существует ли пользователь
         if (!user) {
             return new Response(JSON.stringify({ error: 'Пользователь не найден' }), {
                 status: 404,
@@ -28,7 +26,6 @@ export const POST = async (req: Request) => {
             });
         }
 
-        // Проверяем, совпадает ли баланс из запроса с балансом в базе данных
         if (parseFloat(balance) !== user.balance) {
             return new Response(JSON.stringify({ error: 'Баланс не совпадает с балансом пользователя' }), {
                 status: 400,
@@ -68,8 +65,7 @@ export const POST = async (req: Request) => {
             },
         });
 
-        // Передаем созданный депозит в функцию startDepositTask
-        cron.startDepositTask(login);
+        cron.startDepositTask(login, newDeposit);
 
         return new Response(JSON.stringify({ message: 'Депозит успешно создан', deposit: newDeposit }), {
             status: 200,
