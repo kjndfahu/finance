@@ -26,9 +26,7 @@ const processSingleDepositEarnings = async (deposit) => {
                 console.log(`Начислено ${earningPerDay} пользователю ${login} по депозиту ${id}`);
             }
 
-
             if (new Date() > new Date(endDate)) {
-
                 await prisma.deposits.update({
                     where: { id },
                     data: { status: 'FINISHED' },
@@ -57,18 +55,19 @@ const startDepositTask = async (login, deposit) => {
     const hours = nextExecutionDate.getUTCHours();
     const minutes = nextExecutionDate.getMinutes();
 
-    if (tasks[login]) {
-        tasks[login].stop();
-        console.log(`Старая задача для пользователя ${login} остановлена.`);
+    const taskKey = `${login}_${deposit.id}`;
+
+    if (tasks[taskKey]) {
+        tasks[taskKey].stop();
+        console.log(`Старая задача для депозита ${deposit.id} пользователя ${login} остановлена.`);
     }
 
-    tasks[login] = cron.schedule(`${minutes} ${hours} * * *`, async () => {
-        console.log(`Запущена ежедневная задача для пользователя ${login} в ${hours}:${minutes}.`);
+    tasks[taskKey] = cron.schedule(`${minutes} ${hours} * * *`, async () => {
+        console.log(`Запущена ежедневная задача для депозита ${deposit.id} пользователя ${login} в ${hours}:${minutes}.`);
         await processSingleDepositEarnings(deposit);
     });
 
-    console.log(`Задача для пользователя ${login} запущена и будет выполняться в ${hours}:${minutes} каждый день.`);
+    console.log(`Задача для депозита ${deposit.id} пользователя ${login} запущена и будет выполняться в ${hours}:${minutes} каждый день.`);
 };
-
 
 export default { startDepositTask };
