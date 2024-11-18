@@ -42,8 +42,8 @@ export const Registration: React.FC<Props> = ({ className }) => {
         const queryParams = new URLSearchParams(window.location.search);
         const referralCode = queryParams.get('referralCode');
         if (referralCode) {
-            form.setValue('referralCode', referralCode); // Устанавливаем в форме
-            localStorage.setItem('referralCode', referralCode); // Сохраняем в localStorage
+            form.setValue('referralCode', referralCode);
+            localStorage.setItem('referralCode', referralCode);
         } else {
             const storedReferralCode = localStorage.getItem('referralCode');
             if (storedReferralCode) {
@@ -59,7 +59,8 @@ export const Registration: React.FC<Props> = ({ className }) => {
     const onSubmit = async (values: z.infer<typeof formRegisterSchema>) => {
         const formData = {
             ...values,
-            email: values.email.toLowerCase(), // Преобразование email в нижний регистр
+            email: values.email.toLowerCase(),
+            login: values.login.trim(),
             region: values.region,
         };
 
@@ -114,6 +115,10 @@ export const Registration: React.FC<Props> = ({ className }) => {
                             id="login"
                             placeholder={t('desired-login')}
                             className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onInput={(e) => {
+                                const target = e.target as HTMLInputElement;
+                                target.value = target.value.replace(/[^a-zA-Z0-9]/g, '');
+                            }}
                         />
                         {form.formState.errors.login && (
                             <span className="text-red-500">{form.formState.errors.login.message}</span>

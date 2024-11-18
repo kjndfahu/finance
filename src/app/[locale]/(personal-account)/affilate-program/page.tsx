@@ -16,10 +16,9 @@ export default async function AffilateProgramPage({ params }) {
 
     const session = await getServerSession(authOptions);
 
-    // Проверяем наличие сессии перед доступом к user.role
     if (!session) {
-        redirect('/'); // Редирект на главную страницу, если сессия отсутствует
-        return null; // Завершаем выполнение функции
+        redirect('/');
+        return null;
     }
 
     const userSession = session.user.role;
@@ -33,7 +32,7 @@ export default async function AffilateProgramPage({ params }) {
             </div>
         );
     } else {
-        redirect('/'); // Редирект на главную страницу для других ролей
-        return null; // Завершаем выполнение функции
+        redirect('/');
+        return null;
     }
 }

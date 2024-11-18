@@ -72,15 +72,14 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
         }
     };
 
-    // Функция для копирования bankingDetails в буфер обмена
     const copyToClipboard = async () => {
         if (bankingDetails) {
             try {
                 await navigator.clipboard.writeText(bankingDetails);
-                toast.success(t('success-message')); // Сообщение о успешном копировании
+                toast.success(t('success-message'));
             } catch (error) {
                 console.error('Failed to copy:', error);
-                toast.error(t('error-message')); // Сообщение об ошибке при копировании
+                toast.error(t('error-message'));
             }
         }
     };
@@ -90,7 +89,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
         <div className={`flex flex-col gap-5 text-black bg-white border-[1px] border-[#f5f5f5] px-4 py-4 rounded-[10px] ${className}`}>
             <h4 className="text-[16px] text-[#777777]">{t('address-send')}</h4>
             <div className="flex w-[22%] cursor-pointer flex-row items-center gap-5 rounded-[10px] hover:bg-[#f5f5f5]" onClick={copyToClipboard}>
-                <h2 className="text-[20px] text-black py-1 px-3 ">
+                <h2 className="md:text-[20px] sm:text-[15px] text-[12px] text-black py-1 ">
                     {bankingDetails || 'Loading...'}
                 </h2>
                 <Copy color="#777777" />

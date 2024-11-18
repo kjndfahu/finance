@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 interface Deposit {
-    id: number; // Добавлено поле id
+    id: number;
     depositSum: string;
     earning: number;
     percent: string;
@@ -24,7 +24,7 @@ export const HistoryOfDeposits: React.FC<Props> = ({ className, session }) => {
     useEffect(() => {
         const fetchDeposits = async () => {
             try {
-                const response = await fetch(`/api/depositsuser?login=${userLogin}`); // Ваш API-роут для получения депозитов
+                const response = await fetch(`/api/depositsuser?login=${userLogin}`);
                 if (!response.ok) {
                     throw new Error('Ошибка при получении депозитов');
                 }
