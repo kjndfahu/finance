@@ -12,7 +12,14 @@ const processSingleDepositEarnings = async (deposit) => {
 
     try {
         await prisma.$transaction(async (prisma) => {
-            const user = await prisma.user.findMany({ where: { login } });
+            const user = await prisma.user.findUnique({ where: { login } });
+
+            if (!user) {
+                console.error(`Пользователь с логином ${login} не найден.`);
+                return;
+            }
+
+            console.log(`Пользователь найден: ${user.login}, текущий баланс: ${user.balance}`);
 
             if (earningPerDay > 0) {
                 await prisma.user.update({
@@ -27,6 +34,8 @@ const processSingleDepositEarnings = async (deposit) => {
             }
 
             if (new Date() > new Date(endDate)) {
+                console.log(`Дата окончания депозита ${id} (${endDate}) достигнута.`);
+
                 await prisma.deposits.update({
                     where: { id },
                     data: { status: 'FINISHED' },
@@ -40,7 +49,7 @@ const processSingleDepositEarnings = async (deposit) => {
                         },
                     },
                 });
-                console.log(`Сумма депозита ${depositSum} добавлена к балансу пользователя ${login}`);
+                console.log(`Сумма депозита ${depositSum} возвращена пользователю ${login}.`);
             }
         });
     } catch (error) {
@@ -52,8 +61,8 @@ const startDepositTask = async (login, deposit) => {
     const creationDate = new Date(deposit.createdAt);
     const nextExecutionDate = new Date(creationDate.getTime() + 24 * 60 * 60 * 1000);
 
+    const minutes = nextExecutionDate.getUTCMinutes();
     const hours = nextExecutionDate.getUTCHours();
-    const minutes = nextExecutionDate.getMinutes();
 
     const taskKey = `${login}_${deposit.id}`;
 
@@ -63,11 +72,11 @@ const startDepositTask = async (login, deposit) => {
     }
 
     tasks[taskKey] = cron.schedule(`${minutes} ${hours} * * *`, async () => {
-        console.log(`Запущена ежедневная задача для депозита ${deposit.id} пользователя ${login} в ${hours}:${minutes}.`);
+        console.log(`Запущена задача для депозита ${deposit.id} пользователя ${login}, каждый день в ${hours}:${minutes}.`);
         await processSingleDepositEarnings(deposit);
     });
 
-    console.log(`Задача для депозита ${deposit.id} пользователя ${login} запущена и будет выполняться в ${hours}:${minutes} каждый день.`);
+    console.log(`Задача для депозита ${deposit.id} пользователя ${login} запущена и будет выполняться каждый день в ${hours}:${minutes}.`);
 };
 
 export default { startDepositTask };
