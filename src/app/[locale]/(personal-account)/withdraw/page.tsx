@@ -18,6 +18,6 @@ export default async function WithdrawPage({params}) {
             <AllWithdrawClient session={session}/>
         );
     } else {
-        redirect('/'); // Редирект на главную страницу
+        redirect('/');
     }
 }

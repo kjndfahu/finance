@@ -20,6 +20,6 @@ export default async function TopUpRequestsPage({params}) {
             </div>
         );
     } else {
-        redirect('/'); // Редирект на главную страницу
+        redirect('/');
     }
 }

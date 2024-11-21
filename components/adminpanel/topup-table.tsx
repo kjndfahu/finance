@@ -31,13 +31,12 @@ export const TopUpTable: React.FC<Props> = ({ className }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ sum, email, requestId }), // Добавлено requestId
+                body: JSON.stringify({ sum, email, requestId }),
             });
 
             const result = await response.json();
 
             if (response.ok) {
-                // Удаляем заявку из состояния после успешного одобрения
                 setRequests(prev => prev.filter(request => request.id !== requestId));
                 toast.success('Успешно оформлено пополнение');
             } else {

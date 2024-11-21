@@ -1,8 +1,7 @@
 'use client'
 import { useTranslations } from "next-intl";
 import { TransactionsAdresses } from "./transactions-addresses";
-import { useCallback, useState } from "react";
-import debounce from 'debounce';
+import { useState } from "react";
 
 interface Props {
     className?: string;

@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import {useState} from "react";
+import {EyeOff, Eye} from "lucide-react";
 
 interface Props {
     className?: string;
@@ -16,6 +18,7 @@ interface Props {
 
 export const Login: React.FC<Props> = ({ session, className }) => {
     const pathname = usePathname();
+    const [showPassword, setShowPassword] = useState(false);
     const locale = pathname.slice(0, 3);
     const form = useForm<TFormLoginData>({
         resolver: zodResolver(formLoginSchema),
@@ -29,12 +32,11 @@ export const Login: React.FC<Props> = ({ session, className }) => {
 
     const onSubmit = async (data: TFormLoginData) => {
         try {
-            // Преобразование email в нижний регистр
             const emailLowerCase = data.email.toLowerCase();
 
             const resp = await signIn('credentials', {
                 ...data,
-                email: emailLowerCase, // Используем преобразованный email
+                email: emailLowerCase,
                 redirect: false,
             });
 
@@ -55,12 +57,11 @@ export const Login: React.FC<Props> = ({ session, className }) => {
         router.back();
     };
 
-    // Функция для очистки других полей при вводе email
     const handleEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         form.setValue('email', value);
         if (value) {
-            form.setValue('password', ''); // Очищаем поле пароля
+            form.setValue('password', '');
         }
     };
 
@@ -90,14 +91,23 @@ export const Login: React.FC<Props> = ({ session, className }) => {
 
                     <div>
                         <label htmlFor="password" className="sr-only">Пароль</label>
-                        <input
-                            {...form.register('password')}
-                            name="password"
-                            type="password"
-                            id="password"
-                            placeholder={t('login-password')}
-                            className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                        <div className="relative w-full">
+                            <input
+                                {...form.register('password')}
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                id="password"
+                                placeholder={t('login-password')}
+                                className="w-full text-black bg-white px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute inset-y-0 right-3 flex items-center text-gray-500 focus:outline-none"
+                            >
+                                {showPassword ? <EyeOff size={20}/> : <Eye size={20}/>}
+                            </button>
+                        </div>
                         {form.formState.errors.password && (
                             <span className="text-red-500">{form.formState.errors.password.message}</span>
                         )}

@@ -1,5 +1,5 @@
 'use client'
-import { Eye, EyeOff, Lock } from "lucide-react"; // Добавил EyeOff для скрытия пароля
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import axios from "axios";
@@ -21,7 +21,6 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
     const [debouncedNewPassword] = useDebounce(newPassword, 500);
     const [debouncedConfirmPassword] = useDebounce(confirmPassword, 500);
 
-    // Новые состояния для отображения/скрытия паролей
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -61,7 +60,7 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
                         <Lock width={20} color="#b0b0b0" />
                         <input
                             placeholder="*****"
-                            type={showCurrentPassword ? "text" : "password"} // Показать/скрыть пароль
+                            type={showCurrentPassword ? "text" : "password"}
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
                             className="w-full bg-white border-transparent focus:outline-0"
@@ -73,7 +72,6 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
                     </div>
                 </div>
 
-                {/* Новый пароль */}
                 <div className="flex flex-col">
                     <h1>{t('new-password')}</h1>
                     <div className="flex flex-row items-center px-4 py-1 gap-3 border-[1px] border-[#b0b0b0] rounded-[5px]">
@@ -97,12 +95,11 @@ export const ChangingPasswordSettings: React.FC<Props> = ({ session, className }
                         <Lock width={20} color="#b0b0b0" />
                         <input
                             placeholder="*****"
-                            type={showConfirmPassword ? "text" : "password"} // Показать/скрыть пароль
+                            type={showConfirmPassword ? "text" : "password"}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="w-full bg-white border-transparent focus:outline-0"
                         />
-                        {/* Иконка для отображения/скрытия */}
                         <div onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                             {showConfirmPassword ? <EyeOff width={20} color="#b0b0b0" /> : <Eye width={20} color="#b0b0b0" />}
                         </div>

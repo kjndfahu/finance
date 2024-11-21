@@ -16,6 +16,8 @@ interface Props {
 
 export const Registration: React.FC<Props> = ({ className }) => {
     const pathname = usePathname();
+    const [error, setError] = useState('')
+    const [errorEmail, setErrorEmail] = useState('')
     const locale = pathname.slice(0, 3);
     const router = useRouter();
     const t = useTranslations('Registration');
@@ -75,7 +77,17 @@ export const Registration: React.FC<Props> = ({ className }) => {
 
         if (!response.ok) {
             const errorText = await response.text();
-            console.error('Ошибка:', response.status, errorText);
+
+
+            if(response.status === 406){
+                setErrorEmail('Email уже занят')
+            } else if (response.status === 405){
+                setError('Логин уже занят')
+            } else {
+                alert('Не удалось зарегистрироваться')
+            }
+
+            console.log('Ошибка:', response.status, errorText);
         } else {
             const data = await response.json();
             console.log('Успех:', data);
@@ -83,6 +95,8 @@ export const Registration: React.FC<Props> = ({ className }) => {
         }
     };
 
+    console.log(errorEmail)
+    console.log(error)
     return (
         <div className="flex justify-center items-center mt-5 bg-gray-100">
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
@@ -100,8 +114,11 @@ export const Registration: React.FC<Props> = ({ className }) => {
                             id="email"
                             placeholder={t('e-mail')}
                             className="w-full bg-white text-black px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            onChange={(e) => form.setValue('email', e.target.value.toLowerCase())} // Преобразование email в нижний регистр
+                            onChange={(e) => form.setValue('email', e.target.value.toLowerCase())}
                         />
+                        {errorEmail === 'Email уже занят' && (
+                            <span className="text-red-500">{errorEmail}</span>
+                        )}
                         {form.formState.errors.email && (
                             <span className="text-red-500">{form.formState.errors.email.message}</span>
                         )}
@@ -120,6 +137,9 @@ export const Registration: React.FC<Props> = ({ className }) => {
                                 target.value = target.value.replace(/[^a-zA-Z0-9]/g, '');
                             }}
                         />
+                        {error === 'Логин уже занят' && (
+                            <span className="text-red-500">{error}</span>
+                        )}
                         {form.formState.errors.login && (
                             <span className="text-red-500">{form.formState.errors.login.message}</span>
                         )}

@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import {SuccessModal} from "../success-modal";
 
 interface Props {
     className?: string;
@@ -15,10 +16,8 @@ interface Props {
 export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value, setIsClicked, className }) => {
     const t = useTranslations("TopUpPersonal");
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [bankingDetails, setBankingDetails] = useState<string | null>(null); // Стейт для хранения данных
-    console.log(bankingDetails, 'banking');
-    console.log(isSystem, 'system');
-    console.log(value, 'value')
+    const [bankingDetails, setBankingDetails] = useState<string | null>(null);
+    const [isModal, setIsModal] = useState(false);
     const fetchBankingDetails = async () => {
         if (!isSystem) return;
 
@@ -59,6 +58,7 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
             });
 
             if (response.status === 200) {
+                setIsModal(true)
                 toast.success(t('success-message'));
                 setIsClicked(false);
             } else {
@@ -95,10 +95,11 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
                 <Copy color="#777777" />
             </div>
             <div className="flex flex-col gap-4 text-[17px]">
-                <div
-                    onClick={handleTopUpRequest}
-                    className={`flex items-center cursor-pointer justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-[7px] py-3 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                >
+                <div onClick={() => {
+                    handleTopUpRequest();
+                    setIsModal(true);
+                }}
+                     className={`flex items-center cursor-pointer justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-[7px] py-3 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}>
                     {isSubmitting ? t('paid') : t('paid')}
                 </div>
                 <div
@@ -107,6 +108,10 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
                     {t('cancel-deposit')}
                 </div>
             </div>
+
+            {isModal && (
+                <SuccessModal setIsModal={setIsModal} title="Deposit succesfully created"/>
+            )}
         </div>
     );
 };

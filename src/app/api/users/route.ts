@@ -7,14 +7,14 @@ import { generateReferralCode } from "../../../../utils/generateReferralCode";
 const formRegisterSchema = formLoginSchema
     .merge(
         z.object({
-            login: z.string().min(2, { message: 'Введите корректно логин' }),
+            login: z.string().min(2, { message: 'Логин уже занят' }),
             name: z.string().min(2, { message: 'Введите корректно имя' }),
             surname: z.string().min(2, { message: 'Введите корректно фамилию' }),
             confirmPassword: passwordSchema,
             phoneNumber: z.string().min(10, { message: 'Введите корректно номер телефона' }),
             region: z.string().min(1, { message: 'Введите корректно номер региона' }),
             telegramId: z.string().min(3, { message: 'Введите корректно телеграм айди' }),
-            referralCode: z.string().optional() // реферальный код является опциональным
+            referralCode: z.string().optional()
         })
     )
     .refine((data) => data.password === data.confirmPassword, {
@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { login, name, surname, email, telegramId, phoneNumber, region, password, referralCode } = formRegisterSchema.parse(body);
 
-        // Проверка на наличие email в базе
         const existingUserByEmail = await prisma.user.findUnique({
             where: { email }
         });
@@ -35,7 +34,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ user: null, message: "Email уже занят" }, { status: 406 });
         }
 
-        // Проверка на наличие логина в базе
         const existingUserByLogin = await prisma.user.findUnique({
             where: { login }
         });

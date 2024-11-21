@@ -2,6 +2,7 @@ import {addDays, addMinutes, format, isAfter} from "date-fns";
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslations } from "next-intl";
+import {SuccessModal} from "../success-modal";
 
 interface Props {
     className?: string;
@@ -15,7 +16,8 @@ interface Props {
 
 export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", dataStocks, lowPercent, className, session }) => {
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
-    const depositSumAsNumber = parseFloat(value) || 0; // Убедитесь, что значение - это число
+    const depositSumAsNumber = parseFloat(value) || 0;
+    const [isModal, setIsModal] = useState(false);
     const t = useTranslations('LK');
     const getDepositRange = (percent: string) => {
         switch (percent) {
@@ -67,7 +69,7 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
     const handleCreateDeposit = async () => {
         const depositSumAsNumber = parseFloat(value) || 0;
         if (!value) {
-            toast.error(`${t('toast-error')}`); // Сообщение об ошибке для пустого значения
+            toast.error(`${t('toast-error')}`);
             return;
         }
         if (depositSumAsNumber > session.user.balance) {
@@ -128,7 +130,14 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
                 </div>
             </div>
 
-            <button onClick={handleCreateDeposit} className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
+            <button onClick={() => {
+                handleCreateDeposit();
+                setIsModal(true);
+            }} className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
+
+            {isModal && (
+                <SuccessModal setIsModal={setIsModal} title={t('toast-deposit-success')}/>
+            )}
         </div>
     );
 };

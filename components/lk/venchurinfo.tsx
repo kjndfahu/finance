@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addDays, format, isAfter } from "date-fns";
 import { useTranslations } from "next-intl";
 import { toast } from "react-hot-toast";
+import {SuccessModal} from "../success-modal";
 
 interface Props {
     className?: string;
@@ -41,7 +42,7 @@ export const VenchurInfo: React.FC<Props> = ({balance,
     };
 
     const selectedRange = getDepositRange(middlePercent);
-
+    const [isModal, setIsModal] = useState(false);
     const calculatingAllMoney = (value: string, dataVenchur: number, middlePercent: string) => {
         const newPercent = parseFloat(middlePercent);
         const newValue = parseFloat(value);
@@ -71,7 +72,7 @@ export const VenchurInfo: React.FC<Props> = ({balance,
 
     const handleCreateDeposit = async () => {
         if (!value) {
-            toast.error(`${t('toast-error')}`); // Сообщение об ошибке для пустого значения
+            toast.error(`${t('toast-error')}`);
             return;
         }
         const depositSumAsNumber = parseFloat(value);
@@ -135,8 +136,14 @@ export const VenchurInfo: React.FC<Props> = ({balance,
                 </div>
             </div>
 
-            <button onClick={handleCreateDeposit}
-                    className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
+            <button  onClick={() => {
+                handleCreateDeposit();
+                setIsModal(true);}}
+                    className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}
+            </button>
+            {isModal && (
+                <SuccessModal setIsModal={setIsModal} title={t('toast-deposit-success')}/>
+            )}
         </div>
     );
 };

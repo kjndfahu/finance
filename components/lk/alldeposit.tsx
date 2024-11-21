@@ -3,8 +3,7 @@ import {DepositTopUp} from "./deposit-topup";
 
 import {DepositAmountBalance} from "./deposit-amount-balance";
 import {DepositTarrifPlan} from "./deposit-tarrif-plan";
-import {useCallback, useState} from "react";
-import debounce from "debounce";
+import {useState} from "react";
 
 interface Props{
     className?:string;

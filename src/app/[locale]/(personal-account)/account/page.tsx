@@ -23,9 +23,9 @@ export default async function AccountPage({ params }) {
         );
     } else if (userSession === 'ADMIN') {
         redirect('/en/all-clients');
-        return null; // Возвращаем null после редиректа
+        return null;
     } else {
         redirect('/');
-        return null; // Возвращаем null после редиректа
+        return null;
     }
 }

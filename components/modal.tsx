@@ -1,13 +1,13 @@
 import { useCallback, useState, useEffect } from "react";
 import debounce from "debounce";
 import { X } from "lucide-react";
-import axios from "axios"; // Импортируем axios
+import axios from "axios";
 
 interface Props {
     className?: string;
     isModalOpen: boolean;
     setModalOpen: (isOpen: boolean) => void;
-    detail: { name: string; details: string; id: number }; // Ваш тип BankingDetails
+    detail: { name: string; details: string; id: number };
     handleUpdate: (updatedDetail: { id: number; name: string; details: string }) => void;
 }
 
@@ -42,8 +42,8 @@ export const Modal: React.FC<Props> = ({
                 name: detail.name,
                 details: value,
             });
-            handleUpdate(response.data); // Обновляем состояние в родительском компоненте
-            setModalOpen(false); // Закрываем модальное окно
+            handleUpdate(response.data);
+            setModalOpen(false);
         } catch (error) {
             console.error('Ошибка при обновлении:', error);
         }
