@@ -83,8 +83,6 @@ export const Registration: React.FC<Props> = ({ className }) => {
                 setErrorEmail('Email уже занят')
             } else if (response.status === 405){
                 setError('Логин уже занят')
-            } else {
-                alert('Не удалось зарегистрироваться')
             }
 
             console.log('Ошибка:', response.status, errorText);

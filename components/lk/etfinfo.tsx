@@ -16,6 +16,7 @@ interface Props {
 
 export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", dataStocks, lowPercent, className, session }) => {
     const [status, setStatus] = useState<'INWORK' | 'FINISHED'>('INWORK');
+    const [hasShownToast, setHasShownToast] = useState(false);
     const depositSumAsNumber = parseFloat(value) || 0;
     const [isModal, setIsModal] = useState(false);
     const t = useTranslations('LK');
@@ -60,11 +61,14 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
     }, [session.user.balance, currentDatePlus30Days]);
 
     useEffect(() => {
-        if (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max) {
-            toast.error(`${t('toast-deposit-range')} ${selectedRange.min} ${t('for')}${selectedRange.max}.`);
-            return;
+        if (
+            !hasShownToast &&
+            (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max)
+        ) {
+            toast.error(`${t('toast-deposit-range')} ${selectedRange.min} ${t('for')} ${selectedRange.max}.`);
+            setHasShownToast(true);
         }
-    }, [depositSumAsNumber, lowPercent]);
+    }, [depositSumAsNumber, selectedRange, hasShownToast]);
 
     const handleCreateDeposit = async () => {
         const depositSumAsNumber = parseFloat(value) || 0;
@@ -101,6 +105,7 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
             if (response.ok) {
                 setBalance(balance - +(value));
                 toast.success(`${t('toast-deposit-success')}`);
+                setIsModal(true);
             } else {
                 toast.error(`${t('toast-error')}`);
             }
@@ -132,7 +137,6 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
 
             <button onClick={() => {
                 handleCreateDeposit();
-                setIsModal(true);
             }} className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}</button>
 
             {isModal && (

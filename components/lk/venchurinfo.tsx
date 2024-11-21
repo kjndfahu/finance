@@ -27,6 +27,7 @@ export const VenchurInfo: React.FC<Props> = ({balance,
     const depositSumAsNumber = parseFloat(value);
     const currentDatePlus15Days = addDays(new Date(), 15);
     const formattedEndDate = format(currentDatePlus15Days, 'dd.MM.yy HH:mm:ss');
+    const [hasShownToast, setHasShownToast] = useState(false);
 
     const getDepositRange = (percent: string) => {
         switch (percent) {
@@ -64,11 +65,18 @@ export const VenchurInfo: React.FC<Props> = ({balance,
     }, [session.user.balance, currentDatePlus15Days]);
 
     useEffect(() => {
-        if (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max) {
-            toast.error(`${t('toast-deposit-range')} ${selectedRange.min} ${t('for')}${selectedRange.max}.`);
-            return;
+        if (
+            !hasShownToast &&
+            (depositSumAsNumber < selectedRange.min || depositSumAsNumber > selectedRange.max)
+        ) {
+            toast.error(`${t('toast-deposit-range')} ${selectedRange.min} ${t('for')} ${selectedRange.max}.`);
+            setHasShownToast(true);
         }
-    }, [depositSumAsNumber, middlePercent]);
+    }, [depositSumAsNumber, selectedRange, hasShownToast]);
+
+    useEffect(() => {
+        setHasShownToast(false);
+    }, [middlePercent]);
 
     const handleCreateDeposit = async () => {
         if (!value) {
@@ -105,6 +113,7 @@ export const VenchurInfo: React.FC<Props> = ({balance,
             if (response.ok) {
                 setBalance(balance - +(value));
                 toast.success(`${t('toast-deposit-success')}`);
+                setIsModal(true);
             } else {
                 toast.error(`${t('toast-error')}`);
             }
@@ -138,7 +147,7 @@ export const VenchurInfo: React.FC<Props> = ({balance,
 
             <button  onClick={() => {
                 handleCreateDeposit();
-                setIsModal(true);}}
+            }}
                     className="w-full mt-4 bg-blue-600 text-white px-4 py-3 rounded-md">{t('create-deposit')}
             </button>
             {isModal && (

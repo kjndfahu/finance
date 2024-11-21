@@ -58,8 +58,8 @@ export const TransactionsAdresses: React.FC<Props> = ({ session, isSystem, value
             });
 
             if (response.status === 200) {
-                setIsModal(true)
                 toast.success(t('success-message'));
+                window.location.reload();
                 setIsClicked(false);
             } else {
                 throw new Error('Failed to submit top-up request');
