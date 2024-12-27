@@ -77,18 +77,19 @@ const processSingleDepositEarnings = async (deposit) => {
 
 const startDepositTask = async (login, deposit) => {
     const taskKey = `${login}_${deposit.id}`;
+    const creationDate = new Date(deposit.createdAt);
+    const nextExecutionDate = new Date(creationDate.getTime() + 24 * 60 * 60 * 1000);
+    const minutes = nextExecutionDate.getUTCMinutes();
+    const hours = nextExecutionDate.getUTCHours();
 
-    // Остановка предыдущей задачи, если она существует
     if (tasks[taskKey]) {
         tasks[taskKey].stop();
         console.log(`Старая задача для депозита ${deposit.id} пользователя ${login} остановлена.`);
     }
 
-    // Создание новой задачи с расписанием каждую минуту
-    tasks[taskKey] = cron.schedule(`* * * * *`, async () => {
+    tasks[taskKey] = cron.schedule(`${minutes} ${hours} * * *`, async () => {
         console.log(`Запущена задача для депозита ${deposit.id} пользователя ${login}, каждую минуту.`);
-        
-        // Получаем актуальное состояние депозита из базы данных
+
         const currentDeposit = await prisma.deposits.findUnique({
             where: { id: deposit.id }
         });
