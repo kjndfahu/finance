@@ -91,7 +91,7 @@ export const ETFInfo: React.FC<Props> = ({balance, setBalance, value = "0", data
             earning: earnings,
             percent: lowPercent,
             withdrawSum: totalMoney,
-            endDate: currentDatePlus10Minutes,
+            endDate: currentDatePlus30Days,
             status
         };
         try {
